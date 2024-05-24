@@ -32,17 +32,25 @@ class TenantAuthController extends Controller
 
     public function dashboard($dashboard)
     {
-        // Tentukan tipe dashboard berdasarkan parameter
+            // Tentukan tipe dashboard berdasarkan parameter
         $dashboardType = $dashboard;
 
-        // dd($dashboardType);
+        // Ambil informasi tenant saat ini
+        $tenant = Auth::guard('tenant')->user();
 
-        return view('dashboard', ['dashboardType' => $dashboardType]);
+        // Kirim data tenant ke view
+        return view('dashboard.home', [
+            'dashboardType' => $dashboardType,
+            'tenant' => $tenant
+        ]);
     }
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::guard('tenant')->logout();
-
-        return redirect('/login');
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('tenant.login'); // Mengarahkan ke halaman login
     }
 }
+
+

@@ -21,7 +21,7 @@ Route::post('/login', [TenantAuthController::class, 'login'])->name('tenant.logi
 
 Route::middleware(['auth:tenant'])->group(function () {
     Route::get('/dashboard/{dashboard}', [TenantAuthController::class, 'dashboard'])->name('dashboard');
-    Route::post('/logout', [TenantAuthController::class, 'logout'])->name('tenant.logout');
+    Route::post('/tenant/logout', [TenantAuthController::class, 'logout'])->name('tenant.logout');
 });
 
 Route::get('/menu', [ProductController::class, 'index']);
