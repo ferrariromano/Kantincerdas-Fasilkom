@@ -5,7 +5,7 @@
             <a class="{{ ($active === "beranda") ? 'active' : '' }}" href="/">Beranda</a>
         </li>
         <li>
-            <a href="#">Menu</a>
+            <a class="{{ ($active === "menu") ? 'active' : '' }}" href="/menu">Menu</a>
         </li>
         <li>
             <a href="#">Cek Pesanan</a>

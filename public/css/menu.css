@@ -1,0 +1,259 @@
+a{
+  text-decoration: none;
+  color: #2F2F2F;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  width: 900px;
+  margin: auto;
+  max-width: 90vw;
+  text-align: center;
+  margin-top: 6rem;
+  transition: 0.5s;
+}
+
+header{
+  position: fixed;
+  display: flex;
+  width: 900px;
+  max-width: 90vw;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  background-color: #353432;
+  z-index: 3;
+  transition: 0.5s;
+}
+
+.title a {
+  font-size: xx-large;
+  color: #eee;
+}
+.icon-cart {
+  position: relative;
+  cursor: pointer;
+  color: #eee;
+}
+.icon-cart span {
+  position: absolute;
+  background-color: red;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: #fff;
+  top: 50%;
+  right: -20px;
+}
+
+
+/* ========== Cart Tab ========== */
+
+.cartTab {
+  width: 426px;
+  max-width: 100%;
+  background-color: #353432;
+  color: #eee;
+  position: fixed;
+  top: 0;
+  right: -426px;
+  /* bottom: 6rem; */
+  bottom: 0;
+  display: grid;
+  grid-template-rows: 70px 1fr 70px;
+  transition: 0.5s;
+  margin-top: 6rem;
+  z-index: 5;
+}
+
+.cartTab .flex-group {
+    padding: 5px;
+    justify-content: space-between;
+    align-items: center;
+}
+.cartTab h1 {
+  padding: 5px 10px;
+  font-weight: 300;
+}
+.icon-close {
+    display: flex;
+    width: 38px;
+    height: 50px;
+    position: relative;
+    cursor: pointer;
+    align-items: center;
+}
+.checkOut {
+  background-color: #E8BC0E;
+  border: none;
+  font-family: var(--ff-base);
+  font-weight: 500;
+  font-size: 1.5rem;
+  padding: 5px 0;
+  width: 80%;
+  border-radius: 50px;
+  margin: auto;
+}
+
+.listCart {
+  overflow: auto;
+}
+.listCart::-webkit-scrollbar {
+  width: 0;
+}
+.cartTab.activeTabCart {
+  right: 0;
+}
+
+
+/* ========= Product Item ========= */
+.contentTab {
+  width: 900px;
+  margin: auto;
+  max-width: 90vw;
+  text-align: center;
+  transition: 0.5s;
+  margin-top: 6rem;
+}
+
+.listProduct{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  transition: 0.5s;
+}
+
+.listProduct .item{
+  background-color: #EEEEE6;
+  padding: 20px;
+  border-radius: 20px;
+}
+.listProduct .item a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.listProduct .item img{
+  width: 153px;
+  height: 153px;
+  filter: drop-shadow(0 20px 20px #0009);
+  transition: 0.5s;
+}
+.listProduct .item h2{
+  margin-top: .5rem;
+  font-weight: 500;
+  font-size: 1.3rem;
+}
+.listProduct .item .price{
+  letter-spacing: 1px;
+  font-size: 1rem;
+}
+.listProduct .item button{
+  background-color: var(--clr-secondary-200);
+  color: var(--clr-neutral-100);
+  border: none;
+  padding: 8px 12px;
+  margin-top: 10px;
+  border-radius: 20px;
+}
+
+/* ========= List Cart Item ========= */
+.listCart .item img{
+  width: 100%;
+}
+.listCart .item{
+  display: grid;
+  grid-template-columns: 70px 150px 50px 1fr;
+  gap: 10px;
+  text-align: center;
+  align-items: center;
+}
+.listCart .quantity span{
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+  color: #555;
+  cursor: pointer;
+}
+.listCart .quantity span:nth-child(2){
+  background-color: transparent;
+  color: #eee;
+  cursor: auto;
+}
+.listCart .quantity{
+  display: flex;
+}
+.listCart .item:nth-child(even){
+  background-color: #eee1;
+}
+
+
+/*  Responsive */
+
+@media only screen and (min-width: 1330px) and (max-width: 1600px){
+  .wrapper.activeTabCart {
+    transform: translateX(-220px);
+  }
+  .contentTab.activeTabCart {
+    transform: translateX(-220px);
+  }
+  .header.activeTabCart {
+    position: fixed;
+    z-index: 100;
+  }
+}
+
+
+@media only screen and (max-width: 992px) {
+  .listProduct{
+      grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* mobile */
+@media only screen and (max-width: 767px) {
+  .listProduct{
+      grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 468px) {
+  .wrapper {
+    margin-top: 9rem;
+  }
+  .contentTab {
+    margin-top: 6rem;
+  }
+  .cartTab {
+    margin-top: 9rem;
+  }
+  .listProduct{
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .listProduct .item img{
+    width: 180px;
+    height: 180px;
+  }
+  .listProduct .item h2{
+    margin-top: .5rem;
+    font-weight: 500;
+    font-size: 1.6rem;
+  }
+  .listProduct .item .price{
+    letter-spacing: 1px;
+    font-size: 1.2rem;
+  }
+}
+
+
+@media only screen and (max-width: 365px) {
+  /* .cartTab {
+    bottom: 6rem;
+  } */
+}

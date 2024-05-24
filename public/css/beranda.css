@@ -1,14 +1,14 @@
 .boundary {
     display: flex;
-    align-items: center; 
+    align-items: center;
     justify-content: center;
   }
-  
+
 main {
 max-width: 1024px;
 margin: 2rem 2rem 0 2rem;
 }
-  
+
 
 /* Headline */
 .headline {
@@ -20,7 +20,7 @@ margin: 2rem 2rem 0 2rem;
   max-width: 350px;
 }
 .headline__text {
-    display: flex;  
+    display: flex;
     flex-direction: column;
     gap: 2rem;
     justify-content: center;
@@ -207,7 +207,7 @@ margin: 2rem 2rem 0 2rem;
 }
 
 /* Special MQ to fix nav & headline */
-@media (max-width: 467px) {
+@media (max-width: 468px) {
   .headline{
     margin-top: 120px;
   }
@@ -229,7 +229,7 @@ margin: 2rem 2rem 0 2rem;
   }
   .icon_text {
     max-width: 10rem;
-  } 
+  }
   .attachment__btn {
     font-size: .9rem;
   }

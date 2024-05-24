@@ -1,8 +1,8 @@
 :root {
-    --clr-primary-400: hsl(13, 87%, 58%); 
-    --clr-primary-500: hsl(13, 87%, 50%); 
-    --clr-secondary-200: hsl(147, 62%, 43%); 
-    --clr-secondary-300: hsl(147, 62%, 35%); 
+    --clr-primary-400: hsl(13, 87%, 58%);
+    --clr-primary-500: hsl(13, 87%, 50%);
+    --clr-secondary-200: hsl(147, 62%, 43%);
+    --clr-secondary-300: hsl(147, 62%, 35%);
     --clr-terary-100: hsl(43, 98%, 65%);
 
     --clr-neutral-900: hsl(212, 21%, 15%);
@@ -103,6 +103,7 @@ nav {
   align-content: center;
   gap: 5rem;
   padding: 1rem 0;
+  z-index: 3;
 }
 .navbar-links {
   margin-left: 2rem;
@@ -117,7 +118,7 @@ nav {
   text-decoration: none;
   font-size: 1.2rem;
   font-weight: var(--fw-regular);
-  padding-bottom: .3rem;    
+  padding-bottom: .3rem;
 }
 .navbar-links a:hover , .navbar-links a.active {
   font-weight: var(--fw-bold);
@@ -142,9 +143,8 @@ footer p {
   font-weight: var(--fw-regular);
   align-items: center;
 }
-
 footer .logo{
-  width: 8rem;
+  width: 6rem;
 }
 
 /* ====== Responsive ====== */
@@ -159,7 +159,7 @@ footer .logo{
   }
 }
 
-/* Mobile */
+/* semi tab */
 @media (max-width: 600px) {
   .navbar-links {
     margin: 0;
@@ -167,12 +167,17 @@ footer .logo{
   }
   footer {
     flex-direction: column;
-    gap: 1rem;
+    gap: 0rem;
   }
 }
+
+/* Mobile */
 
 @media (max-width: 365px) {
   footer {
     gap: 0rem;
+  }
+  footer p {
+    font-size: .8rem;
   }
 }

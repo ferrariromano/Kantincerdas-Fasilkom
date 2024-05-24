@@ -18,11 +18,11 @@
 <body>
     @include('partials/navbar')
 
-    <div class="container">
-        @yield('container')
-    </div>
+    @yield('container')
 
     @include('partials/footer')
+
+    @stack('js')
 </body>
 
 </html>

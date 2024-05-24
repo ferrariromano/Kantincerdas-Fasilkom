@@ -10,7 +10,7 @@
             <header class="headline flex-group">
                 <picture class="headline__img">
                     <img src="{{ asset('images/img/fasilkom.png') }}" alt="fasilkom">
-                </picture> 
+                </picture>
                 <div class="headline__text">
                     <h1>
                         <span class="headline__title txt_orange">Smart Canteen</span>
@@ -31,7 +31,7 @@
                 </div>
                 <div class="offer__icon flex-group">
                     <img class="icon" src="{{ asset('images/icon/payment_icon.png') }}" alt="payment_icon">
-                    <div class="icon_text"> 
+                    <div class="icon_text">
                         <h3>Bayar Mudah</h3>
                         <p>Bayar pesanan tunai atau non-tunai dengan mudah</p>
                     </div>
@@ -49,27 +49,27 @@
                 <p>Smart Canteen Fasilkom</p>
                 <div class="bestseller__menu flex-group">
                     <div class="bestseller__item">
-                        <img src="{{ asset('images/img/food1.png') }}" alt="food1">
+                        <img src="{{ asset('images/products/food1.png') }}" alt="food1">
                         <span class="bestseller__text">Soto Sate</span>
                         <a href="#">Pesan ></a>
                     </div>
                     <div class="bestseller__item">
-                        <img src="{{ asset('images/img/food2.png') }}" alt="food2">
+                        <img src="{{ asset('images/products/food2.png') }}" alt="food2">
                         <span class="bestseller__text">Ayam Geprek</span>
                         <a href="#">Pesan ></a>
                     </div>
                     <div class="bestseller__item">
-                        <img src="{{ asset('images/img/food3.png') }}" alt="food3">
+                        <img src="{{ asset('images/products/food3.png') }}" alt="food3">
                         <span class="bestseller__text">Tahu Tek</span>
                         <a href="#">Pesan ></a>
                     </div>
                 </div>
             </section>
             <div class="attachment">
-                <p class="attachment__text">Nikmati <span class="atctex_black">20+ variasi makanan</span> dari</p> 
+                <p class="attachment__text">Nikmati <span class="atctex_black">20+ variasi makanan</span> dari</p>
                 <p class="attachment__text"><span class="atctex_yellow">Outlet</span> Smart Canteen Fasilkom</p>
                 <button class="button attachment__btn">Pesan Sekarang <img class="arrow" src="{{ asset('images/icon/arrow_icon.png') }}" alt="arrow_icon"></button>
             </div>
-        </main>    
+        </main>
     </div>
 @endsection
