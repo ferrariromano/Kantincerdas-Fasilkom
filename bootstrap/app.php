@@ -12,6 +12,10 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         //
+        $middleware-> alias([
+            'tenant.auth' => \App\Http\Middleware\TenantAuth::class,
+        ]);
+
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

@@ -116,5 +116,7 @@ class DatabaseSeeder extends Seeder
                 echo "File gambar tidak ditemukan: {$product['image']}\n";
             }
         }
+
+        $this->call(TenantSeeder::class);
     }
 }

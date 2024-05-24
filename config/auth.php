@@ -36,9 +36,10 @@ return [
     */
 
     'guards' => [
-        'web' => [
+
+        'tenant' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'tenants',
         ],
     ],
 
@@ -60,17 +61,13 @@ return [
     */
 
     'providers' => [
-        'users' => [
+
+
+        'tenants' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => App\Models\Tenant::class,
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
-
     /*
     |--------------------------------------------------------------------------
     | Resetting Passwords
@@ -93,12 +90,18 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
-            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'tenants' => [
+            'provider' => 'tenants',
+            'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
         ],
     ],
-
     /*
     |--------------------------------------------------------------------------
     | Password Confirmation Timeout
