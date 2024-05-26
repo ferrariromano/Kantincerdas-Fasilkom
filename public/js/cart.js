@@ -6,6 +6,7 @@ const wrapper = document.querySelector('.wrapper');
 const header = document.querySelector('header');
 let iconCartSpan = iconCart.querySelector('span');
 let listCartHTML = document.querySelector('.listCart');
+let totalPriceElement = document.getElementById('total-price');
 let cart = [];
 
 // Open & Close cart tab
@@ -31,7 +32,7 @@ addCartButtons.forEach(button => {
     button.addEventListener('click', function () {
         const productId = this.getAttribute('data-id');
         const productName = this.closest('.item').querySelector('#product-name').innerText;
-        const productPrice = parseInt(this.closest('.item').querySelector('#product-price').innerText.replace('Rp', '').replace('.', ''));
+        const productPrice = parseInt(this.closest('.item').querySelector('#product-price').innerText.replace('Rp', '').replace(/\./g, ''));
         const product = {
             id: productId,
             name: productName,
@@ -68,15 +69,17 @@ const loadCartFromLocalStorage = () => {
 const addCartToHTML = (cart) => {
     listCartHTML.innerHTML = '';
     let totalQuantity = 0;
+    let totalPrice = 0;
     cart.forEach(item => {
         totalQuantity += item.quantity;
+        totalPrice += item.price * item.quantity;
         let newItem = document.createElement('div');
         newItem.classList.add('item');
         newItem.dataset.id = item.product_id;
 
         newItem.innerHTML = `
             <div class="name">${item.name}</div>
-            <div class="totalPrice">Rp ${item.price * item.quantity}</div>
+            <div class="totalPrice">Rp ${(item.price * item.quantity).toLocaleString('id-ID')}</div>
             <div class="quantity">
                 <span class="minus" data-id="${item.product_id}"><</span>
                 <span>${item.quantity}</span>
@@ -91,6 +94,7 @@ const addCartToHTML = (cart) => {
         listCartHTML.appendChild(newItem);
     });
     iconCartSpan.innerText = totalQuantity;
+    totalPriceElement.innerText = totalPrice.toLocaleString('id-ID');
 
     // Mengaktifkan event listener untuk tombol plus, minus, dan delete
     activateCartButtons();
@@ -144,6 +148,3 @@ const setProductInCart = (product, value) => {
 
 // Mengambil data dari localStorage saat halaman dimuat
 window.onload = loadCartFromLocalStorage;
-
-
-
