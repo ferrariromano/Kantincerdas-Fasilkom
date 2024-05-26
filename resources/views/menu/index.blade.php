@@ -26,8 +26,8 @@
                     <a href="#">
                         <img src="/images/products/{{ $product->image }}">
                     </a>
-                    <h2>{{ $product->name }}</h2>
-                    <div class="price">Rp{{ number_format($product->price, 0, ',', '.') }}</div>
+                    <h2 id="product-name">{{ $product->name }}</h2>
+                    <div class="price" id="product-price">Rp{{ number_format($product->price, 0, ',', '.') }}</div>
                     <button class="addCart" data-id="{{ $product->id }}">Add To Cart</button>
                 </div>
             @endforeach

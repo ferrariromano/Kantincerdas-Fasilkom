@@ -12,8 +12,8 @@ class ProductController extends Controller
     {
         $category = Category::all();
         $query = Product::where('status', 'Aktif');
-
         $products = $query->get();
+
         return view('menu/index',
             ['active' => 'menu'],
             compact('products')
