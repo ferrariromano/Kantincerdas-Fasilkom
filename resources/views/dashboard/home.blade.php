@@ -167,8 +167,10 @@
                             <div class="col-span-12 lg:col-span-8 2xl:col-span-7">
                                 <h5 class="mb-3 font-normal tracking-wide text-slate-200">Selamat Datang di Kantin Cerdas Fasilkom 🎉</h5>
                                 <p class="mb-5 text-slate-400">Sebuah dasbor kantin cerdas memiliki tujuan tersebut. Dasbor ini memberikan tim kantin Anda gambaran yang jelas tentang indikator kinerja keuangan dan situs web utama kapan saja.</p>
-                                <button type="button" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-500/20 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-500/20 dark:ring-custom-400/20">Buat Produk</button>
-                            </div>
+                                <a href="{{ route('products.create') }}" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-500/20 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-500/20 dark:ring-custom-400/20">
+                                    Buat Produk
+                                </a>
+                                                            </div>
                             <div class="hidden col-span-12 2xl:col-span-3 lg:col-span-2 lg:col-start-11 2xl:col-start-10 lg:block">
                                 <img src="{{asset('assets/images/dashboard.png')}}" alt="" class="h-40 ltr:2xl:ml-auto rtl:2xl:mr-auto">
                             </div>
@@ -191,8 +193,8 @@
                         <div class="flex items-center justify-center mx-auto rounded-full size-14 bg-custom-100 text-custom-500 dark:bg-custom-500/20">
                             <i data-lucide="wallet-2"></i>
                         </div>
-                        <h5 class="mt-4 mb-2">$<span class="counter-value" data-target="236.18">0</span>k</h5>
-                        <p class="text-slate-500 dark:text-zink-200">Total Pendapatan     </p>
+                        <h5 class="mt-4 mb-2">Rp <span class="counter-value" data-target="236180">0</span></h5>
+                        <p class="text-slate-500 dark:text-zink-200">Total Pendapatan</p>
                     </div>
                 </div><!--end col-->
                 <div class="col-span-12 card md:col-span-6 lg:col-span-3 2xl:col-span-2">
@@ -250,10 +252,10 @@
                                         <i data-lucide="trending-up"></i>
                                     </div>
                                     <div class="grow">
-                                        <p class="mb-1 text-slate-500 dark:text-zink-200">Total keuntungan
-                                        </p>
-                                        <h5 class="text-15">$<span class="counter-value" data-target="746.84">0</span>k</h5>
+                                        <p class="mb-1 text-slate-500 dark:text-zink-200">Total keuntungan</p>
+                                        <h5 class="text-15">Rp <span class="counter-value" data-target="746840">0</span></h5>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -707,9 +709,10 @@
                                 <i data-lucide="trending-up"></i>
                             </div>
                             <div class="grow">
-                                <p class="mb-1 text-slate-500 dark:text-zink-200">Total keuntungan </p>
-                                <h5 class="text-15">$<span class="counter-value" data-target="746.84">0</span>k</h5>
+                                <p class="mb-1 text-slate-500 dark:text-zink-200">Total keuntungan</p>
+                                <h5 class="text-15">Rp <span class="counter-value" data-target="746840">0</span></h5>
                             </div>
+
                         </div>
                         <div id="salesThisMonthChart" class="apex-charts" data-chart-colors='["bg-sky-100", "bg-orange-100", "bg-sky-500", "bg-orange-500"]' dir="ltr"></div>
                     </div>

@@ -5,6 +5,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TenantAuthController;
 
 
+
 Route::get('/', function () {
     return view('beranda', [
         'active' => 'beranda'
@@ -27,3 +28,4 @@ Route::middleware(['auth:tenant'])->group(function () {
 Route::get('/menu', [ProductController::class, 'index']);
 Route::get('/product/{id}', [ProductController::class, 'getProduct'])->name('product.get');
 
+Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');

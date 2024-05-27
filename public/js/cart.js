@@ -6,6 +6,7 @@ const wrapper = document.querySelector('.wrapper');
 const header = document.querySelector('header');
 let iconCartSpan = iconCart.querySelector('span');
 let listCartHTML = document.querySelector('.listCart');
+let totalPriceElement = document.getElementById('total-price');
 let cart = [];
 
 // Open & Close cart tab
@@ -80,7 +81,7 @@ const addCartToHTML = (cart) => {
 
         newItem.innerHTML = `
             <div class="name">${item.name}</div>
-            <div class="totalPrice">Rp ${item.price * item.quantity}</div>
+            <div class="totalPrice">Rp ${(item.price * item.quantity).toLocaleString('id-ID')}</div>
             <div class="quantity">
                 <span class="minus" data-id="${item.product_id}"><</span>
                 <span>${item.quantity}</span>
@@ -95,6 +96,7 @@ const addCartToHTML = (cart) => {
         listCartHTML.appendChild(newItem);
     });
     iconCartSpan.innerText = totalQuantity;
+    totalPriceElement.innerText = totalPrice.toLocaleString('id-ID');
 
     document.getElementById('total-items').innerText = `Jumlah item: ${totalQuantity}`;
     document.getElementById('total-price').innerText = `Total Harga: Rp ${totalPrice.toLocaleString('id-ID')}`;
@@ -151,6 +153,3 @@ const setProductInCart = (product, value) => {
 
 // Mengambil data dari localStorage saat halaman dimuat
 window.onload = loadCartFromLocalStorage;
-
-
-
