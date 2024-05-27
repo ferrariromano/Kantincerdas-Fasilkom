@@ -2,6 +2,7 @@
 
 @push('css')
     <link rel="stylesheet" href="{{ asset('css/menu.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/productModal.css') }}">
 @endpush
 
 @section('container')
@@ -23,13 +24,14 @@
         <div class="listProduct">
             @foreach ($products as $product)
                 <div class="item">
-                    <a href="#">
+                    <a href="#" class="imagesProduct" data-toggle="modal" data-target="productDetailModal-{{ $product->id }}">
                         <img src="/images/products/{{ $product->image }}">
                     </a>
                     <h2 id="product-name">{{ $product->name }}</h2>
                     <div class="price" id="product-price">Rp{{ number_format($product->price, 0, ',', '.') }}</div>
                     <button class="addCart" data-id="{{ $product->id }}">Add To Cart</button>
                 </div>
+                @include('partials.productModal', ['product' => $product])
             @endforeach
         </div>
     </div>
@@ -44,6 +46,10 @@
             </div>
         </div>
         <div class="listCart"></div>
+        <div class="cartInfo">
+            <p id="total-items">Jumlah item: 0</p>
+            <p id="total-price">Total Harga: Rp 0</p>
+        </div>
         <button class="checkOut">Check Out</button>
     </div>
 
@@ -51,4 +57,5 @@
 
 @push('js')
     <script src="{{ asset('js/cart.js') }}"></script>
+    <script src="{{ asset('js/modal.js') }}"></script>
 @endpush

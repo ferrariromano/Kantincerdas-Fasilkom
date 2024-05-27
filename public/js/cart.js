@@ -30,8 +30,9 @@ const addCartButtons = document.querySelectorAll('.addCart');
 addCartButtons.forEach(button => {
     button.addEventListener('click', function () {
         const productId = this.getAttribute('data-id');
-        const productName = this.closest('.item').querySelector('#product-name').innerText;
-        const productPrice = parseInt(this.closest('.item').querySelector('#product-price').innerText.replace('Rp', '').replace('.', ''));
+        let productClassSelector = this.closest('.item') || this.closest('.modal-right');
+        const productName = productClassSelector.querySelector('#product-name').innerText;
+        const productPrice = parseInt(productClassSelector.querySelector('#product-price').innerText.replace('Rp', '').replace('.', ''));
         const product = {
             id: productId,
             name: productName,
@@ -68,8 +69,11 @@ const loadCartFromLocalStorage = () => {
 const addCartToHTML = (cart) => {
     listCartHTML.innerHTML = '';
     let totalQuantity = 0;
+    let totalPrice = 0;
     cart.forEach(item => {
         totalQuantity += item.quantity;
+        totalPrice += item.price * item.quantity;
+
         let newItem = document.createElement('div');
         newItem.classList.add('item');
         newItem.dataset.id = item.product_id;
@@ -91,6 +95,9 @@ const addCartToHTML = (cart) => {
         listCartHTML.appendChild(newItem);
     });
     iconCartSpan.innerText = totalQuantity;
+
+    document.getElementById('total-items').innerText = `Jumlah item: ${totalQuantity}`;
+    document.getElementById('total-price').innerText = `Total Harga: Rp ${totalPrice.toLocaleString('id-ID')}`;
 
     // Mengaktifkan event listener untuk tombol plus, minus, dan delete
     activateCartButtons();

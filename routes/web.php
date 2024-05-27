@@ -25,4 +25,5 @@ Route::middleware(['auth:tenant'])->group(function () {
 });
 
 Route::get('/menu', [ProductController::class, 'index']);
+Route::get('/product/{id}', [ProductController::class, 'getProduct'])->name('product.get');
 

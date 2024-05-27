@@ -61,7 +61,7 @@ header{
   position: fixed;
   top: 0;
   right: -426px;
-  /* bottom: 6rem; */
+  gap: .5rem;
   bottom: 0;
   display: grid;
   grid-template-rows: 70px 1fr 70px;
@@ -97,6 +97,19 @@ header{
   width: 80%;
   border-radius: 50px;
   margin: auto;
+  margin-bottom: 12px;
+}
+.cartInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border-top: 1px solid #ccc;
+  margin-top: 10px;
+}
+.cartInfo p {
+  font-size: 1rem;
+  margin: 0;
 }
 
 .listCart {
@@ -119,14 +132,12 @@ header{
   transition: 0.5s;
   margin-top: 6rem;
 }
-
 .listProduct{
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   transition: 0.5s;
 }
-
 .listProduct .item{
   background-color: #EEEEE6;
   padding: 20px;
@@ -152,7 +163,7 @@ header{
   letter-spacing: 1px;
   font-size: 1rem;
 }
-.listProduct .item button{
+.listProduct .item button, .modal-right button{
   background-color: var(--clr-secondary-200);
   color: var(--clr-neutral-100);
   border: none;
@@ -161,9 +172,10 @@ header{
   border-radius: 20px;
   cursor: pointer;
 }
-.listProduct .item button:hover {
+.listProduct .item button:hover, .modal-right .addCart:hover {
     background-color: var(--clr-secondary-300);
 }
+
 
 /* ========= List Cart Item ========= */
 .listCart {
