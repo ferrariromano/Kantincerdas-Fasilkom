@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TenantAuthController;
 
+use App\Models\Product;
 
 
 Route::get('/', function () {
@@ -21,12 +22,17 @@ Route::middleware(['auth.tenant'])->group(function () {
 });
 
 
+Route::get('menu', [ProductController::class, 'listActiveProducts'])->name('menu.index');
 
-
-Route::get('/menu', [ProductController::class, 'index']);
-// Route::get('/product/{id}', [ProductController::class, 'getProduct'])->name('product.get');
-
-// Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
+// CRUD routes for products
+Route::middleware(['auth.tenant'])->group(function () {
+    Route::get('products', [ProductController::class, 'index'])->name('products.index')->middleware('auth.tenant');;
+    Route::get('products/create', [ProductController::class, 'create'])->name('products.create');
+    Route::post('products', [ProductController::class, 'store'])->name('products.store');
+    Route::get('products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
+    Route::put('products/{product}', [ProductController::class, 'update'])->name('products.update');
+    Route::delete('products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
+});
 
 
 Route::resource('products', ProductController::class);

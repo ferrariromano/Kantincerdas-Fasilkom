@@ -2,12 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,7 +15,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
         Category::create([
             'name' => 'Makanan',
         ]);
@@ -110,7 +108,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($productData as $product) {
-            $imagePath = public_path('images/products/' . $product['image']);
+            $imagePath = storage_path('app/public/images/products/' . $product['image']);
 
             if (File::exists($imagePath)) {
                 Product::create([
@@ -118,7 +116,7 @@ class DatabaseSeeder extends Seeder
                     'tenant_id' => $product['tenant_id'],
                     'name' => $product['name'],
                     'price' => $product['price'],
-                    'image' => $product['image'],
+                    'image' => 'images/products/' . $product['image'],
                     'description' => $product['description'],
                     'status' =>  $product['status'],
                 ]);

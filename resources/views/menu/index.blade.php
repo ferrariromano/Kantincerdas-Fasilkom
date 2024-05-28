@@ -25,7 +25,7 @@
             @foreach ($products as $product)
                 <div class="item">
                     <a href="#" class="imagesProduct" data-toggle="modal" data-target="productDetailModal-{{ $product->id }}">
-                        <img src="/images/products/{{ $product->image }}">
+                        <img src="{{ Storage::url($product->image) }}" alt="{{ $product->name }}">
                     </a>
                     <h2 id="product-name">{{ $product->name }}</h2>
                     <div class="price" id="product-price">Rp{{ number_format($product->price, 0, ',', '.') }}</div>

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function listActiveProducts()
     {
         $categories = Category::all();
         $products = Product::where('status', 'Aktif')->get();
@@ -28,6 +28,31 @@ class ProductController extends Controller
         ]);
     }
 
+    public function index()
+    {
+        // Ambil tenant_id dari sesi
+        $tenant_id = session('tenant_id');
+
+        // Jika tenant_id tidak ada di sesi, redirect ke halaman lain atau tampilkan pesan error
+        if (!$tenant_id) {
+            return redirect()->route('login')->withErrors(['tenant_id' => 'Tenant ID is missing.']);
+        }
+
+        // Ambil produk berdasarkan tenant_id
+        $products = Product::where('tenant_id', $tenant_id)->get();
+        $categories = Category::all();
+        $nama_tenant = [
+            1 => 'Left Canteen',
+            2 => 'Right Canteen'
+        ];
+
+        return view('products.index', [
+            'products' => $products,
+            'categories' => $categories,
+            'nama_tenant' => $nama_tenant
+        ]);
+    }
+
     public function create()
     {
         $categories = Category::all();
@@ -35,38 +60,38 @@ class ProductController extends Controller
     }
 
     public function store(Request $request)
-{
-    // Ambil tenant_id dari sesi
-    $tenant_id = session('tenant_id');
+    {
+        // Ambil tenant_id dari sesi
+        $tenant_id = session('tenant_id');
 
-    // Pastikan tenant_id sudah terisi
-    if (!$tenant_id) {
-        return redirect()->back()->withErrors(['tenant_id' => 'Tenant ID is missing.'])->withInput();
+        // Pastikan tenant_id sudah terisi
+        if (!$tenant_id) {
+            return redirect()->back()->withErrors(['tenant_id' => 'Tenant ID is missing.'])->withInput();
+        }
+
+        $request->validate([
+            'category_id' => 'required',
+            'name' => 'required',
+            'price' => 'required|numeric',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'description' => 'required',
+            'status' => 'required|in:Aktif,Tidak Aktif',
+        ]);
+
+        $imagePath = $request->file('image')->store('images', 'public');
+
+        Product::create([
+            'category_id' => $request->category_id,
+            'tenant_id' => $tenant_id, // Set tenant_id menggunakan nilai dari sesi
+            'name' => $request->name,
+            'price' => $request->price,
+            'image' => $imagePath,
+            'description' => $request->description,
+            'status' => $request->status,
+        ]);
+
+        return redirect()->route('products.index')->with('success', 'Product created successfully.');
     }
-
-    $request->validate([
-        'category_id' => 'required',
-        'name' => 'required',
-        'price' => 'required|numeric',
-        'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        'description' => 'required',
-        'status' => 'required|in:Aktif,Tidak Aktif',
-    ]);
-
-    $imagePath = $request->file('image')->store('images', 'public');
-
-    Product::create([
-        'category_id' => $request->category_id,
-        'tenant_id' => $tenant_id, // Set tenant_id menggunakan nilai dari sesi
-        'name' => $request->name,
-        'price' => $request->price,
-        'image' => $imagePath,
-        'description' => $request->description,
-        'status' => $request->status,
-    ]);
-
-    return redirect()->route('products.index')->with('success', 'Product created successfully.');
-}
 
     public function show(Product $product)
     {
@@ -123,4 +148,3 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
     }
 }
-

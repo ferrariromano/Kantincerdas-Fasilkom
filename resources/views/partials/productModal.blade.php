@@ -7,7 +7,7 @@
                 </svg>
             </span>
             <div class="modal-left">
-                <img src="/images/products/{{ $product->image }}" alt="Product Image">
+                <img src="{{ Storage::url($product->image) }}" alt="{{ $product->name }}" alt="Product Image">
             </div>
             <div class="modal-right">
                 <h2 id="product-name">{{ $product->name }}</h2>
