@@ -17,6 +17,11 @@ class Tenant extends Authenticatable
     protected $hidden = [
         'password',
     ];
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }
 
 

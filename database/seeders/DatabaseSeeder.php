@@ -28,14 +28,16 @@ class DatabaseSeeder extends Seeder
         $productData = [
             [
                 'category_id' => '1',
+                'tenant_id' => '1',
                 'name' => 'Soto Sate',
                 'price' => '13000',
                 'image' => 'food1.png',
-                'description' => 'Soto gabung Sate pasti mantap',
+                'description' => 'Soto gabung Sate pasti mantap. Masakan khas Indonesia yang terdiri atas kombinasi dua jenis makanan menjadi satu hidangan yang unik di lidah, yaitu kombinasi antara soto dan sate ayam di atasnya dengan racikan bumbu khas Indonesia yang menjadikannya unik untuk dirasakan.',
                 'status' =>  'aktif',
             ],
             [
                 'category_id' => '1',
+                'tenant_id' => '2',
                 'name' => 'Ayam Geprek',
                 'price' => '10000',
                 'image' => 'food2.png',
@@ -44,6 +46,7 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'category_id' => '1',
+                'tenant_id' => '2',
                 'name' => 'Tahu Tek Telor',
                 'price' => '10000',
                 'image' => 'food3.png',
@@ -52,6 +55,7 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'category_id' => '1',
+                'tenant_id' => '1',
                 'name' => 'Nasi Pecel',
                 'price' => '10000',
                 'image' => 'food4.png',
@@ -60,6 +64,7 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'category_id' => '1',
+                'tenant_id' => '2',
                 'name' => 'Nasi Campur',
                 'price' => '8000',
                 'image' => 'food5.png',
@@ -68,6 +73,7 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'category_id' => '1',
+                'tenant_id' => '1',
                 'name' => 'Nasi Rames',
                 'price' => '8000',
                 'image' => 'food6.png',
@@ -76,6 +82,7 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'category_id' => '1',
+                'tenant_id' => '1',
                 'name' => 'Nasi Goreng',
                 'price' => '8000',
                 'image' => 'food7.png',
@@ -84,6 +91,7 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'category_id' => '2',
+                'tenant_id' => '1',
                 'name' => 'Es Teh',
                 'price' => '4000',
                 'image' => 'drink1.jpg',
@@ -92,6 +100,7 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'category_id' => '2',
+                'tenant_id' => '2',
                 'name' => 'Es Jeruk',
                 'price' => '5000',
                 'image' => 'drink2.jpg',
@@ -106,10 +115,11 @@ class DatabaseSeeder extends Seeder
             if (File::exists($imagePath)) {
                 Product::create([
                     'category_id' => $product['category_id'],
+                    'tenant_id' => $product['tenant_id'],
                     'name' => $product['name'],
-                    'description' => $product['description'],
                     'price' => $product['price'],
                     'image' => $product['image'],
+                    'description' => $product['description'],
                     'status' =>  $product['status'],
                 ]);
             } else {

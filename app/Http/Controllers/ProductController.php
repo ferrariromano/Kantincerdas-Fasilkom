@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tenant;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -14,8 +15,19 @@ class ProductController extends Controller
     {
         $categories = Category::all();
         $products = Product::where('status', 'Aktif')->get();
-        return view('menu.index', ['active' => 'menu', 'products' => $products, 'categories' => $categories]);
-    }
+
+        $outletNames = [
+            1 => 'Left Canteen',
+            2 => 'Right Canteen'
+        ];
+
+        return view('menu.index', [
+            'active' => 'menu',
+            'products' => $products,
+            'categories' => $categories,
+            'outletNames' => $outletNames
+        ]);
+      }
 
     public function create()
     {

@@ -155,7 +155,7 @@ header{
   transition: 0.5s;
 }
 .listProduct .item h2{
-  margin-top: .5rem;
+  margin-top: 1rem;
   font-weight: 500;
   font-size: 1.3rem;
 }
