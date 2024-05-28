@@ -109,11 +109,14 @@ span .txt_orange {
 	margin: 10px 0;
 }
 .modal-right .switchView {
-  background-color: var(--clr-primary-400) ;
+  background-color: var(--clr-primary-400);
   border-radius: 20px;
   width: 100px;
   padding: 12px 0px;
   margin: 10px 0;
+}
+.switchView:hover{
+    background-color: var(--clr-primary-500);
 }
 
 .table-container {
@@ -156,6 +159,7 @@ span .txt_orange {
 @media only screen and (max-width: 375px) {
   .modal-content {
     width: 85%;
+    height: 500px;
   }
   .modal-left {
 	padding: 10px;
@@ -165,6 +169,10 @@ span .txt_orange {
   .modalButton {
     gap: .5rem;
   }
+  .modal-right .desc {
+    min-height: 220px;
+    max-height: 220px;
+    }
   .modal-right .addCart {
 	padding: 15px 12px;
   }
