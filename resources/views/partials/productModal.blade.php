@@ -12,7 +12,7 @@
             <div class="modal-right">
                 <h2 id="product-name">{{ $product->name }}</h2>
                 <div class="price" id="product-price">Rp{{ number_format($product->price, 0, ',', '.') }}</div>
-                <p><span class="txt_orange">Outlet : </span>{{ $outletNames[$product->tenant_id] ?? 'Unknown Outlet' }}</p>
+                <p><span class="txt_orange">Outlet : </span>{{ $nama_tenant[$product->tenant_id] ?? 'Unknown Outlet' }}</p>
                 <div class="modalButton">
                     <button class="switchView" data-target="view-2">More Info</button>
                     <button class="addCart" data-id="{{ $product->id }}">Add To Cart</button>
@@ -28,7 +28,7 @@
             <div class="modal-right">
                 <h2 id="product-name">{{ $product->name }}</h2>
                 <div class="price" id="product-price" style="display: none;">Rp{{ number_format($product->price, 0, ',', '.') }}</div>
-                <p><span class="txt_orange">Outlet : </span>{{ $outletNames[$product->tenant_id] ?? 'Unknown Outlet' }}</p>
+                <p><span class="txt_orange">Outlet : </span>{{ $nama_tenant[$product->tenant_id] ?? 'Unknown Outlet' }}</p>
                 <div class="desc">
                     <p>{{ $product->description }}</p>
                 </div>

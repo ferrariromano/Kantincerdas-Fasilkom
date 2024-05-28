@@ -45,33 +45,6 @@ File: Layout Js File
         }
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        // Ambil elemen input price
-        var priceInput = document.getElementById('price');
-
-        // Tambahkan event listener untuk memantau perubahan nilai
-        priceInput.addEventListener('input', function() {
-            // Ambil nilai input
-            var priceValue = parseFloat(priceInput.value);
-
-            // Pastikan nilai input adalah angka
-            if (!isNaN(priceValue)) {
-                // Format nilai menjadi format Rupiah
-                var formattedPrice = formatRupiah(priceValue);
-
-                // Masukkan kembali nilai yang diformat ke dalam input
-                priceInput.value = formattedPrice;
-            }
-        });
-
-        // Fungsi untuk memformat nilai menjadi format Rupiah
-        function formatRupiah(angka) {
-            var reverse = angka.toString().split('').reverse().join('');
-            var ribuan = reverse.match(/\d{1,3}/g);
-            var formattedPrice = ribuan.join('.').split('').reverse().join('');
-            return 'Rp ' + formattedPrice + ',00'; // Tambahkan ',00' untuk menampilkan angka desimal
-        }
-    });
 
 
 

@@ -19,14 +19,24 @@
                 </li>
             </ul>
         </div>
-</div>
+    </div>
 
     <div class="grid grid-cols-1 xl:grid-cols-12 gap-x-5 px-0">
         <div class="xl:col-span-9">
             <div class="card">
                 <div class="card-body">
                     <h6 class="text-15 mb-4">Buat Produk</h6>
-                    <form action="#!" class="grid grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-12">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-12">
+                        @csrf
                         <div class="xl:col-span-6">
                             <label for="name" class="inline-block mb-2 text-base font-medium">Judul Produk</label>
                             <input type="text" id="name" name="name" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" placeholder="Judul Produk" required>
@@ -67,6 +77,5 @@
             </div>
         </div>
     </div>
-</div>
 
 @endsection

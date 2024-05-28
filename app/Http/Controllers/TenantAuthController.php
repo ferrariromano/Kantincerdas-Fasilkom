@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Tenant;
+use Illuminate\Support\Str; // Tambahkan ini untuk menggunakan fungsi Str::slug()
 
 class TenantAuthController extends Controller
 {
@@ -21,29 +22,29 @@ class TenantAuthController extends Controller
             // Ambil informasi tenant saat ini
             $tenant = Auth::guard('tenant')->user();
 
-            // Tentukan tampilan dashboard berdasarkan id_tenant
-            $dashboardView = $tenant->id_tenant % 2 === 0 ? 'dashboard_b' : 'dashboard_a';
+            // Set session untuk tenant_id
+            $request->session()->put('tenant_id', $tenant->id_tenant);
 
-            return redirect()->route('dashboard', ['dashboard' => $dashboardView]);
+            // Dapatkan nama tenant yang telah di-slug
+            $dashboard = Str::slug($tenant->nama_tenant);
+
+            // Arahkan pengguna ke dashboard dengan parameter nama_tenant
+            return redirect()->route('dashboard', ['dashboard' => $dashboard]);
         }
 
         return redirect()->back()->withErrors(['login' => 'Invalid credentials']);
     }
 
+
     public function dashboard($dashboard)
     {
-            // Tentukan tipe dashboard berdasarkan parameter
-        $dashboardType = $dashboard;
-
-        // Ambil informasi tenant saat ini
-        $tenant = Auth::guard('tenant')->user();
+        // Temukan tenant berdasarkan nama
+        $tenant = Tenant::where('nama_tenant', $dashboard)->firstOrFail();
 
         // Kirim data tenant ke view
-        return view('dashboard.home', [
-            'dashboardType' => $dashboardType,
-            'tenant' => $tenant
-        ]);
+        return view('dashboard.home', ['tenant' => $tenant]);
     }
+
     public function logout(Request $request)
     {
         Auth::guard('tenant')->logout();
@@ -52,5 +53,6 @@ class TenantAuthController extends Controller
         return redirect()->route('tenant.login'); // Mengarahkan ke halaman login
     }
 }
+
 
 

@@ -8,7 +8,6 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-
 class ProductController extends Controller
 {
     public function index()
@@ -16,7 +15,7 @@ class ProductController extends Controller
         $categories = Category::all();
         $products = Product::where('status', 'Aktif')->get();
 
-        $outletNames = [
+        $nama_tenant = [
             1 => 'Left Canteen',
             2 => 'Right Canteen'
         ];
@@ -25,9 +24,9 @@ class ProductController extends Controller
             'active' => 'menu',
             'products' => $products,
             'categories' => $categories,
-            'outletNames' => $outletNames
+            'nama_tenant' => $nama_tenant
         ]);
-      }
+    }
 
     public function create()
     {
@@ -36,60 +35,77 @@ class ProductController extends Controller
     }
 
     public function store(Request $request)
+{
+    // Ambil tenant_id dari sesi
+    $tenant_id = session('tenant_id');
+
+    // Pastikan tenant_id sudah terisi
+    if (!$tenant_id) {
+        return redirect()->back()->withErrors(['tenant_id' => 'Tenant ID is missing.'])->withInput();
+    }
+
+    $request->validate([
+        'category_id' => 'required',
+        'name' => 'required',
+        'price' => 'required|numeric',
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'description' => 'required',
+        'status' => 'required|in:Aktif,Tidak Aktif',
+    ]);
+
+    $imagePath = $request->file('image')->store('images', 'public');
+
+    Product::create([
+        'category_id' => $request->category_id,
+        'tenant_id' => $tenant_id, // Set tenant_id menggunakan nilai dari sesi
+        'name' => $request->name,
+        'price' => $request->price,
+        'image' => $imagePath,
+        'description' => $request->description,
+        'status' => $request->status,
+    ]);
+
+    return redirect()->route('products.index')->with('success', 'Product created successfully.');
+}
+
+    public function show(Product $product)
     {
-        $request->validate([
-            'name' => 'required',
-            'price' => 'required|numeric',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'description' => 'required',
-            'category_id' => 'required|integer',
-            'status' => 'required|in:Aktif,Tidak Aktif',
-        ]);
-
-        $imagePath = $request->file('image')->store('images/products', 'public');
-
-        Product::create([
-            'name' => $request->name,
-            'price' => $request->price,
-            'image' => $imagePath,
-            'description' => $request->description,
-            'category_id' => $request->category_id,
-            'status' => $request->status,
-        ]);
-
-        return redirect()->route('products.index')->with('success', 'Product created successfully.');
+        return view('products.show', compact('product'));
     }
 
     public function edit(Product $product)
     {
         $categories = Category::all();
-        return view('menu.edit', compact('product', 'categories'));
+        return view('products.edit', compact('product', 'categories'));
     }
 
     public function update(Request $request, Product $product)
     {
         $request->validate([
+            'category_id' => 'required',
+            'tenant_id' => 'required',
             'name' => 'required',
             'price' => 'required|numeric',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'description' => 'required',
-            'category_id' => 'required|integer',
             'status' => 'required|in:Aktif,Tidak Aktif',
         ]);
 
+        $imagePath = $product->image;
         if ($request->hasFile('image')) {
-            if ($product->image) {
-                Storage::disk('public')->delete($product->image);
+            if ($imagePath) {
+                Storage::disk('public')->delete($imagePath);
             }
-            $imagePath = $request->file('image')->store('images/products', 'public');
-            $product->image = $imagePath;
+            $imagePath = $request->file('image')->store('images', 'public');
         }
 
         $product->update([
+            'category_id' => $request->category_id,
+            'tenant_id' => $request->tenant_id,
             'name' => $request->name,
             'price' => $request->price,
+            'image' => $imagePath,
             'description' => $request->description,
-            'category_id' => $request->category_id,
             'status' => $request->status,
         ]);
 
@@ -101,18 +117,10 @@ class ProductController extends Controller
         if ($product->image) {
             Storage::disk('public')->delete($product->image);
         }
+
         $product->delete();
+
         return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
     }
-
-    public function getProduct($id)
-    {
-        $product = Product::find($id);
-        if ($product) {
-            return response()->json($product);
-        } else {
-            return response()->json(['message' => 'Product not found'], 404);
-        }
-    }
-
 }
+
