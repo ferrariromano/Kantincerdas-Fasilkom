@@ -67,25 +67,36 @@
                             </select>
                         </div>
                         <!-- Nutrisi Section -->
-                        <div class="xl:col-span-6">
-                            <label for="kalori" class="inline-block mb-2 text-base font-medium">Kalori (kkal)</label>
-                            <input type="number" step="any" id="kalori" name="kalori" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" placeholder="Kalori" required>
+                        <div class="xl:col-span-12">
+                            <h6 class="mb-3 text-15">Informasi Nutrisi</h6>
                         </div>
-                        <div class="xl:col-span-6">
-                            <label for="lemak" class="inline-block mb-2 text-base font-medium">Lemak (g)</label>
-                            <input type="number" step="any" id="lemak" name="lemak" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" placeholder="Lemak" required>
+                        <div id="nutrisi-minuman" class="flex flex-wrap gap-5" style="display: none;">
+                            <div class="flex-1">
+                                <label for="kalori-minuman" class="inline-block mb-2 text-base font-medium">Kalori (kkal)</label>
+                                <input type="number" step="any" id="kalori-minuman" name="kalori" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" placeholder="Kalori">
+                            </div>
+                            <div class="flex-1">
+                                <label for="lemak" class="inline-block mb-2 text-base font-medium">Lemak (g)</label>
+                                <input type="number" step="any" id="lemak" name="lemak" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" placeholder="Lemak">
+                            </div>
+                            <div class="flex-1">
+                                <label for="gula" class="inline-block mb-2 text-base font-medium">Gula (g)</label>
+                                <input type="number" step="any" id="gula" name="gula" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" placeholder="Gula">
+                            </div>
                         </div>
-                        <div class="xl:col-span-6">
-                            <label for="gula" class="inline-block mb-2 text-base font-medium">Gula (g)</label>
-                            <input type="number" step="any" id="gula" name="gula" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" placeholder="Gula" required>
-                        </div>
-                        <div class="xl:col-span-6">
-                            <label for="karbohidrat" class="inline-block mb-2 text-base font-medium">Karbohidrat (g)</label>
-                            <input type="number" step="any" id="karbohidrat" name="karbohidrat" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" placeholder="Karbohidrat" required>
-                        </div>
-                        <div class="xl:col-span-6">
-                            <label for="protein" class="inline-block mb-2 text-base font-medium">Protein (g)</label>
-                            <input type="number" step="any" id="protein" name="protein" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" placeholder="Protein" required>
+                        <div id="nutrisi-makanan" class="flex flex-wrap gap-5" style="display: none;">
+                            <div class="flex-1">
+                                <label for="kalori-makanan" class="inline-block mb-2 text-base font-medium">Kalori (kkal)</label>
+                                <input type="number" step="any" id="kalori-makanan" name="kalori" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" placeholder="Kalori">
+                            </div>
+                            <div class="flex-1">
+                                <label for="karbohidrat" class="inline-block mb-2 text-base font-medium">Karbohidrat (g)</label>
+                                <input type="number" step="any" id="karbohidrat" name="karbohidrat" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" placeholder="Karbohidrat">
+                            </div>
+                            <div class="flex-1">
+                                <label for="protein" class="inline-block mb-2 text-base font-medium">Protein (g)</label>
+                                <input type="number" step="any" id="protein" name="protein" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" placeholder="Protein">
+                            </div>
                         </div>
                         <!-- End of Nutrisi Section -->
                         <div class="xl:col-span-12">
@@ -97,5 +108,29 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const categorySelect = document.getElementById('category_id');
+        const nutrisiMinuman = document.getElementById('nutrisi-minuman');
+        const nutrisiMakanan = document.getElementById('nutrisi-makanan');
+
+        function toggleNutrisiFields() {
+            const selectedCategory = categorySelect.options[categorySelect.selectedIndex].text;
+            if (selectedCategory === 'Minuman') {
+                nutrisiMinuman.style.display = 'flex';
+                nutrisiMakanan.style.display = 'none';
+            } else {
+                nutrisiMinuman.style.display = 'none';
+                nutrisiMakanan.style.display = 'flex';
+            }
+        }
+
+        categorySelect.addEventListener('change', toggleNutrisiFields);
+
+        // Initial toggle on page load
+        toggleNutrisiFields();
+    });
+</script>
 
 @endsection

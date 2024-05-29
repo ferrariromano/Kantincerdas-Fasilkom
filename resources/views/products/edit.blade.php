@@ -86,25 +86,36 @@
                         </div>
 
                         <!-- Nutrisi Section -->
-                        <div class="xl:col-span-6">
-                            <label for="kalori" class="inline-block mb-2 text-base font-medium">Kalori (kkal)</label>
-                            <input type="number" id="kalori" name="kalori" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" value="{{ $product->nutrition->kalori ?? '' }}" required>
+                        <div class="xl:col-span-12">
+                            <h6 class="mb-3 text-15">Informasi Nutrisi</h6>
                         </div>
-                        <div class="xl:col-span-6">
-                            <label for="lemak" class="inline-block mb-2 text-base font-medium">Lemak (g)</label>
-                            <input type="number" id="lemak" name="lemak" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" value="{{ $product->nutrition->lemak ?? '' }}" required>
+                        <div id="nutrisi-minuman" class="flex flex-wrap gap-5" style="display: none;">
+                            <div class="flex flex-col w-1/3">
+                                <label for="kalori-minuman" class="inline-block mb-2 text-base font-medium">Kalori (kkal)</label>
+                                <input type="number" id="kalori-minuman" name="kalori" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" value="{{ $product->nutrition->kalori ?? '' }}">
+                            </div>
+                            <div class="flex flex-col w-1/3">
+                                <label for="lemak" class="inline-block mb-2 text-base font-medium">Lemak (g)</label>
+                                <input type="number" id="lemak" name="lemak" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" value="{{ $product->nutrition->lemak ?? '' }}">
+                            </div>
+                            <div class="flex flex-col w-1/3">
+                                <label for="gula" class="inline-block mb-2 text-base font-medium">Gula (g)</label>
+                                <input type="number" id="gula" name="gula" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" value="{{ $product->nutrition->gula ?? '' }}">
+                            </div>
                         </div>
-                        <div class="xl:col-span-6">
-                            <label for="gula" class="inline-block mb-2 text-base font-medium">Gula (g)</label>
-                            <input type="number" id="gula" name="gula" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" value="{{ $product->nutrition->gula ?? '' }}" required>
-                        </div>
-                        <div class="xl:col-span-6">
-                            <label for="karbohidrat" class="inline-block mb-2 text-base font-medium">Karbohidrat (g)</label>
-                            <input type="number" id="karbohidrat" name="karbohidrat" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" value="{{ $product->nutrition->karbohidrat ?? '' }}" required>
-                        </div>
-                        <div class="xl:col-span-6">
-                            <label for="protein" class="inline-block mb-2 text-base font-medium">Protein (g)</label>
-                            <input type="number" id="protein" name="protein" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" value="{{ $product->nutrition->protein ?? '' }}" required>
+                        <div id="nutrisi-makanan" class="flex flex-wrap gap-5" style="display: none;">
+                            <div class="flex flex-col w-1/3">
+                                <label for="kalori-makanan" class="inline-block mb-2 text-base font-medium">Kalori (kkal)</label>
+                                <input type="number" id="kalori-makanan" name="kalori" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" value="{{ $product->nutrition->kalori ?? '' }}">
+                            </div>
+                            <div class="flex flex-col w-1/3">
+                                <label for="karbohidrat" class="inline-block mb-2 text-base font-medium">Karbohidrat (g)</label>
+                                <input type="number" id="karbohidrat" name="karbohidrat" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" value="{{ $product->nutrition->karbohidrat ?? '' }}">
+                            </div>
+                            <div class="flex flex-col w-1/3">
+                                <label for="protein" class="inline-block mb-2 text-base font-medium">Protein (g)</label>
+                                <input type="number" id="protein" name="protein" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" value="{{ $product->nutrition->protein ?? '' }}">
+                            </div>
                         </div>
 
                         <!-- Submit Button -->
@@ -118,4 +129,27 @@
     </div>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const categorySelect = document.getElementById('productCategory');
+        const nutrisiMinuman = document.getElementById('nutrisi-minuman');
+        const nutrisiMakanan = document.getElementById('nutrisi-makanan');
+
+        function toggleNutrisiFields() {
+            const selectedCategory = categorySelect.options[categorySelect.selectedIndex].text;
+            if (selectedCategory === 'Minuman') {
+                nutrisiMinuman.style.display = 'flex';
+                nutrisiMakanan.style.display = 'none';
+            } else {
+                nutrisiMinuman.style.display = 'none';
+                nutrisiMakanan.style.display = 'flex';
+            }
+        }
+
+        categorySelect.addEventListener('change', toggleNutrisiFields);
+
+        // Initial toggle on page load
+        toggleNutrisiFields();
+    });
+</script>
 @endsection
