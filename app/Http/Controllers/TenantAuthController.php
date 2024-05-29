@@ -22,8 +22,9 @@ class TenantAuthController extends Controller
             // Ambil informasi tenant saat ini
             $tenant = Auth::guard('tenant')->user();
 
-            // Set session untuk tenant_id
+            // Set session untuk tenant_id dan tenant_name
             $request->session()->put('tenant_id', $tenant->id_tenant);
+            $request->session()->put('tenant_name', $tenant->nama_tenant);
 
             // Dapatkan nama tenant yang telah di-slug
             $dashboard = Str::slug($tenant->nama_tenant);
@@ -34,7 +35,6 @@ class TenantAuthController extends Controller
 
         return redirect()->back()->withErrors(['login' => 'Invalid credentials']);
     }
-
 
     public function dashboard($dashboard)
     {

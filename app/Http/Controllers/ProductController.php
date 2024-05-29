@@ -38,13 +38,12 @@ class ProductController extends Controller
             return redirect()->route('login')->withErrors(['tenant_id' => 'Tenant ID is missing.']);
         }
 
-        // Ambil produk berdasarkan tenant_id
-        $products = Product::where('tenant_id', $tenant_id)->get();
+        // Ambil produk berdasarkan tenant_id dengan pagination
+        $products = Product::where('tenant_id', $tenant_id)->paginate(10);
         $categories = Category::all();
-        $nama_tenant = [
-            1 => 'Left Canteen',
-            2 => 'Right Canteen'
-        ];
+
+        // Dapatkan nama tenant dari sesi
+        $nama_tenant = session('tenant_name');
 
         return view('products.index', [
             'products' => $products,
@@ -106,9 +105,16 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product)
     {
+        // Ambil tenant_id dari sesi
+        $tenant_id = session('tenant_id');
+
+        // Pastikan tenant_id sudah terisi
+        if (!$tenant_id) {
+            return redirect()->back()->withErrors(['tenant_id' => 'Tenant ID is missing.'])->withInput();
+        }
+
         $request->validate([
             'category_id' => 'required',
-            'tenant_id' => 'required',
             'name' => 'required',
             'price' => 'required|numeric',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -126,7 +132,7 @@ class ProductController extends Controller
 
         $product->update([
             'category_id' => $request->category_id,
-            'tenant_id' => $request->tenant_id,
+            'tenant_id' => $tenant_id, // Set tenant_id using value from session
             'name' => $request->name,
             'price' => $request->price,
             'image' => $imagePath,
@@ -148,3 +154,4 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
     }
 }
+
