@@ -29,4 +29,9 @@ class Product extends Model
     {
         return $this->belongsTo(Tenant::class);
     }
+
+    public function nutrition()
+    {
+        return $this->hasOne(Nutrition::class);
+    }
 }

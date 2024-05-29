@@ -7,7 +7,7 @@
                 </svg>
             </span>
             <div class="modal-left">
-                <img src="{{ Storage::url($product->image) }}" alt="{{ $product->name }}" alt="Product Image">
+                <img src="{{ Storage::url($product->image) }}" alt="{{ $product->name }}">
             </div>
             <div class="modal-right">
                 <h2 id="product-name">{{ $product->name }}</h2>
@@ -32,14 +32,24 @@
                 <div class="desc">
                     <p>{{ $product->description }}</p>
                 </div>
+                @if($product->nutrition)
                 <div class="grid">
                     <div class="header">Kalori</div>
-                    <div class="header">Karbohidrat</div>
-                    <div class="header">Protein</div>
-                    <div class="cell">312 kkal</div>
-                    <div class="cell">19,55 g</div>
-                    <div class="cell">6,58 g</div>
+                    @if($product->category_id == 1)
+                        <div class="header">Karbohidrat</div>
+                        <div class="header">Protein</div>
+                        <div class="cell">{{ $product->nutrition->kalori ?? 'N/A' }} kkal</div>
+                        <div class="cell">{{ $product->nutrition->karbohidrat ?? 'N/A' }} g</div>
+                        <div class="cell">{{ $product->nutrition->protein ?? 'N/A' }} g</div>
+                    @else
+                        <div class="header">Lemak</div>
+                        <div class="header">Gula</div>
+                        <div class="cell">{{ $product->nutrition->kalori ?? 'N/A' }} kkal</div>
+                        <div class="cell">{{ $product->nutrition->lemak ?? 'N/A' }} g</div>
+                        <div class="cell">{{ $product->nutrition->gula ?? 'N/A' }} g</div>
+                    @endif
                 </div>
+                @endif
                 <div class="modalButton">
                     <button class="switchView" data-target="view-1">Back</button>
                     <button class="addCart" data-id="{{ $product->id }}">Add To Cart</button>

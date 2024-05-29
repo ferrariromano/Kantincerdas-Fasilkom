@@ -48,7 +48,7 @@
 
                         <!-- Category -->
                         <div class="xl:col-span-6">
-                            <label for="productCategory" class="inline-block mb-2 text-base font-medium">Category</label>
+                            <label for="productCategory" class="inline-block mb-2 text-base font-medium">Kategori</label>
                             <select class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" name="category_id" id="productCategory" required>
                                 @foreach($categories as $category)
                                     <option value="{{ $category->id }}" {{ $product->category_id == $category->id ? 'selected' : '' }}>
@@ -72,7 +72,7 @@
 
                         <!-- Description -->
                         <div class="xl:col-span-4">
-                            <label for="productDescription" class="inline-block mb-2 text-base font-medium">Description</label>
+                            <label for="productDescription" class="inline-block mb-2 text-base font-medium">Deskripsi</label>
                             <textarea id="productDescription" name="description" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" required>{{ $product->description }}</textarea>
                         </div>
 
@@ -83,6 +83,28 @@
                                 <option value="Aktif" {{ $product->status == 'Aktif' ? 'selected' : '' }}>Aktif</option>
                                 <option value="Tidak Aktif" {{ $product->status == 'Tidak Aktif' ? 'selected' : '' }}>Tidak Aktif</option>
                             </select>
+                        </div>
+
+                        <!-- Nutrisi Section -->
+                        <div class="xl:col-span-6">
+                            <label for="kalori" class="inline-block mb-2 text-base font-medium">Kalori (kkal)</label>
+                            <input type="number" id="kalori" name="kalori" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" value="{{ $product->nutrition->kalori ?? '' }}" required>
+                        </div>
+                        <div class="xl:col-span-6">
+                            <label for="lemak" class="inline-block mb-2 text-base font-medium">Lemak (g)</label>
+                            <input type="number" id="lemak" name="lemak" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" value="{{ $product->nutrition->lemak ?? '' }}" required>
+                        </div>
+                        <div class="xl:col-span-6">
+                            <label for="gula" class="inline-block mb-2 text-base font-medium">Gula (g)</label>
+                            <input type="number" id="gula" name="gula" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" value="{{ $product->nutrition->gula ?? '' }}" required>
+                        </div>
+                        <div class="xl:col-span-6">
+                            <label for="karbohidrat" class="inline-block mb-2 text-base font-medium">Karbohidrat (g)</label>
+                            <input type="number" id="karbohidrat" name="karbohidrat" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" value="{{ $product->nutrition->karbohidrat ?? '' }}" required>
+                        </div>
+                        <div class="xl:col-span-6">
+                            <label for="protein" class="inline-block mb-2 text-base font-medium">Protein (g)</label>
+                            <input type="number" id="protein" name="protein" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" value="{{ $product->nutrition->protein ?? '' }}" required>
                         </div>
 
                         <!-- Submit Button -->

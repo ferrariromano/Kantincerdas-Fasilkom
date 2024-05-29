@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tenant;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Nutrition;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -75,11 +76,16 @@ class ProductController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'description' => 'required',
             'status' => 'required|in:Aktif,Tidak Aktif',
+            'kalori' => 'required|numeric',
+            'lemak' => 'required|numeric',
+            'gula' => 'required|numeric',
+            'karbohidrat' => 'required|numeric',
+            'protein' => 'required|numeric',
         ]);
 
         $imagePath = $request->file('image')->store('images', 'public');
 
-        Product::create([
+        $product = Product::create([
             'category_id' => $request->category_id,
             'tenant_id' => $tenant_id, // Set tenant_id menggunakan nilai dari sesi
             'name' => $request->name,
@@ -89,12 +95,23 @@ class ProductController extends Controller
             'status' => $request->status,
         ]);
 
+        Nutrition::create([
+            'product_id' => $product->id,
+            'kalori' => $request->kalori,
+            'lemak' => $request->lemak,
+            'gula' => $request->gula,
+            'karbohidrat' => $request->karbohidrat,
+            'protein' => $request->protein,
+        ]);
+
         return redirect()->route('products.index')->with('success', 'Product created successfully.');
     }
 
-    public function show(Product $product)
+        public function show(Product $product)
     {
-        return view('products.show', compact('product'));
+        $category = $product->category->name; // Ambil nama kategori
+
+        return view('products.show', compact('product', 'category'));
     }
 
     public function edit(Product $product)
@@ -120,6 +137,11 @@ class ProductController extends Controller
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'description' => 'required',
             'status' => 'required|in:Aktif,Tidak Aktif',
+            'kalori' => 'required|numeric',
+            'lemak' => 'required|numeric',
+            'gula' => 'required|numeric',
+            'karbohidrat' => 'required|numeric',
+            'protein' => 'required|numeric',
         ]);
 
         $imagePath = $product->image;
@@ -140,6 +162,17 @@ class ProductController extends Controller
             'status' => $request->status,
         ]);
 
+        $product->nutrition->updateOrCreate(
+            ['product_id' => $product->id],
+            [
+                'kalori' => $request->kalori,
+                'lemak' => $request->lemak,
+                'gula' => $request->gula,
+                'karbohidrat' => $request->karbohidrat,
+                'protein' => $request->protein,
+            ]
+        );
+
         return redirect()->route('products.index')->with('success', 'Product updated successfully.');
     }
 
@@ -149,9 +182,9 @@ class ProductController extends Controller
             Storage::disk('public')->delete($product->image);
         }
 
+        $product->nutrition()->delete();
         $product->delete();
 
         return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
     }
 }
-

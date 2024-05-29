@@ -44,7 +44,7 @@
                     <div class="card-body">
                         <h5 class="mt-3 mb-1">{{ $product->name }}</h5>
                         <ul class="flex flex-wrap items-center gap-4 mb-5 text-slate-500 dark:text-zink-200">
-                            <li>Category: <span class="font-medium">{{ $product->category->name }}</span></li>
+                            <li>Kategori: <span class="font-medium">{{ $product->category->name }}</span></li>
                             <li>Tenant: <span class="font-medium">{{ session('tenant_name') }}</span></li>
                             <li>Diterbitkan: <span class="font-medium">{{ $product->created_at->format('d M, Y') }}</span></li>
                         </ul>
@@ -54,6 +54,37 @@
                         <div class="mt-5">
                             <h6 class="mb-3 text-15">Deskripsi Produk:</h6>
                             <p class="mb-2 text-slate-500 dark:text-zink-200">{{ $product->description }}</p>
+                        </div>
+                        <div class="mt-5">
+                            <h6 class="mb-3 text-15">Nutrisi Produk:</h6>
+                            <table class="w-full table-auto">
+                                <thead>
+                                    <tr class="bg-orange-500 text-white">
+                                        @if ($category == 'Makanan')
+                                            <th class="px-4 py-2">Kalori</th>
+                                            <th class="px-4 py-2">Karbohidrat</th>
+                                            <th class="px-4 py-2">Protein</th>
+                                        @elseif ($category == 'Minuman')
+                                            <th class="px-4 py-2">Kalori</th>
+                                            <th class="px-4 py-2">Lemak</th>
+                                            <th class="px-4 py-2">Gula</th>
+                                        @endif
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        @if ($category == 'Makanan')
+                                            <td class="border px-4 py-2">{{ $product->nutrition->kalori }} kkal</td>
+                                            <td class="border px-4 py-2">{{ $product->nutrition->karbohidrat }} g</td>
+                                            <td class="border px-4 py-2">{{ $product->nutrition->protein }} g</td>
+                                        @elseif ($category == 'Minuman')
+                                            <td class="border px-4 py-2">{{ $product->nutrition->kalori }} kkal</td>
+                                            <td class="border px-4 py-2">{{ $product->nutrition->lemak }} g</td>
+                                            <td class="border px-4 py-2">{{ $product->nutrition->gula }} g</td>
+                                        @endif
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

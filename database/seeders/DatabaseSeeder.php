@@ -4,9 +4,9 @@ namespace Database\Seeders;
 
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Nutrition;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
@@ -27,11 +27,16 @@ class DatabaseSeeder extends Seeder
             [
                 'category_id' => '1',
                 'tenant_id' => '1',
-                'name' => 'Soto Sate',
+                'name' => 'pecel medium tempe ',
                 'price' => '13000',
                 'image' => 'food1.png',
                 'description' => 'Soto gabung Sate pasti mantap. Masakan khas Indonesia yang terdiri atas kombinasi dua jenis makanan menjadi satu hidangan yang unik di lidah, yaitu kombinasi antara soto dan sate ayam di atasnya dengan racikan bumbu khas Indonesia yang menjadikannya unik untuk dirasakan.',
-                'status' =>  'aktif',
+                'status' => 'aktif',
+                'nutrition' => [
+                    'kalori' => 200,
+                    'karbohidrat' => 25,
+                    'protein' => 10,
+                ],
             ],
             [
                 'category_id' => '1',
@@ -40,7 +45,12 @@ class DatabaseSeeder extends Seeder
                 'price' => '10000',
                 'image' => 'food2.png',
                 'description' => 'Ayam goreng tepung yang digeprek',
-                'status' =>  'aktif',
+                'status' => 'aktif',
+                'nutrition' => [
+                    'kalori' => 250,
+                    'karbohidrat' => 30,
+                    'protein' => 15,
+                ],
             ],
             [
                 'category_id' => '1',
@@ -49,7 +59,12 @@ class DatabaseSeeder extends Seeder
                 'price' => '10000',
                 'image' => 'food3.png',
                 'description' => 'Tahu Tek bumbu kacang plus telor',
-                'status' =>  'aktif',
+                'status' => 'aktif',
+                'nutrition' => [
+                    'kalori' => 150,
+                    'karbohidrat' => 20,
+                    'protein' => 8,
+                ],
             ],
             [
                 'category_id' => '1',
@@ -58,7 +73,12 @@ class DatabaseSeeder extends Seeder
                 'price' => '10000',
                 'image' => 'food4.png',
                 'description' => 'Nasi Pecel lauk telor tempe',
-                'status' =>  'aktif',
+                'status' => 'aktif',
+                'nutrition' => [
+                    'kalori' => 200,
+                    'karbohidrat' => 35,
+                    'protein' => 10,
+                ],
             ],
             [
                 'category_id' => '1',
@@ -67,7 +87,12 @@ class DatabaseSeeder extends Seeder
                 'price' => '8000',
                 'image' => 'food5.png',
                 'description' => 'Nasi Campur isi macem-macem',
-                'status' =>  'aktif',
+                'status' => 'aktif',
+                'nutrition' => [
+                    'kalori' => 300,
+                    'karbohidrat' => 40,
+                    'protein' => 12,
+                ],
             ],
             [
                 'category_id' => '1',
@@ -76,7 +101,12 @@ class DatabaseSeeder extends Seeder
                 'price' => '8000',
                 'image' => 'food6.png',
                 'description' => 'Nasi Rames biasa bonus kerupuk',
-                'status' =>  'aktif',
+                'status' => 'aktif',
+                'nutrition' => [
+                    'kalori' => 250,
+                    'karbohidrat' => 35,
+                    'protein' => 10,
+                ],
             ],
             [
                 'category_id' => '1',
@@ -85,7 +115,12 @@ class DatabaseSeeder extends Seeder
                 'price' => '8000',
                 'image' => 'food7.png',
                 'description' => 'Nasi Goreng original plus telor',
-                'status' =>  'aktif',
+                'status' => 'aktif',
+                'nutrition' => [
+                    'kalori' => 300,
+                    'karbohidrat' => 45,
+                    'protein' => 12,
+                ],
             ],
             [
                 'category_id' => '2',
@@ -94,7 +129,12 @@ class DatabaseSeeder extends Seeder
                 'price' => '4000',
                 'image' => 'drink1.jpg',
                 'description' => 'Es Teh manis kek kamu',
-                'status' =>  'aktif',
+                'status' => 'aktif',
+                'nutrition' => [
+                    'kalori' => 100,
+                    'lemak' => 0,
+                    'gula' => 25,
+                ],
             ],
             [
                 'category_id' => '2',
@@ -103,7 +143,12 @@ class DatabaseSeeder extends Seeder
                 'price' => '5000',
                 'image' => 'drink2.jpg',
                 'description' => 'Es Jeruk bisa manis bisa kecut tergantung hoki',
-                'status' =>  'aktif',
+                'status' => 'aktif',
+                'nutrition' => [
+                    'kalori' => 120,
+                    'lemak' => 0,
+                    'gula' => 30,
+                ],
             ]
         ];
 
@@ -111,14 +156,23 @@ class DatabaseSeeder extends Seeder
             $imagePath = storage_path('app/public/images/products/' . $product['image']);
 
             if (File::exists($imagePath)) {
-                Product::create([
+                $createdProduct = Product::create([
                     'category_id' => $product['category_id'],
                     'tenant_id' => $product['tenant_id'],
                     'name' => $product['name'],
                     'price' => $product['price'],
                     'image' => 'images/products/' . $product['image'],
                     'description' => $product['description'],
-                    'status' =>  $product['status'],
+                    'status' => $product['status'],
+                ]);
+
+                Nutrition::create([
+                    'product_id' => $createdProduct->id,
+                    'kalori' => $product['nutrition']['kalori'] ?? null,
+                    'lemak' => $product['nutrition']['lemak'] ?? null,
+                    'gula' => $product['nutrition']['gula'] ?? null,
+                    'karbohidrat' => $product['nutrition']['karbohidrat'] ?? null,
+                    'protein' => $product['nutrition']['protein'] ?? null,
                 ]);
             } else {
                 echo "File gambar tidak ditemukan: {$product['image']}\n";
