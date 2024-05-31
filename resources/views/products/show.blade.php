@@ -59,7 +59,7 @@
                             <h6 class="mb-3 text-15">Nutrisi Produk:</h6>
                             <table class="w-full table-auto">
                                 <thead>
-                                    <tr class="bg-orange-500 text-white">
+                                    <tr class="bg-red-500 text-white">
                                         @if ($category == 'Makanan')
                                             <th class="px-4 py-2">Kalori</th>
                                             <th class="px-4 py-2">Karbohidrat</th>

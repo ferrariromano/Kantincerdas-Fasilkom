@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Nutrition;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
@@ -76,11 +77,6 @@ class ProductController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'description' => 'required',
             'status' => 'required|in:Aktif,Tidak Aktif',
-            'kalori' => 'required|numeric',
-            'lemak' => 'required|numeric',
-            'gula' => 'required|numeric',
-            'karbohidrat' => 'required|numeric',
-            'protein' => 'required|numeric',
         ]);
 
         $imagePath = $request->file('image')->store('images', 'public');
@@ -107,7 +103,7 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Product created successfully.');
     }
 
-        public function show(Product $product)
+    public function show(Product $product)
     {
         $category = $product->category->name; // Ambil nama kategori
 
@@ -139,11 +135,6 @@ class ProductController extends Controller
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'description' => 'required',
             'status' => 'required|in:Aktif,Tidak Aktif',
-            'kalori' => 'required|numeric',
-            'lemak' => 'required|numeric',
-            'gula' => 'required|numeric',
-            'karbohidrat' => 'required|numeric',
-            'protein' => 'required|numeric',
         ]);
 
         $imagePath = $product->image;
