@@ -3,6 +3,7 @@
 @push('css')
     <link rel="stylesheet" href="{{ asset('css/menu.css') }}">
     <link rel="stylesheet" href="{{ asset('css/productModal.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/form.css') }}">
 @endpush
 
 @section('container')
@@ -51,6 +52,36 @@
             <p id="total-price">Total Harga: Rp 0</p>
         </div>
         <button class="checkOut">Check Out</button>
+
+        <form class="orderForm" action="/submitOrder" method="POST" style="display: none;">
+            @csrf
+            <div class="inputUser">
+                <div class="input-group">
+                    <input type="text" name="order-name" id="order-name" placeholder=" " />
+                    <span for="order-name">Nama Pemesan</span>
+                </div>
+                <div class="input-group">
+                    <input type="text" name="order-phone" id="order-phone" placeholder=" " />
+                    <span for="order-name">Nomor Handphone</span>
+                </div>
+            </div>
+            <div class="select-group">
+                <label for="order-payment">Metode Pembayaran</label>
+                <select class="form-select" name="order-payment" id="order-payment">
+                    <option value="tunai">Tunai</option>
+                    <option value="non-tunai">Non Tunai</option>
+                </select>
+            </div>
+            <div class="additional-group">
+                <label for="additional">Tambahan</label>
+                <textarea class="form-control" id="additional" name="additional" placeholder=" "></textarea>
+            </div>
+            <input type="hidden" name="order-items" id="order-items">
+            <div class="button-group">
+                <button type="button" class="backToCart">Back</button>
+                <button type="submit" class="confirmOrder" disabled>CheckOut</button>
+            </div>
+        </form>
     </div>
 
 @endsection

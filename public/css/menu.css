@@ -88,7 +88,7 @@ header{
     align-items: center;
 }
 .checkOut {
-  background-color: #E8BC0E;
+  background-color: var(--clr-terary-200);
   border: none;
   font-family: var(--ff-base);
   font-weight: 500;
@@ -260,7 +260,7 @@ header{
   }
 }
 
-@media (max-width: 468px) {
+@media (max-width: 423px) {
   .wrapper {
     margin-top: 9rem;
   }

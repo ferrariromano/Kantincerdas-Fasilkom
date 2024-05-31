@@ -1,0 +1,137 @@
+.orderForm {
+    padding: 0 2rem;
+}
+.inputUser {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin: 1rem 0;
+}
+.input-group {
+    position: relative;
+}
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 16px;
+    border: none;
+}
+.input-group span {
+    position: absolute;
+    top: 14px;
+    left: 10px;
+    font-size: 16px;
+    color: #555;
+    transition: 0.2s ease all;
+    pointer-events: none;
+}
+.input-group input:focus ~ span,
+.input-group input:not(:placeholder-shown) ~ span {
+    top: -15px;
+    left: 10px;
+    font-size: 12px;
+    color: hsl(0, 0%, 100%);
+    background-color: hsl(13, 87%, 58%);
+    padding: 3px 10px;
+    letter-spacing: 2px;
+}
+.input-group input:focus {
+    border: none;
+    outline-color: hsl(13, 87%, 58%);
+}
+
+.select-group {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 0;
+}
+.select-group select{
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    outline-color: hsl(13, 87%, 58%);
+}
+.form-select option {
+    padding: 100px 100px;
+    color: var(--clr-neutral-500);
+}
+.additional-group {
+    display: flex;
+    flex-direction: column;
+}
+.additional-group textarea{
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    height: 6rem;
+    border: none;
+    margin-bottom: 1.5rem;
+    outline-color: hsl(13, 87%, 58%);
+}
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+    padding: 10px;
+}
+.backToCart {
+    border-radius: 20px;
+    width: 5rem;
+    height: 3rem;
+}
+.confirmOrder {
+    border-radius: 50px;
+    width: 14rem;
+    height: 3rem;
+    background-color: var(--clr-terary-200);
+    font-weight: 500;
+    font-size: 1.5rem;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 480px) {
+    .orderForm {
+        padding: 0 0.5rem;
+    }
+    .inputUser {
+        gap: 20px;
+    }
+    .input-group input, .select-group select, .additional-group textarea {
+        padding: 12px;
+        font-size: 14px;
+    }
+    .input-group span {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 16px;
+        color: #555;
+        transition: 0.2s ease all;
+        pointer-events: none;
+    }
+    .additional-group textarea{
+        margin-bottom: .8rem;
+    }
+
+    .button-group {
+        gap: 0.8rem;
+    }
+    .backToCart {
+        border-radius: 15px;
+        width: 5rem;
+        height: 2.5rem;
+    }
+    .confirmOrder {
+        border-radius: 50px;
+        width: 10rem;
+        height: 2.5rem;
+        font-weight: 500;
+        font-size: 1rem;
+    }
+
+}

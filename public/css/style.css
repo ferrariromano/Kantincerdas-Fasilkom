@@ -4,6 +4,7 @@
     --clr-secondary-200: hsl(147, 62%, 43%);
     --clr-secondary-300: hsl(147, 62%, 35%);
     --clr-terary-100: hsl(43, 98%, 65%);
+    --clr-terary-200: hsl(48, 89%, 48%);
 
     --clr-neutral-900: hsl(212, 21%, 15%);
     --clr-neutral-500: hsl(212, 21%, 7%);
@@ -102,7 +103,7 @@ nav {
   justify-content: center;
   align-content: center;
   gap: 5rem;
-  padding: 1rem 0;
+  padding: 1rem 0.5rem;
   z-index: 3;
 }
 .navbar-links {
