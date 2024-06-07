@@ -20,6 +20,23 @@ const orderPayment = document.getElementById('order-payment');
 const orderItems = document.getElementById('order-items');
 const additional = document.getElementById('additional');
 
+
+// Create UID from local storage or cookie
+const createUID = () => {
+    return 'uid-' + Math.random().toString(36).substring(2, 18);
+}
+const getUID = () => {
+    let uid = localStorage.getItem('uid');
+    if (!uid) {
+        uid = createUID();
+        localStorage.setItem('uid', uid);
+        document.cookie = `uid=${uid}; path=/;`;
+    }
+    return uid;
+}
+const uid = getUID();
+
+
 // Open & Close cart tab
 iconCart.addEventListener('click', function () {
     toggleCart();
@@ -44,10 +61,12 @@ addCartButtons.forEach(button => {
         let productClassSelector = this.closest('.item') || this.closest('.modal-right');
         const productName = productClassSelector.querySelector('#product-name').innerText;
         const productPrice = parseInt(productClassSelector.querySelector('#product-price').innerText.replace('Rp', '').replace('.', ''));
+        const productTenant = productClassSelector.querySelector('#product-tenant').innerText;
         const product = {
             id: productId,
             name: productName,
-            price: productPrice
+            price: productPrice,
+            tenant: productTenant
         };
         addProductToCart(product);
     });
@@ -61,6 +80,7 @@ const addProductToCart = (product) => {
             product_id: product.id,
             name: product.name,
             price: product.price,
+            tenant_id: product.tenant,
             quantity: 1
         });
     } else {
@@ -108,6 +128,7 @@ const addCartToHTML = (cart) => {
     iconCartSpan.innerText = totalQuantity;
     totalItemElement.innerText = `Jumlah Item : ${totalQuantity}`;
     totalPriceElement.innerText = `Total Harga : Rp ${totalPrice.toLocaleString('id-ID')}`;
+    document.getElementById('orderTotalAmounts').value = totalPrice;
 }
 
 // Event listeners for plus and minus buttons
@@ -175,17 +196,20 @@ orderName.addEventListener('input', validateForm);
 orderPhone.addEventListener('input', validateForm);
 orderPayment.addEventListener('change', validateForm);
 
-// Prepare data and submit the form
-confirmOrderButton.addEventListener('click', () => {
-    if (confirmOrderButton.disabled) return;
-    orderItems.value = JSON.stringify(cart);
-    orderForm.submit();
-});
 
 // Update CheckOut button state
 const updateCheckOutButton = () => {
     checkOutButton.disabled = cart.length === 0;
 }
 
+// Prepare data and submit the form
+confirmOrderButton.addEventListener('click', () => {
+    if (confirmOrderButton.disabled) return;
+    orderItems.value = JSON.stringify(cart);
+    document.getElementById('uid').value = uid;
+    orderForm.submit();
+});
+
 // Load cart from local storage on page load
 loadCartFromLocalStorage();
+

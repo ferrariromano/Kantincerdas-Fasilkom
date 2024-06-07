@@ -30,6 +30,7 @@
                     </a>
                     <h2 id="product-name">{{ $product->name }}</h2>
                     <div class="price txt_orange" id="product-price">Rp{{ number_format($product->price, 0, ',', '.') }}</div>
+                    <span class="txt_orange" id="product-tenant" style="display: none;">{{ $product->tenant_id }}</span>
                     <button class="addCart" data-id="{{ $product->id }}">Add To Cart</button>
                 </div>
                 @include('partials.productModal', ['product' => $product])
@@ -53,7 +54,7 @@
         </div>
         <button class="checkOut">Check Out</button>
 
-        <form class="orderForm" action="/submitOrder" method="POST" style="display: none;">
+        <form class="orderForm" action="{{ route('submitOrder') }}" method="POST" style="display: none;">
             @csrf
             <div class="inputUser">
                 <div class="input-group">
@@ -76,7 +77,9 @@
                 <label for="additional">Tambahan</label>
                 <textarea class="form-control" id="additional" name="additional" placeholder=" "></textarea>
             </div>
+            <input type="hidden" name="uid" id="uid">
             <input type="hidden" name="order-items" id="order-items">
+            <input type="hidden" name="orderTotalAmounts" id="orderTotalAmounts">
             <div class="button-group">
                 <button type="button" class="backToCart">Back</button>
                 <button type="submit" class="confirmOrder" disabled>CheckOut</button>

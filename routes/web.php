@@ -1,10 +1,11 @@
 <?php
 
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OrderController;
+
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TenantAuthController;
-
-use App\Models\Product;
 
 
 Route::get('/', function () {
@@ -34,5 +35,6 @@ Route::middleware(['auth.tenant'])->group(function () {
     Route::delete('products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
 });
 
-
 Route::resource('products', ProductController::class);
+
+Route::post('/submitOrder', [OrderController::class, 'submitOrder'])->name('submitOrder');

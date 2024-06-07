@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id');
-            $table->foreignId('tenant_id');
+            $table->foreignId('category_id')->constrained();
+            $table->unsignedBigInteger('tenant_id');
+            $table->foreign('tenant_id')->references('id_tenant')->on('tenants');
             $table->string('name');
             $table->decimal('price', 8, 2);
-            $table->string('image');
-            $table->text('description');
-            $table->enum('status' ,['Aktif', 'Tidak Aktif'])->default('Aktif');
+            $table->string('image')->nullable();
+            $table->text('description')->nullable();
+            $table->enum('status', ['Aktif', 'Tidak Aktif'])->default('Aktif');
             $table->timestamps();
         });
     }

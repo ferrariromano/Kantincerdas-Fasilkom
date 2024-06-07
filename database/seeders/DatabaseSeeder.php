@@ -2,11 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Models\Tenant;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Nutrition;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,6 +17,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call(TenantSeeder::class);
+
         Category::create([
             'name' => 'Makanan',
         ]);
@@ -179,6 +183,5 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        $this->call(TenantSeeder::class);
     }
 }
