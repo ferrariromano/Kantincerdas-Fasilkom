@@ -186,8 +186,10 @@ backToCartButton.addEventListener('click', () => {
 // Validate form and enable/disable CheckOut button
 const validateForm = () => {
     if (orderName.value.trim() !== '' && orderPhone.value.trim() !== '' && orderPayment.value.trim() !== '') {
+        confirmOrderButton.classList.remove('disabled');
         confirmOrderButton.disabled = false;
     } else {
+        confirmOrderButton.classList.add('disabled');
         confirmOrderButton.disabled = true;
     }
 }
@@ -200,14 +202,18 @@ orderPayment.addEventListener('change', validateForm);
 // Update CheckOut button state
 const updateCheckOutButton = () => {
     checkOutButton.disabled = cart.length === 0;
+    if (cart.length > 0) {
+        checkOutButton.classList.remove('disabled');
+    } else {
+        checkOutButton.classList.add('disabled');
+    }
 }
 
-// Prepare data and submit the form
+// Prepare data and show the confirmation modal
 confirmOrderButton.addEventListener('click', () => {
     if (confirmOrderButton.disabled) return;
-    orderItems.value = JSON.stringify(cart);
-    document.getElementById('uid').value = uid;
-    orderForm.submit();
+    // Menampilkan confirm-modal
+    document.getElementById('confirmModal').style.display = 'block';
 });
 
 // Load cart from local storage on page load

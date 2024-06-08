@@ -99,6 +99,10 @@ header{
   margin: auto;
   margin-bottom: 12px;
 }
+.checkOut:hover, .confirmOrder:hover{
+  cursor: pointer;
+  background-color: var(--clr-terary-100)
+}
 .cartInfo {
   display: flex;
   justify-content: space-between;
@@ -120,6 +124,24 @@ header{
 }
 .cartTab.activeTabCart {
   right: 0;
+}
+
+.backToCart {
+  background-color: #ddeaf8;
+}
+.backToCart:hover {
+  background-color: #b3b8be;
+}
+
+.checkOut:disabled,
+.confirmOrder:disabled {
+    cursor: not-allowed;
+    background-color: var(--clr-terary-200);
+}
+
+.checkOut:disabled:hover,
+.confirmOrder:disabled:hover {
+    background-color: var(--clr-terary-200);
 }
 
 
@@ -260,7 +282,7 @@ header{
   }
 }
 
-@media (max-width: 423px) {
+@media (max-width: 485px) {
   .wrapper {
     margin-top: 9rem;
   }

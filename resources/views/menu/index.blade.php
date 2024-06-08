@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="{{ asset('css/menu.css') }}">
     <link rel="stylesheet" href="{{ asset('css/productModal.css') }}">
     <link rel="stylesheet" href="{{ asset('css/form.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/confirmModal.css') }}">
 @endpush
 
 @section('container')
@@ -52,7 +53,7 @@
             <p id="total-items">Jumlah item: 0</p>
             <p id="total-price">Total Harga: Rp 0</p>
         </div>
-        <button class="checkOut">Check Out</button>
+        <button class="checkOut disabled">Check Out</button>
 
         <form class="orderForm" action="{{ route('submitOrder') }}" method="POST" style="display: none;">
             @csrf
@@ -75,21 +76,51 @@
             </div>
             <div class="additional-group">
                 <label for="additional">Tambahan</label>
-                <textarea class="form-control" id="additional" name="additional" placeholder=" "></textarea>
+                <textarea class="form-control" id="additional" name="additional" placeholder="catatan tambahan untuk pesanan"></textarea>
             </div>
             <input type="hidden" name="uid" id="uid">
             <input type="hidden" name="order-items" id="order-items">
             <input type="hidden" name="orderTotalAmounts" id="orderTotalAmounts">
             <div class="button-group">
                 <button type="button" class="backToCart">Back</button>
-                <button type="submit" class="confirmOrder" disabled>CheckOut</button>
+                <button type="button" class="confirmOrder disabled" disabled>Check Out</button>
             </div>
         </form>
     </div>
+
+    <!-- Modal Overlay -->
+    <div class="confirm-modal-overlay" id="confirmModalOverlay" style="display: none;"></div>
+    <!-- Confirmation Modal -->
+    <div class="confirm-modal" id="confirmModal" style="display: none;">
+        <div class="confirm-modal-content">
+            <h2>Konfirmasi Pesanan</h2>
+            <p>Nama Pemesan <span class="txt-bld-orange" id="confirm-name"></span></p>
+            <p>Nomor Handphone <span class="txt-bld-orange" id="confirm-phone""></span></p>
+            <p>Metode Pembayaran <span class="txt-bld-orange" id="confirm-payment"></span></p>
+            <p class="additional-notes-toggle">
+                Catatan tambahan:
+                <span class="toggle-icon">
+                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ee4111   " viewBox="0 0 24 24">
+                        <path fill-rule="evenodd" d="M3 4a1 1 0 0 0-.822 1.57L6.632 12l-4.454 6.43A1 1 0 0 0 3 20h13.153a1 1 0 0 0 .822-.43l4.847-7a1 1 0 0 0 0-1.14l-4.847-7a1 1 0 0 0-.822-.43H3Z" clip-rule="evenodd"/>
+                    </svg>
+                </span>
+            </p>
+            <div class="additional-notes" id="confirm-additional"></div>
+            <p><span class="txt-bld-orange" id="confirm-total-items"></span> Item</p>
+            <p>Total Harga <span class="txt-bld-orange" id="confirm-total-price"></span></p>
+            <p>Apakah yakin dengan semua pilihan pemesanan tersebut?</p>
+            <button class="cancelOrder">Batal</button>
+            <button class="confirmOrderFinal">Ok</button>
+        </div>
+    </div>
+
+
+
 
 @endsection
 
 @push('js')
     <script src="{{ asset('js/cart.js') }}"></script>
-    <script src="{{ asset('js/modal.js') }}"></script>
+    <script src="{{ asset('js/productModal.js') }}"></script>
+    <script src="{{ asset('js/confirmModal.js') }}"></script>
 @endpush
