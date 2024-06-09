@@ -1,36 +1,42 @@
-// confirmModal.js
-document.addEventListener('DOMContentLoaded', () => {
-    const confirmOrderButton = document.querySelector('.confirmOrder');
-    const confirmModal = document.getElementById('confirmModal');
-    const confirmName = document.getElementById('confirm-name');
-    const confirmPhone = document.getElementById('confirm-phone');
-    const confirmPayment = document.getElementById('confirm-payment');
-    const confirmAdditional = document.getElementById('confirm-additional');
-    const confirmTotalItems = document.getElementById('confirm-total-items');
-    const confirmTotalPrice = document.getElementById('confirm-total-price');
-    const orderForm = document.querySelector('.orderForm');
-    const orderName = document.getElementById('order-name');
-    const orderPhone = document.getElementById('order-phone');
-    const orderPayment = document.getElementById('order-payment');
-    const additional = document.getElementById('additional');
-    const totalItemElement = document.getElementById('total-items');
-    const totalPriceElement = document.getElementById('total-price');
+// When the user clicks on an item, open the corresponding modal and reset to view 1
+document.querySelectorAll('.imagesProduct').forEach(item => {
+    item.addEventListener('click', function() {
+        var modalId = this.getAttribute('data-target');
+        var modal = document.getElementById(modalId);
+        modal.style.display = "block";
 
-    confirmOrderButton.addEventListener('click', () => {
-        confirmName.textContent = orderName.value;
-        confirmPhone.textContent = orderPhone.value;
-        confirmPayment.textContent = orderPayment.options[orderPayment.selectedIndex].text;
-        confirmAdditional.textContent = additional.value;
-        confirmTotalItems.textContent = totalItemElement.textContent.split(': ')[1];
-        confirmTotalPrice.textContent = totalPriceElement.textContent.split(': ')[1];
-        confirmModal.style.display = 'block';
+        // Reset to view 1
+        var modalContent = modal.querySelector('.modal-content');
+        modalContent.querySelectorAll('.modal-body').forEach(view => {
+            view.style.display = 'none';
+        });
+        modalContent.querySelector('.view-1').style.display = 'flex';
     });
+});
 
-    document.querySelector('.cancelOrder').addEventListener('click', () => {
-        confirmModal.style.display = 'none';
-    });
+// When the user clicks on <span> (x), close the modal
+document.querySelectorAll('.close').forEach(closeBtn => {
+    closeBtn.onclick = function() {
+        var modal = this.closest('.modal');
+        modal.style.display = "none";
+    };
+});
 
-    document.querySelector('.confirmOrderFinal').addEventListener('click', () => {
-        orderForm.submit();
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target.classList.contains('modal')) {
+        event.target.style.display = "none";
+    }
+}
+
+// Switch between views
+document.querySelectorAll('.switchView').forEach(button => {
+    button.addEventListener('click', function() {
+        var targetView = this.getAttribute('data-target');
+        var currentModal = this.closest('.modal-content');
+        currentModal.querySelectorAll('.modal-body').forEach(view => {
+            view.style.display = 'none';
+        });
+        currentModal.querySelector('.' + targetView).style.display = 'flex';
     });
 });

@@ -94,9 +94,20 @@
     <div class="confirm-modal" id="confirmModal" style="display: none;">
         <div class="confirm-modal-content">
             <h2>Konfirmasi Pesanan</h2>
-            <p>Nama Pemesan <span class="txt-bld-orange" id="confirm-name"></span></p>
-            <p>Nomor Handphone <span class="txt-bld-orange" id="confirm-phone""></span></p>
-            <p>Metode Pembayaran <span class="txt-bld-orange" id="confirm-payment"></span></p>
+            <div class="confirmModalInfo">
+                <div class="infoGroup">
+                    <p class="pInfoGroup">Nama Pemesan</p>
+                    <span class="txt-bld-orange" id="confirm-name"></span>
+                </div>
+                <div class="infoGroup">
+                    <p class="pInfoGroup">Nomor Handphone</p>
+                    <span class="txt-bld-orange" id="confirm-phone"></span>
+                </div>
+                <div class="infoGroup">
+                    <p class="pInfoGroup">Metode Pembayaran</p>
+                    <span class="txt-bld-orange" id="confirm-payment"></span>
+                </div>
+            </div>
             <p class="additional-notes-toggle">
                 Catatan tambahan:
                 <span class="toggle-icon">
@@ -106,16 +117,20 @@
                 </span>
             </p>
             <div class="additional-notes" id="confirm-additional"></div>
-            <p><span class="txt-bld-orange" id="confirm-total-items"></span> Item</p>
-            <p>Total Harga <span class="txt-bld-orange" id="confirm-total-price"></span></p>
-            <p>Apakah yakin dengan semua pilihan pemesanan tersebut?</p>
-            <button class="cancelOrder">Batal</button>
-            <button class="confirmOrderFinal">Ok</button>
+            <div class="confirmModalHighlight">
+                <p><span class="txt-bld-orange" id="confirm-total-items"></span> Item</p>
+                <div class="highlightPrice">
+                    <p>Total Harga</p>
+                    <span class="txt-bld-orange" id="confirm-total-price"></span>
+                </div>
+            </div>
+            <p class="question">Apakah yakin dengan semua pilihan pemesanan tersebut?</p>
+            <div class="btnGroup">
+                <button class="cancelOrder">Batal</button>
+                <button class="confirmOrderFinal">Ok</button>
+            </div>
         </div>
     </div>
-
-
-
 
 @endsection
 

@@ -8,7 +8,7 @@
             <a class="{{ ($active === "menu") ? 'active' : '' }}" href="/menu">Menu</a>
         </li>
         <li>
-            <a href="#">Cek Pesanan</a>
+            <a class="{{ ($active === "cekPesanan") ? 'active' : '' }}" href="/cekPesanan">Cek Pesanan</a>
         </li>
     </ul>
 </nav>

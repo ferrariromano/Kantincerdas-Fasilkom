@@ -68,8 +68,17 @@
             <div class="attachment">
                 <p class="attachment__text">Nikmati <span class="atctex_black">20+ variasi makanan</span> dari</p>
                 <p class="attachment__text"><span class="atctex_yellow">Outlet</span> Smart Canteen Fasilkom</p>
-                <button class="button attachment__btn">Pesan Sekarang <img class="arrow" src="{{ asset('images/icon/arrow_icon.png') }}" alt="arrow_icon"></button>
+                <button class="button attachment__btn" >Pesan Sekarang <img class="arrow" src="{{ asset('images/icon/arrow_icon.png') }}" alt="arrow_icon"></button>
             </div>
         </main>
     </div>
+
+    <script>
+        document.querySelector(".btn_order").addEventListener("click", function() {
+            window.location.href = "/menu";
+        });
+        document.querySelector(".attachment__btn").addEventListener("click", function() {
+            window.location.href = "/menu";
+        });
+    </script>
 @endsection

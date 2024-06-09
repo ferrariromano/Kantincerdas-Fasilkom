@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrderController;
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CekPesananController;
 use App\Http\Controllers\TenantAuthController;
 
 
@@ -22,7 +23,6 @@ Route::middleware(['auth.tenant'])->group(function () {
     Route::get('/dashboard/{dashboard}', [TenantAuthController::class, 'dashboard'])->name('dashboard')->middleware('auth.tenant');
 });
 
-
 Route::get('menu', [ProductController::class, 'listActiveProducts'])->name('menu.index');
 
 // CRUD routes for products
@@ -38,3 +38,5 @@ Route::middleware(['auth.tenant'])->group(function () {
 Route::resource('products', ProductController::class);
 
 Route::post('/submitOrder', [OrderController::class, 'submitOrder'])->name('submitOrder');
+
+Route::get('cekPesanan', [CekPesananController::class, 'listActiveProducts'])->name('cekPesanan.index');

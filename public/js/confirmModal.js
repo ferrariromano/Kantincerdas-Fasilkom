@@ -1,6 +1,7 @@
 // confirmModal.js
 document.addEventListener('DOMContentLoaded', () => {
     const confirmModalOverlay = document.getElementById('confirmModalOverlay');
+    const pInfoGroup = document.querySelectorAll('.pInfoGroup');
     const confirmModal = document.getElementById('confirmModal');
     const confirmName = document.getElementById('confirm-name');
     const confirmPhone = document.getElementById('confirm-phone');
@@ -40,6 +41,16 @@ document.addEventListener('DOMContentLoaded', () => {
         confirmModalOverlay.style.display = 'none';
     });
 
+    // Buka tutup Catatan Tambahan
+    additionalNotesToggle.addEventListener('click', () => {
+        additionalNotesSection.classList.toggle('open');
+        toggleIcon.classList.toggle('open');
+
+        pInfoGroup.forEach(pInfoGroup => {
+            pInfoGroup.classList.toggle('open');
+        });
+    });
+
     // Event untuk Submit data jika klik Ok
     confirmOrderFinalButton.addEventListener('click', () => {
         orderItems.value = JSON.stringify(cart);
@@ -47,9 +58,10 @@ document.addEventListener('DOMContentLoaded', () => {
         orderForm.submit();
     });
 
-    // Buka tutup Catatan Tambahan
-    additionalNotesToggle.addEventListener('click', () => {
-        additionalNotesSection.classList.toggle('open');
-        toggleIcon.classList.toggle('open');
+    // Clear the cart
+    localStorage.removeItem('cart');
+       cart = [];
+       iconCartSpan.innerText = 0;
+       addCartToHTML(cart);
+       updateCheckOutButton();
     });
-});

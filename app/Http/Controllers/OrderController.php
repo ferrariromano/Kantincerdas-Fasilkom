@@ -48,7 +48,7 @@ class OrderController extends Controller
             $orderItem->save();
         }
 
-        // Redirect or return response
-        return redirect('/menu')->with('success', 'Order placed successfully!');
+        // Flash success message
+        return redirect('/cekPesanan')->with('success', 'Order placed successfully!');
     }
 }
