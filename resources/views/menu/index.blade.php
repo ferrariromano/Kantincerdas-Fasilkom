@@ -31,7 +31,7 @@
                     </a>
                     <h2 id="product-name">{{ $product->name }}</h2>
                     <div class="price txt_orange" id="product-price">Rp{{ number_format($product->price, 0, ',', '.') }}</div>
-                    <span class="txt_orange" id="product-tenant" style="display: none;">{{ $product->tenant_id }}</span>
+                    <span id="product-tenant" style="display: none;">{{ $product->tenant_id }}</span>
                     <button class="addCart" data-id="{{ $product->id }}">Add To Cart</button>
                 </div>
                 @include('partials.productModal', ['product' => $product])
@@ -109,13 +109,15 @@
                 </div>
             </div>
             <p class="additional-notes-toggle">
-                Catatan tambahan:
+                Detail Pesanan:
                 <span class="toggle-icon">
                     <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ee4111   " viewBox="0 0 24 24">
                         <path fill-rule="evenodd" d="M3 4a1 1 0 0 0-.822 1.57L6.632 12l-4.454 6.43A1 1 0 0 0 3 20h13.153a1 1 0 0 0 .822-.43l4.847-7a1 1 0 0 0 0-1.14l-4.847-7a1 1 0 0 0-.822-.43H3Z" clip-rule="evenodd"/>
                     </svg>
                 </span>
             </p>
+            <div class="listConfirmationItem"></div>
+            <p class="notesTitle">Catatan Tambahan:</p>
             <div class="additional-notes" id="confirm-additional"></div>
             <div class="confirmModalHighlight">
                 <p><span class="txt-bld-orange" id="confirm-total-items"></span> Item</p>

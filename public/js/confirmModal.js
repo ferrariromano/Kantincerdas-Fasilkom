@@ -1,11 +1,13 @@
 // confirmModal.js
 document.addEventListener('DOMContentLoaded', () => {
     const confirmModalOverlay = document.getElementById('confirmModalOverlay');
-    const pInfoGroup = document.querySelectorAll('.pInfoGroup');
     const confirmModal = document.getElementById('confirmModal');
+    const confirmModalInfo = document.querySelector('.confirmModalInfo');
     const confirmName = document.getElementById('confirm-name');
     const confirmPhone = document.getElementById('confirm-phone');
     const confirmPayment = document.getElementById('confirm-payment');
+    const confirmItem = document.querySelector('.listConfirmationItem');
+    const notesTitle = document.querySelector('.notesTitle');
     const confirmTotalItems = document.getElementById('confirm-total-items');
     const confirmTotalPrice = document.getElementById('confirm-total-price');
 
@@ -31,6 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
         additionalNotesSection.textContent = additional.value;
         confirmTotalItems.textContent = totalItemElement.textContent.split(': ')[1];
         confirmTotalPrice.textContent = totalPriceElement.textContent.split(': ')[1];
+
+        updateConfirmationItems();
+
         confirmModal.style.display = 'block';
         confirmModalOverlay.style.display = 'block';
     });
@@ -45,10 +50,9 @@ document.addEventListener('DOMContentLoaded', () => {
     additionalNotesToggle.addEventListener('click', () => {
         additionalNotesSection.classList.toggle('open');
         toggleIcon.classList.toggle('open');
-
-        pInfoGroup.forEach(pInfoGroup => {
-            pInfoGroup.classList.toggle('open');
-        });
+        confirmModalInfo.classList.toggle('open');
+        confirmItem.classList.toggle('open');
+        notesTitle.classList.toggle('open');
     });
 
     // Event untuk Submit data jika klik Ok
@@ -59,9 +63,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Clear the cart
-    localStorage.removeItem('cart');
-       cart = [];
-       iconCartSpan.innerText = 0;
-       addCartToHTML(cart);
-       updateCheckOutButton();
-    });
+    // localStorage.removeItem('cart');
+    //    cart = [];
+    //    iconCartSpan.innerText = 0;
+    //    addCartToHTML(cart);
+    //    updateCheckOutButton();
+
+});

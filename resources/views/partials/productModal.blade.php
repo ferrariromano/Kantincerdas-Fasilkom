@@ -13,6 +13,7 @@
                 <h2 id="product-name">{{ $product->name }}</h2>
                 <div class="price" id="product-price">Rp{{ number_format($product->price, 0, ',', '.') }}</div>
                 <p><span class="txt_orange">Outlet : </span>{{ $nama_tenant[$product->tenant_id] ?? 'Unknown Outlet' }}</p>
+                <span id="product-tenant" style="display: none;">{{ $product->tenant_id }}</span>
                 <div class="modalButton">
                     <button class="switchView" data-target="view-2">More Info</button>
                     <button class="addCart" data-id="{{ $product->id }}">Add To Cart</button>

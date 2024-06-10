@@ -89,6 +89,7 @@ const addProductToCart = (product) => {
     localStorage.setItem('cart', JSON.stringify(cart));
     addCartToHTML(cart);
     updateCheckOutButton();
+    updateConfirmationItems();
 }
 
 // Load cart from local storage
@@ -96,6 +97,7 @@ const loadCartFromLocalStorage = () => {
     cart = JSON.parse(localStorage.getItem('cart')) || [];
     addCartToHTML(cart);
     updateCheckOutButton();
+    updateConfirmationItems();
 }
 
 // Update view cart
@@ -156,6 +158,7 @@ const updateQuantity = (productId, delta) => {
         localStorage.setItem('cart', JSON.stringify(cart));
         addCartToHTML(cart);
         updateCheckOutButton();
+        updateConfirmationItems();
     }
 }
 
@@ -165,6 +168,7 @@ const removeItemFromCart = (productId) => {
     localStorage.setItem('cart', JSON.stringify(cart));
     addCartToHTML(cart);
     updateCheckOutButton();
+    updateConfirmationItems();
 }
 
 // CheckOut button functionality
@@ -207,6 +211,24 @@ const updateCheckOutButton = () => {
     } else {
         checkOutButton.classList.add('disabled');
     }
+}
+
+// Fungsi untuk memperbarui daftar item di listConfirmationItem
+const updateConfirmationItems = () => {
+    const listConfirmationItem = document.querySelector('.listConfirmationItem');
+    listConfirmationItem.innerHTML = '';
+
+    cart.forEach(item => {
+        let newItem = document.createElement('div');
+        newItem.classList.add('confirmation-item');
+        newItem.dataset.id = item.product_id;
+        newItem.innerHTML = `
+            <div class="quantity">${item.quantity}</div>
+            <div class="name">${item.name}</div>
+            <div class="totalPrice">Rp ${(item.price * item.quantity).toLocaleString('id-ID')}</div>
+        `;
+        listConfirmationItem.appendChild(newItem);
+    });
 }
 
 // Prepare data and show the confirmation modal

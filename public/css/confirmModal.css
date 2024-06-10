@@ -41,6 +41,9 @@
 .confirmModalInfo {
   margin: 1rem 1rem;
 }
+.confirmModalInfo.open{
+  display: none;
+}
 .infoGroup {
   display: flex;
   flex-direction: column;
@@ -52,8 +55,21 @@
 .confirm-modal-content span {
   font-size: 1.3rem;
 }
-.pInfoGroup.open{
-  display: none;
+
+/* ====== Confirm Item ===== */
+.listConfirmationItem {
+display: none;
+}
+.listConfirmationItem.open {
+    display: block;
+    }
+
+.confirmation-item {
+    display: grid;
+    grid-template-columns: .5fr 3fr 2fr;
+}
+.confirmation-item .quantity {
+   text-align: center;
 }
 
 /* === Additional === */
@@ -73,15 +89,26 @@
 .confirm-modal-content .toggle-icon.open {
     transform: rotate(90deg);
 }
+.notesTitle {
+    display: none;
+    color: var(--clr-neutral-500);
+    font-weight: var(--fw-bold);
+    margin-top: .6rem;
+}
+.notesTitle.open {
+    display: block;
+}
 .confirm-modal-content .additional-notes {
     display: none;
     text-align: justify;
-    margin: 10px 0;
+    margin-bottom: 10px;
     color: var(--clr-neutral-500);
 }
 .confirm-modal-content .additional-notes.open {
     display: block;
 }
+
+
 
 /*  ====== Modal Highlight ======  */
 .confirmModalHighlight {
