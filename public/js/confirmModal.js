@@ -25,6 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const additionalNotesSection = document.querySelector('.additional-notes');
     const toggleIcon = document.querySelector('.toggle-icon');
 
+    const orderItems = document.getElementById('order-items');
+    const uid = document.getElementById('uid');
+
     // Tampilkan modal dan isi dengan value yang diambil dari form
     confirmOrderButton.addEventListener('click', () => {
         confirmName.textContent = orderName.value;
@@ -57,16 +60,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Event untuk Submit data jika klik Ok
     confirmOrderFinalButton.addEventListener('click', () => {
+        // Set the hidden fields
         orderItems.value = JSON.stringify(cart);
-        document.getElementById('uid').value = uid;
-        orderForm.submit();
+        uid.value = getUID();
+
+        // Create a FormData object
+        const formData = new FormData(orderForm);
+
+        // Send AJAX request
+        fetch(orderForm.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            } 
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Clear the cart
+                localStorage.removeItem('cart');
+                cart = [];
+                addCartToHTML(cart);
+                updateCheckOutButton();
+
+                alert(data.message);
+                // Redirect to Page Cek Pesanan
+                window.location.href = "/cekPesanan";
+            }
+        })
+        .catch(error => console.error('Error:', error));
     });
 
-    // Clear the cart
-    // localStorage.removeItem('cart');
-    //    cart = [];
-    //    iconCartSpan.innerText = 0;
-    //    addCartToHTML(cart);
-    //    updateCheckOutButton();
+
 
 });

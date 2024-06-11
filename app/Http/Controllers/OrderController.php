@@ -48,7 +48,10 @@ class OrderController extends Controller
             $orderItem->save();
         }
 
-        // Flash success message
-        return redirect('/cekPesanan')->with('success', 'Order placed successfully!');
+        // Return JSON response
+        return response()->json([
+            'success' => true,
+            'message' => 'Order Berhasil. Silahkan segera lakukan pembayaran'
+        ]);
     }
 }

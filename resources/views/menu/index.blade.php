@@ -32,7 +32,7 @@
                     <h2 id="product-name">{{ $product->name }}</h2>
                     <div class="price txt_orange" id="product-price">Rp{{ number_format($product->price, 0, ',', '.') }}</div>
                     <span id="product-tenant" style="display: none;">{{ $product->tenant_id }}</span>
-                    <button class="addCart" data-id="{{ $product->id }}">Add To Cart</button>
+                    <button class="addCart" data-id="{{ $product->id }}">+Keranjang</button>
                 </div>
                 @include('partials.productModal', ['product' => $product])
             @endforeach
