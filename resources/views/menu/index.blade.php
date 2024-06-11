@@ -53,7 +53,7 @@
             <p id="total-items">Jumlah item: 0</p>
             <p id="total-price">Total Harga: Rp 0</p>
         </div>
-        <button class="checkOut disabled">Check Out</button>
+        <button class="checkOut disabled">Lanjut Pesan</button>
 
         <form class="orderForm" action="{{ route('submitOrder') }}" method="POST" style="display: none;">
             @csrf
@@ -82,7 +82,7 @@
             <input type="hidden" name="order-items" id="order-items">
             <input type="hidden" name="orderTotalAmounts" id="orderTotalAmounts">
             <div class="button-group">
-                <button type="button" class="backToCart">Back</button>
+                <button type="button" class="backToCart">Kembali</button>
                 <button type="button" class="confirmOrder disabled" disabled>Check Out</button>
             </div>
         </form>
@@ -93,7 +93,7 @@
     <!-- Confirmation Modal -->
     <div class="confirm-modal" id="confirmModal" style="display: none;">
         <div class="confirm-modal-content">
-            <h2>Konfirmasi Pesanan</h2>
+            <h2 class="confirm-modal-title">Konfirmasi Pesanan</h2>
             <div class="confirmModalInfo">
                 <div class="infoGroup">
                     <p class="pInfoGroup">Nama Pemesan</p>
@@ -116,14 +116,16 @@
                     </svg>
                 </span>
             </p>
-            <div class="listConfirmationItem"></div>
-            <p class="notesTitle">Catatan Tambahan:</p>
-            <div class="additional-notes" id="confirm-additional"></div>
+            <div class="contentItem">
+                <div class="listConfirmationItem"></div>
+                <p class="notesTitle">Catatan Tambahan :</p>
+                <div class="additional-notes" id="confirm-additional"></div>
+            </div>
             <div class="confirmModalHighlight">
-                <p><span class="txt-bld-orange" id="confirm-total-items"></span> Item</p>
+                <p class="hlItem"><span class="txt-bld-orange hlItem" id="confirm-total-items"></span> Item</p>
                 <div class="highlightPrice">
-                    <p>Total Harga</p>
-                    <span class="txt-bld-orange" id="confirm-total-price"></span>
+                    <p class="hlItem">Total Harga </p>
+                    <span class="txt-bld-orange hlItem" id="confirm-total-price"></span>
                 </div>
             </div>
             <p class="question">Apakah yakin dengan semua pilihan pemesanan tersebut?</p>

@@ -24,10 +24,11 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 80%;
     max-width: 400px;
+    overflow-y: auto;
     z-index: 100;
     display: none;
 }
-.confirm-modal-content h2 {
+.confirm-modal-title {
     padding: .8rem 0.5rem;
     text-align: center;
     font-size: 1.5em;
@@ -36,7 +37,14 @@
     background-color: var(--clr-primary-500);
     border-radius: 1rem;
 }
-
+.confirm-modal-title.open {
+    padding: 0;
+    font-size: 1.5em;
+    text-align: start;
+    margin-bottom: 5px;
+    color: var(--clr-primary-500);
+    background-color: var(--clr-neutral-100);
+}
 /* === Confirm Modal Info === */
 .confirmModalInfo {
   margin: 1rem 1rem;
@@ -57,12 +65,16 @@
 }
 
 /* ====== Confirm Item ===== */
+.contentItem {
+  max-height: 390px;
+  overflow-y: auto;
+}
 .listConfirmationItem {
-display: none;
+    display: none;
 }
 .listConfirmationItem.open {
     display: block;
-    }
+}
 
 .confirmation-item {
     display: grid;
@@ -70,6 +82,25 @@ display: none;
 }
 .confirmation-item .quantity {
    text-align: center;
+}
+.confirm-modal-content .tenant span {
+    font-size: 1rem;
+    font-weight: 600;
+}
+.subtotal {
+    display: grid;
+    grid-template-columns: 1.5fr 3fr;
+    justify-items: center;
+    background-color: var(--clr-primary-500);
+}
+.subtotal span {
+    font-size: 1rem;
+    color: #fff;
+}
+.subtotal p {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #fff;
 }
 
 /* === Additional === */
@@ -103,6 +134,7 @@ display: none;
     text-align: justify;
     margin-bottom: 10px;
     color: var(--clr-neutral-500);
+    font-size: .8rem;
 }
 .confirm-modal-content .additional-notes.open {
     display: block;
@@ -122,12 +154,26 @@ display: none;
   align-items: center;
   justify-items: center;
 }
+.confirmModalHighlight.open {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  padding: 0.2rem 0rem;
+  margin: .5rem 0rem;
+  align-items: center;
+  justify-items: center;
+}
+.highlightPrice.open {
+  flex-direction: row;
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+}
+
 .confirmModalHighlight p {
   color: var(--clr-neutral-500);
   font-weight: var(--fw-bold);
   font-size: 1rem;
 }
-
 .question {
   color: var(--clr-neutral-500);
   font-weight: var(--fw-bold);
@@ -177,6 +223,15 @@ display: none;
 @media (max-width: 468px) {
     .confirm-modal {
         width: 90%;
+    }
+    .highlightPrice.open {
+      flex-direction: row;
+      display: flex;
+      gap: .1rem;
+      align-items: center;
+    }
+    .hlItem.open {
+      font-size: 1rem;
     }
 }
 @media only screen and (max-width: 375px) {

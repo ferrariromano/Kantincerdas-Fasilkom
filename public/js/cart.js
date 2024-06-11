@@ -217,19 +217,64 @@ const updateCheckOutButton = () => {
 const updateConfirmationItems = () => {
     const listConfirmationItem = document.querySelector('.listConfirmationItem');
     listConfirmationItem.innerHTML = '';
+    let tenants = {};
+    const tenantNames = {
+        1: "Left Canteen",
+        2: "Right Canteen"
+    };
 
+    // Group items by tenant
     cart.forEach(item => {
-        let newItem = document.createElement('div');
-        newItem.classList.add('confirmation-item');
-        newItem.dataset.id = item.product_id;
-        newItem.innerHTML = `
-            <div class="quantity">${item.quantity}</div>
-            <div class="name">${item.name}</div>
-            <div class="totalPrice">Rp ${(item.price * item.quantity).toLocaleString('id-ID')}</div>
-        `;
-        listConfirmationItem.appendChild(newItem);
+        const tenantName = tenantNames[item.tenant_id] || `Tenant ${item.tenant_id}`;
+        if (!tenants[item.tenant_id]) {
+            tenants[item.tenant_id] = {
+                tenant_name: tenantName,
+                items: [],
+                subtotal: 0,
+                totalQuantity: 0
+            };
+        }
+        tenants[item.tenant_id].items.push(item);
+        tenants[item.tenant_id].subtotal += item.price * item.quantity;
+        tenants[item.tenant_id].totalQuantity += item.quantity;
     });
-}
+
+    // Recalculate tenant count after grouping items
+    const updatedTenantCount = Object.keys(tenants).length;
+
+    // Render items grouped by tenant
+    Object.values(tenants).forEach(tenant => {
+        let tenantItemsHTML = `
+            <div class="tenant">
+                <p>Outlet : <span>${tenant.tenant_name}</span></p>
+                <div class="items">`;
+
+        tenant.items.forEach(item => {
+            tenantItemsHTML += `
+                <div class="confirmation-item">
+                    <div class="quantity">${item.quantity}x</div>
+                    <div class="name">${item.name}</div>
+                    <div class="totalPrice">Rp ${(item.price * item.quantity).toLocaleString('id-ID')}</div>
+                </div>`;
+        });
+
+        if (updatedTenantCount > 1) {
+            tenantItemsHTML += `
+                    </div>
+                    <div class="subtotal">
+                        <p>${tenant.totalQuantity} item</p>
+                        <p>Subtotal : Rp <span>${tenant.subtotal.toLocaleString('id-ID')}</span></p>
+                    </div>
+                </div>`;
+        } else {
+            tenantItemsHTML += `</div>`; // Close tenantSection div without subtotal
+        }
+
+        listConfirmationItem.innerHTML += tenantItemsHTML;
+    });
+};
+
+
 
 // Prepare data and show the confirmation modal
 confirmOrderButton.addEventListener('click', () => {

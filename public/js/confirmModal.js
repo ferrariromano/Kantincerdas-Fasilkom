@@ -2,7 +2,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     const confirmModalOverlay = document.getElementById('confirmModalOverlay');
     const confirmModal = document.getElementById('confirmModal');
+    const confirmModalTitle = document.querySelector('.confirm-modal-title');
     const confirmModalInfo = document.querySelector('.confirmModalInfo');
+    const confirmModalHighlight = document.querySelector('.confirmModalHighlight');
+    const highlightPrice = document.querySelector('.highlightPrice');
     const confirmName = document.getElementById('confirm-name');
     const confirmPhone = document.getElementById('confirm-phone');
     const confirmPayment = document.getElementById('confirm-payment');
@@ -10,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const notesTitle = document.querySelector('.notesTitle');
     const confirmTotalItems = document.getElementById('confirm-total-items');
     const confirmTotalPrice = document.getElementById('confirm-total-price');
+    const hlItem = document.querySelectorAll('.hlItem');
 
     const orderForm = document.querySelector('.orderForm');
     const orderName = document.getElementById('order-name');
@@ -28,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const orderItems = document.getElementById('order-items');
     const uid = document.getElementById('uid');
 
-    // Tampilkan modal dan isi dengan value yang diambil dari form
+    // Show modal and fill in the values from the form
     confirmOrderButton.addEventListener('click', () => {
         confirmName.textContent = orderName.value;
         confirmPhone.textContent = orderPhone.value;
@@ -43,28 +47,36 @@ document.addEventListener('DOMContentLoaded', () => {
         confirmModalOverlay.style.display = 'block';
     });
 
-    // Event untuk tutup Modal jika klik btn Batal
+    // Event to close the modal on Cancel button click
     document.querySelector('.cancelOrder').addEventListener('click', () => {
         confirmModal.style.display = 'none';
         confirmModalOverlay.style.display = 'none';
     });
 
-    // Buka tutup Catatan Tambahan
+    // Toggle additional notes
     additionalNotesToggle.addEventListener('click', () => {
         additionalNotesSection.classList.toggle('open');
         toggleIcon.classList.toggle('open');
         confirmModalInfo.classList.toggle('open');
         confirmItem.classList.toggle('open');
         notesTitle.classList.toggle('open');
+        confirmModalTitle.classList.toggle('open');
+        confirmModalHighlight.classList.toggle('open');
+        highlightPrice.classList.toggle('open');
+
+        hlItem.forEach(item => {
+            item.classList.toggle('open')
+        })
+
     });
 
-    // Event untuk Submit data jika klik Ok
+    // Event to submit data on Ok button click
     confirmOrderFinalButton.addEventListener('click', () => {
-        // Set the hidden fields
+        // Set hidden fields
         orderItems.value = JSON.stringify(cart);
         uid.value = getUID();
 
-        // Create a FormData object
+        // Create FormData object
         const formData = new FormData(orderForm);
 
         // Send AJAX request
@@ -73,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
             body: formData,
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            } 
+            }
         })
         .then(response => response.json())
         .then(data => {
@@ -91,7 +103,4 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => console.error('Error:', error));
     });
-
-
-
 });
