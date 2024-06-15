@@ -7,8 +7,8 @@
 @section('container')
 <div class="defaultContainer">
     <h1>Cek Pesanan</h1>
-    <div class="outletGroup">
-        <div class="outlet">
+    <div class="outletGroupDefault">
+        <div class="outletDefault">
             <h2 class="outletTitle">Left Canteen</h2>
             <img src="{{ asset('images/img/canteen.jpeg') }}" alt="fasilkom">
             <div class="waitingList__group">

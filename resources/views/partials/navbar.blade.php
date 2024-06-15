@@ -8,7 +8,8 @@
             <a class="{{ ($active === "menu") ? 'active' : '' }}" href="/menu">Menu</a>
         </li>
         <li>
-            <a class="{{ ($active === "cekPesanan") ? 'active' : '' }}" href="{{ route('cekPesanan', ['uid' => $uid ?? 'default-uid']) }}">Cek Pesanan</a>
+            <a class="{{ ($active === "cekPesanan") ? 'active' : '' }}" id="cekPesananLink"  href="{{ route('cekPesanan', ['uid' => $uid ?? 'default-uid']) }}">Cek Pesanan</a>
         </li>
     </ul>
 </nav>
+

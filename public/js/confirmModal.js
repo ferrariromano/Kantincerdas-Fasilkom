@@ -87,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Set hidden fields
         orderItems.value = JSON.stringify(cart);
         const uid = getUID();
+        localStorage.setItem('uid', uid);  // Simpan UID di LocalStorage
 
         // Create FormData object
         const formData = new FormData(orderForm);
@@ -131,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
         alertModalOverlay.style.display = 'none';
 
         // Redirect to a new page
-        const uid = document.getElementById('uid').value;
+        const uid = localStorage.getItem('uid');
         window.location.href = `/cekPesanan/${uid}`;
     }
 

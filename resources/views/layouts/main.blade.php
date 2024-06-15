@@ -28,6 +28,16 @@
     @include('partials/footer')
 
     @stack('js')
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const uid = localStorage.getItem('uid');
+            if (uid) {
+                const cekPesananLink = document.getElementById('cekPesananLink');
+                cekPesananLink.href = `/cekPesanan/${uid}`;
+            }
+        });
+    </script>
 </body>
 
 </html>

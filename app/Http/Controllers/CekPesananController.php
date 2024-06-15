@@ -61,6 +61,9 @@ class CekPesananController extends Controller
                 'waitingLists' => $waitingLists,
                 'tenantNames' => $tenantNames,
                 'uid' => $uid,
+                'orderName' => $order->orderName,
+                'orderPhone' => $order->orderPhone,
+                'orderPayment' => $order->orderPayment
             ]);
         }
 
