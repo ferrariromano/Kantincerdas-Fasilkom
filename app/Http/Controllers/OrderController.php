@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+
     public function submitOrder(Request $request)
     {
         // Validate the request data
@@ -22,9 +23,11 @@ class OrderController extends Controller
             'uid' => 'required|string'
         ]);
 
+        $uid = $request->input('uid');
+
         // Create the order
         $order = new Order();
-        $order->uid = Str::uuid();
+        $order->uid = $uid;
         $order->orderName = $validatedData['order-name'];
         $order->orderPhone = $validatedData['order-phone'];
         $order->orderNotes = $validatedData['additional'];
@@ -51,7 +54,9 @@ class OrderController extends Controller
         // Return JSON response
         return response()->json([
             'success' => true,
-            'message' => 'Order Berhasil. Silahkan segera lakukan pembayaran'
+            'message' => 'Pemesanan Berhasil',
+            'uid' => $uid
         ]);
     }
+
 }

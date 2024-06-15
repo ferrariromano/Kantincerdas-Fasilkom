@@ -30,7 +30,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleIcon = document.querySelector('.toggle-icon');
 
     const orderItems = document.getElementById('order-items');
-    const uid = document.getElementById('uid');
+
+    // AlertModal Attribute
+    const alertModalOverlay = document.querySelector('.alert-modal-overlay');
+    const alertModal = document.querySelector('.alertModal');
+    const alertMessage = document.querySelector('.alertMessage');
+    const successMessage = document.querySelector('.successMessage');
+    const iconSuccess = document.querySelector('.icon-success');
+    const iconFailed = document.querySelector('.icon-failed');
+    const iconError = document.querySelector('.icon-error');
+    const closeAlertModal = document.querySelector('.closeModal');
+
+    const uid = getUID();
+    document.getElementById('uid').value = uid;
 
     // Show modal and fill in the values from the form
     confirmOrderButton.addEventListener('click', () => {
@@ -74,10 +86,11 @@ document.addEventListener('DOMContentLoaded', () => {
     confirmOrderFinalButton.addEventListener('click', () => {
         // Set hidden fields
         orderItems.value = JSON.stringify(cart);
-        uid.value = getUID();
+        const uid = getUID();
 
         // Create FormData object
         const formData = new FormData(orderForm);
+        formData.append('uid', uid);
 
         // Send AJAX request
         fetch(orderForm.action, {
@@ -95,12 +108,57 @@ document.addEventListener('DOMContentLoaded', () => {
                 cart = [];
                 addCartToHTML(cart);
                 updateCheckOutButton();
-
-                alert(data.message);
-                // Redirect to Page Cek Pesanan
-                window.location.href = "/cekPesanan";
+                confirmModal.style.display = 'none';
+                confirmModalOverlay.style.display = 'none';
+                showSuccessModal(data.message);
+            }else {
+                showFailedModal(data.message || 'Pesanan gagal, silahkan coba lagi.');
             }
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.error('Error:', error);
+            showErrorModal('Terjadi kesalahan, silahkan coba lagi.');
+        });
     });
+
+    // ====== Alert Modal ======
+
+    closeAlertModal.addEventListener('click', closeModal);
+
+    // Close the alert modal and redirect
+    function closeModal() {
+        alertModal.style.display = 'none';
+        alertModalOverlay.style.display = 'none';
+
+        // Redirect to a new page
+        const uid = document.getElementById('uid').value;
+        window.location.href = `/cekPesanan/${uid}`;
+    }
+
+    // Show Alert Modal
+    function showSuccessModal(message) {
+        alertMessage.textContent = message;
+        alertModal.style.display = 'block';
+        alertModalOverlay.style.display = 'block';
+        iconSuccess.style.display = 'block';
+        successMessage.style.display = 'block';
+        iconFailed.style.display = 'none';
+        iconError.style.display = 'none';
+    }
+    function showFailedModal(message) {
+        alertMessage.textContent = message;
+        alertModal.style.display = 'block';
+        alertModalOverlay.style.display = 'block';
+        iconFailed.style.display = 'block';
+        iconSuccess.style.display = 'none';
+        iconError.style.display = 'none';
+    }
+    function showErrorModal(message) {
+        alertMessage.textContent = message;
+        alertModal.style.display = 'block';
+        alertModalOverlay.style.display = 'block';
+        iconError.style.display = 'block';
+        iconSuccess.style.display = 'none';
+        iconFailed.style.display = 'none';
+    }
 });

@@ -39,4 +39,4 @@ Route::resource('products', ProductController::class);
 
 Route::post('/submitOrder', [OrderController::class, 'submitOrder'])->name('submitOrder');
 
-Route::get('cekPesanan', [CekPesananController::class, 'listActiveProducts'])->name('cekPesanan.index');
+Route::get('cekPesanan/{uid}', [CekPesananController::class, 'showOrder'])->name('cekPesanan');

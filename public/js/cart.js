@@ -22,19 +22,18 @@ const additional = document.getElementById('additional');
 
 
 // Create UID from local storage or cookie
-const createUID = () => {
-    return 'uid-' + Math.random().toString(36).substring(2, 18);
+function generateUID() {
+    return 'uid-' + Math.random().toString(36).substr(2, 16);
 }
-const getUID = () => {
+
+function getUID() {
     let uid = localStorage.getItem('uid');
     if (!uid) {
-        uid = createUID();
+        uid = generateUID();
         localStorage.setItem('uid', uid);
-        document.cookie = `uid=${uid}; path=/;`;
     }
     return uid;
 }
-const uid = getUID();
 
 
 // Open & Close cart tab
@@ -276,7 +275,7 @@ const updateConfirmationItems = () => {
 
 
 
-// Prepare data and show the confirmation modal
+// show the confirmation modal
 confirmOrderButton.addEventListener('click', () => {
     if (confirmOrderButton.disabled) return;
     // Menampilkan confirm-modal

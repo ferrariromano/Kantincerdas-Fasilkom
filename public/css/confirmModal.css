@@ -36,6 +36,7 @@
     color: var(--clr-neutral-100);
     background-color: var(--clr-primary-500);
     border-radius: 1rem;
+    transition: .7s ease;
 }
 .confirm-modal-title.open {
     padding: 0;
@@ -44,13 +45,16 @@
     margin-bottom: 5px;
     color: var(--clr-primary-500);
     background-color: var(--clr-neutral-100);
+    transition: .7s ease;
 }
 /* === Confirm Modal Info === */
 .confirmModalInfo {
   margin: 1rem 1rem;
+  transition: .5s ease;
 }
 .confirmModalInfo.open{
   display: none;
+  transition: .5s ease;
 }
 .infoGroup {
   display: flex;
@@ -71,9 +75,11 @@
 }
 .listConfirmationItem {
     display: none;
+    transition: .5s ease;
 }
 .listConfirmationItem.open {
     display: block;
+    transition: .5s ease;
 }
 
 .confirmation-item {
@@ -114,19 +120,22 @@
 .confirm-modal-content .toggle-icon {
     margin-left: 5px;
     transform: rotate(0deg);
-    transition: transform 0.3s ease;
+    transition: transform 0.6s ease;
     font-size: 1.2em;
 }
 .confirm-modal-content .toggle-icon.open {
     transform: rotate(90deg);
+    transition: .5s;
 }
 .notesTitle {
     display: none;
     color: var(--clr-neutral-500);
     font-weight: var(--fw-bold);
     margin-top: .6rem;
+    transition: .5s ease;
 }
 .notesTitle.open {
+    transition: .5s ease;
     display: block;
 }
 .confirm-modal-content .additional-notes {
@@ -138,6 +147,7 @@
 }
 .confirm-modal-content .additional-notes.open {
     display: block;
+    transition: .5s ease;
 }
 
 
@@ -153,6 +163,7 @@
   margin: .8rem 0rem;
   align-items: center;
   justify-items: center;
+  transition: .7s ease;
 }
 .confirmModalHighlight.open {
   display: grid;
@@ -161,12 +172,17 @@
   margin: .5rem 0rem;
   align-items: center;
   justify-items: center;
+  transition: .7s ease;
+}
+.highlightPrice {
+  transition: .5s ease;
 }
 .highlightPrice.open {
   flex-direction: row;
   display: flex;
   gap: .5rem;
   align-items: center;
+  transition: .5s ease;
 }
 
 .confirmModalHighlight p {
@@ -229,9 +245,11 @@
       display: flex;
       gap: .1rem;
       align-items: center;
+      transition: .5s ease;
     }
     .hlItem.open {
       font-size: 1rem;
+      transition: .5s ease;
     }
 }
 @media only screen and (max-width: 375px) {
