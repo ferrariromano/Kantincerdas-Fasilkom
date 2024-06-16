@@ -84,7 +84,7 @@ a {
 .indexContainer {
     display: flex;
     flex-direction: column;
-    width: 800px;
+    width: 600px;
     margin: auto;
     max-width: 90vw;
     text-align: center;
@@ -108,12 +108,14 @@ a {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    min-width: 270px;
 }
 
 .txt-bld-orange {
     color: var(--clr-primary-500);
     font-weight: var(--fw-bold);
     font-size: 1.3rem;
+    text-align: start;
 }
 .infoGroup {
     display: flex;
@@ -159,6 +161,9 @@ a {
     align-items: center;
     gap: 0rem;
 }
+.single-tenant {
+    grid-template-columns: repeat(1, 2fr);
+}
 
 /* === Outlet Header === */
 .outletHeader {
@@ -173,6 +178,8 @@ a {
 .tenant {
     font-size: 1rem;
     font-weight: 600;
+    display: flex;
+    flex-direction: column;
 }
 .tenantName {
     font-size: 1.2rem;
@@ -186,10 +193,26 @@ a {
 .headerRight {
     padding: 0rem .3rem;
 }
+
+/* ===== Order Status ===== */
 .orderStatus {
+    font-size: 1rem;
+    font-weight: 600;
     padding: .6rem .5rem;
     background-color: bisque;
     border-radius: 1rem;
+}
+.orderStatus.pending {
+    background-color: #ffcc00;
+}
+.orderStatus.in.progress {
+    background-color: #00ccff;
+}
+.orderStatus.completed {
+    background-color: #39ea39;
+}
+.orderStatus.cancelled {
+    background-color: #ff3300;
 }
 
 
@@ -203,7 +226,7 @@ a {
 /* === Outlet Highlight === */
 .outletHighlight {
     display: grid;
-    grid-template-columns: 1fr 2fr 2fr;
+    grid-template-columns: 1.5fr 2fr 2fr;
     align-items: center;
     padding: 3px .8rem;
     margin: 0 .5rem;
@@ -254,7 +277,7 @@ a {
 
 
 /* ===== RESPONSIVE ===== */
-@media (max-width: 545px) {
+@media (max-width: 560px) {
     .outletGroup {
         grid-template-columns: repeat(1, 2fr);
         gap: .5rem;
@@ -280,7 +303,11 @@ a {
         display: grid;
         grid-template-columns: 10rem 2fr;
         align-items: center;
-        gap: 1rem;
         justify-items: start;
+    }
+}
+@media (max-width: 360px) {
+    .txt-bld-orange {
+        font-size: 1rem;
     }
 }

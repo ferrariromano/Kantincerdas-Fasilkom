@@ -27,6 +27,8 @@ class CekPesananController extends Controller
             $subtotals = [];
             $quantities = [];
             $waitingLists = [];
+            $statuses = [];
+
             foreach ($orderItemsGrouped as $tenantId => $items) {
                 // Menghitung subtotal untuk tenant ini
                 $subtotal = $items->sum(function ($item) {
@@ -40,7 +42,6 @@ class CekPesananController extends Controller
                 });
                 $quantities[$tenantId] = $quantity;
 
-
                 // Menghitung waiting list untuk tenant ini
                 $waitingList = Order::whereHas('orderItems', function($query) use ($tenantId) {
                         $query->where('tenant_id', $tenantId)
@@ -49,6 +50,22 @@ class CekPesananController extends Controller
                     ->where('created_at', '<', $order->created_at)
                     ->count();
                 $waitingLists[$tenantId] = $waitingList;
+
+                // Kalkulasi status pesanan
+                $allInProgress = $items->every(function ($item) {
+                    return $item->isInProgress();
+                });
+                $allCompleted = $items->every(function ($item) {
+                    return $item->isCompleted();
+                });
+
+                if ($allInProgress) {
+                    $statuses[$tenantId] = strtolower(OrderItem::STATUS_IN_PROGRESS);
+                } elseif ($allCompleted) {
+                    $statuses[$tenantId] = strtolower(OrderItem::STATUS_COMPLETED);
+                } else {
+                    $statuses[$tenantId] = strtolower(OrderItem::STATUS_PENDING);
+                }
             }
 
             // Mengirim data ke view cek-pesanan
@@ -60,6 +77,7 @@ class CekPesananController extends Controller
                 'quantities' => $quantities,
                 'waitingLists' => $waitingLists,
                 'tenantNames' => $tenantNames,
+                'statuses' => $statuses,
                 'uid' => $uid,
                 'orderName' => $order->orderName,
                 'orderPhone' => $order->orderPhone,

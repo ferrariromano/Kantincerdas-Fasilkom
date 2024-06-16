@@ -32,4 +32,24 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Tenant::class);
     }
+
+    // Define statuses
+    const STATUS_PENDING = 'Pending';
+    const STATUS_IN_PROGRESS = 'In Progress';
+    const STATUS_COMPLETED = 'Completed';
+    // const STATUS_CANCELLED = 'Cancelled';
+
+    // Methods to check status
+    public function isPending() {
+        return $this->orderStatus === self::STATUS_PENDING;
+    }
+    public function isInProgress() {
+        return $this->orderStatus === self::STATUS_IN_PROGRESS;
+    }
+    public function isCompleted() {
+        return $this->orderStatus === self::STATUS_COMPLETED;
+    }
+    // public function isCancelled() {
+    //     return $this->orderStatus === self::STATUS_CANCELLED;
+    // }
 }
