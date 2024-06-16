@@ -21,6 +21,7 @@
         </div>
         <p class="alertMessage"></p>
         <p class="successMessage" style="display: none;">Segera lakukan pembayaran agar pesanan bisa diproses</p>
+        <p class="failedMessage" style="display: none;">Anda baru bisa melakukan pesanan lagi setelah pesanan sebelumnya selesai.</p>
         <button class="closeModal" onclick="closeModal()">Ok</button>
     </div>
 </div>

@@ -161,7 +161,8 @@ header{
 }
 .checkOut:hover, .confirmOrder:hover{
   cursor: pointer;
-  background-color: var(--clr-terary-100)
+  background-color: var(--clr-terary-100);
+  box-shadow: 0px 0px 10px 3px grey;
 }
 .cartInfo {
   display: flex;
@@ -191,6 +192,7 @@ header{
 }
 .backToCart:hover {
   background-color: #b3b8be;
+  cursor: pointer;
 }
 
 .checkOut:disabled,
@@ -202,6 +204,7 @@ header{
 .checkOut:disabled:hover,
 .confirmOrder:disabled:hover {
     background-color: var(--clr-terary-200);
+    box-shadow: 0px 0px 0px 0px grey;
 }
 
 

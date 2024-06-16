@@ -45,8 +45,9 @@
     margin-bottom: 5px;
     color: var(--clr-primary-500);
     background-color: var(--clr-neutral-100);
-    transition: .7s ease;
+    transition: .5s ease;
 }
+
 /* === Confirm Modal Info === */
 .confirmModalInfo {
   margin: 1rem 1rem;

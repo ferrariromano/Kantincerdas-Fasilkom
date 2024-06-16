@@ -16,7 +16,7 @@
                 <span class="waitingList__value">{{ $waitingLists[1] ?? 0 }}</span>
             </div>
         </div>
-        <div class="outlet">
+        <div class="outletDefault">
             <h2 class="outletTitle">Right Canteen</h2>
             <img src="{{ asset('images/img/canteen2.jpeg') }}" alt="fasilkom">
             <div class="waitingList__group">
@@ -27,7 +27,9 @@
     </div>
     <div class="linkToMenu">
         <p>Anda belum melakukan pesanan</p>
-        <a href="{{ route('menu.index') }}" class="btn">Pesan Sekarang</a>
+        <div class="linkToMenu__button">
+            <a href="{{ route('menu.index') }}" class="btn">Pesan Sekarang</a>
+        </div>
     </div>
 </div>
 @endsection

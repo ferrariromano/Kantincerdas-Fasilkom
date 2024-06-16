@@ -80,10 +80,10 @@
 }
 .backToCart {
     border-radius: 10px;
-    font-weight: 1rem;
     font-size: 1rem;
-    width: 5rem;
+    width: 5.5rem;
     height: 3rem;
+    box-shadow: 0px 0px 0px 2px gray;
 }
 .confirmOrder {
     border-radius: 50px;

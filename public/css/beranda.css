@@ -46,6 +46,8 @@ margin: 2rem 2rem 0 2rem;
 }
 .btn_order:hover {
   background-color: var(--clr-secondary-300);
+  box-shadow: -3px 6px 3px 0px rgb(35 97 63);
+  transform: translateX(3px) translateY(-3px);
 }
 .arrow {
     width: .8rem;

@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const alertMessage = document.querySelector('.alertMessage');
     const successMessage = document.querySelector('.successMessage');
     const iconSuccess = document.querySelector('.icon-success');
+    const failedMessage = document.querySelector('.failedMessage');
     const iconFailed = document.querySelector('.icon-failed');
     const iconError = document.querySelector('.icon-error');
     const closeAlertModal = document.querySelector('.closeModal');
@@ -114,11 +115,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 showSuccessModal(data.message);
             }else {
                 showFailedModal(data.message || 'Pesanan gagal, silahkan coba lagi.');
+                confirmModal.style.display = 'none';
+                confirmModalOverlay.style.display = 'none';
             }
         })
         .catch(error => {
             console.error('Error:', error);
             showErrorModal('Terjadi kesalahan, silahkan coba lagi.');
+            confirmModal.style.display = 'none';
+            confirmModalOverlay.style.display = 'none';
         });
     });
 
@@ -151,6 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
         alertModal.style.display = 'block';
         alertModalOverlay.style.display = 'block';
         iconFailed.style.display = 'block';
+        failedMessage.style.display = 'block';
         iconSuccess.style.display = 'none';
         iconError.style.display = 'none';
     }

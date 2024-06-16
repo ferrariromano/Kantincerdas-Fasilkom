@@ -25,6 +25,14 @@ class OrderController extends Controller
 
         $uid = $request->input('uid');
 
+        // Check if the user has pending orders
+        if (Order::hasPendingOrders($uid)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Anda masih memiliki pesanan yang belum selesai.'
+            ], 400);
+        }
+
         // Create the order
         $order = new Order();
         $order->uid = $uid;

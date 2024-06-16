@@ -38,10 +38,11 @@
     font-size: 1rem;
     font-weight: 700;
 }
-.successMessage {
+.successMessage, .failedMessage {
     text-align: center;
     font-size: .8rem;
     font-weight: 600;
+    margin-top: .5rem;
 }
 
 .closeModal {
@@ -57,6 +58,8 @@
 }
 .closeModal:hover {
     background-color: #c74a1c;
+    filter: drop-shadow(3px 4px rgba(27, 27, 27, 1));
+    transform: translateX(-3px) translateY(-3px);
 }
 
 @keyframes slideUp {

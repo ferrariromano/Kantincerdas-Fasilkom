@@ -23,4 +23,11 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+
+    public static function hasPendingOrders($uid)
+    {
+        return self::where('uid', $uid)
+                    ->whereIn('orderStatus', ['Pending', 'In Progress'])
+                    ->exists();
+    }
 }
