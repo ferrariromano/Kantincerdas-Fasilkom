@@ -96,8 +96,8 @@
 @endsection
 
 @push('js')
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
     <script src="{{ asset('js/cart.js') }}"></script>
-    <script src="{{ asset('js/modal.js') }}"></script>
     <script src="{{ asset('js/productModal.js') }}"></script>
     <script src="{{ asset('js/confirmModal.js') }}"></script>
 @endpush

@@ -75,4 +75,6 @@
 
 @push('js')
     <script src="{{ asset('js/cekPesanan.js') }}"></script>
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
+
 @endpush

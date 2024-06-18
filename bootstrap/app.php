@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\MidtransConfig;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -12,9 +13,13 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         //
+        $middleware->append(MidtransConfig::class); // tambahkan ini
+
         $middleware-> alias([
             'auth.tenant' => \App\Http\Middleware\AuthTenant::class,
         ]);
+
+
 
     })
     ->withExceptions(function (Exceptions $exceptions) {

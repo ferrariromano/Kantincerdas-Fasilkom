@@ -1,4 +1,3 @@
-// confirmModal.js
 document.addEventListener('DOMContentLoaded', () => {
     const confirmModalOverlay = document.getElementById('confirmModalOverlay');
     const confirmModal = document.getElementById('confirmModal');
@@ -78,23 +77,19 @@ document.addEventListener('DOMContentLoaded', () => {
         highlightPrice.classList.toggle('open');
 
         hlItem.forEach(item => {
-            item.classList.toggle('open')
-        })
-
+            item.classList.toggle('open');
+        });
     });
 
     // Event to submit data on Ok button click
     confirmOrderFinalButton.addEventListener('click', () => {
-        // Set hidden fields
         orderItems.value = JSON.stringify(cart);
         const uid = getUID();
         localStorage.setItem('uid', uid);  // Simpan UID di LocalStorage
 
-        // Create FormData object
         const formData = new FormData(orderForm);
         formData.append('uid', uid);
 
-        // Send AJAX request
         fetch(orderForm.action, {
             method: 'POST',
             body: formData,
@@ -104,31 +99,54 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(response => response.json())
         .then(data => {
+            console.log('Response from server:', data);
             if (data.success) {
-                // Clear the cart
-                localStorage.removeItem('cart');
-                cart = [];
-                addCartToHTML(cart);
-                updateCheckOutButton();
-                confirmModal.style.display = 'none';
-                confirmModalOverlay.style.display = 'none';
-                showSuccessModal(data.message);
-            }else {
+                if (orderPayment.value === 'non-tunai') {
+                    console.log('Snap Token:', data.snap_token);
+                    if (data.snap_token) {
+                        initiateMidtransPayment(data.snap_token);
+                    } else {
+                        console.error('Snap token not received');
+                        showErrorModal('Snap token tidak diterima.');
+                    }
+                } else {
+                    showSuccessModal(data.message);
+                }
+            } else {
                 showFailedModal(data.message || 'Pesanan gagal, silahkan coba lagi.');
-                confirmModal.style.display = 'none';
-                confirmModalOverlay.style.display = 'none';
             }
         })
         .catch(error => {
             console.error('Error:', error);
             showErrorModal('Terjadi kesalahan, silahkan coba lagi.');
-            confirmModal.style.display = 'none';
-            confirmModalOverlay.style.display = 'none';
         });
     });
 
-    // ====== Alert Modal ======
+    function initiateMidtransPayment(snapToken) {
+        snap.pay(snapToken, {
+            onSuccess: function (result) {
+                console.log(result);
+                alert('Pembayaran berhasil!');
+                showSuccessModal('Pembayaran berhasil!');
+            },
+            onPending: function (result) {
+                console.log(result);
+                alert('Pembayaran pending.');
+                showFailedModal('Pembayaran pending.');
+            },
+            onError: function (result) {
+                console.error(result);
+                alert('Pembayaran gagal.');
+                showErrorModal('Pembayaran gagal.');
+            },
+            onClose: function () {
+                alert('Anda menutup pop-up tanpa menyelesaikan pembayaran.');
+                showFailedModal('Anda menutup pop-up tanpa menyelesaikan pembayaran.');
+            }
+        });
+    }
 
+    // ====== Alert Modal ======
     closeAlertModal.addEventListener('click', closeModal);
 
     // Close the alert modal and redirect
@@ -151,6 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
         iconFailed.style.display = 'none';
         iconError.style.display = 'none';
     }
+
     function showFailedModal(message) {
         alertMessage.textContent = message;
         alertModal.style.display = 'block';
@@ -160,6 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
         iconSuccess.style.display = 'none';
         iconError.style.display = 'none';
     }
+
     function showErrorModal(message) {
         alertMessage.textContent = message;
         alertModal.style.display = 'block';

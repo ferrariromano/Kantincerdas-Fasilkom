@@ -7,6 +7,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CekPesananController;
 use App\Http\Controllers\TenantAuthController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\TenantOrderController;
 
 
 Route::get('/', function () {
@@ -40,3 +42,20 @@ Route::resource('products', ProductController::class);
 Route::post('/submitOrder', [OrderController::class, 'submitOrder'])->name('submitOrder');
 
 Route::get('cekPesanan/{uid}', [CekPesananController::class, 'showOrder'])->name('cekPesanan');
+
+Route::post('/submit-order', [OrderController::class, 'submitOrder'])->name('submitOrder');
+Route::post('/process-payment', [PaymentController::class, 'processPayment'])->name('processPayment');
+
+
+
+Route::middleware(['auth.tenant'])->prefix('tenant')->group(function () {
+    Route::get('orders', [TenantOrderController::class, 'index'])->name('tenantOrders.index');
+    Route::get('orders/create', [TenantOrderController::class, 'create'])->name('tenantOrders.create');
+    Route::post('orders', [TenantOrderController::class, 'store'])->name('tenantOrders.store');
+    Route::get('orders/{order}/edit', [TenantOrderController::class, 'edit'])->name('tenantOrders.edit');
+    Route::put('orders/{order}', [TenantOrderController::class, 'update'])->name('tenantOrders.update');
+    Route::delete('orders/{order}', [TenantOrderController::class, 'destroy'])->name('tenantOrders.destroy');
+    Route::get('orders/{order}', [TenantOrderController::class, 'show'])->name('tenantOrders.show');
+    Route::post('orders/{order}/in-progress', [TenantOrderController::class, 'markInProgress'])->name('tenantOrders.inProgress');
+    Route::post('orders/{order}/{item}/cancel', [TenantOrderController::class, 'markItemAsCanceled'])->name('tenantOrders.cancelItem');
+});

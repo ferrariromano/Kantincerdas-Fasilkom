@@ -4,12 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\OrderItem;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-
     public function submitOrder(Request $request)
     {
         // Validate the request data
@@ -66,5 +64,4 @@ class OrderController extends Controller
             'uid' => $uid
         ]);
     }
-
 }
