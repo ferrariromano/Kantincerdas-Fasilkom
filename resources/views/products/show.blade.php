@@ -74,13 +74,13 @@
                                 <tbody>
                                     <tr>
                                         @if ($category == 'Makanan')
-                                            <td class="border px-4 py-2">{{ $product->nutrition->kalori }} kkal</td>
-                                            <td class="border px-4 py-2">{{ $product->nutrition->karbohidrat }} g</td>
-                                            <td class="border px-4 py-2">{{ $product->nutrition->protein }} g</td>
+                                            <td class="border px-4 py-2">{{ $product->nutritions->kalori }} kkal</td>
+                                            <td class="border px-4 py-2">{{ $product->nutritions->karbohidrat }} g</td>
+                                            <td class="border px-4 py-2">{{ $product->nutritions->protein }} g</td>
                                         @elseif ($category == 'Minuman')
-                                            <td class="border px-4 py-2">{{ $product->nutrition->kalori }} kkal</td>
-                                            <td class="border px-4 py-2">{{ $product->nutrition->lemak }} g</td>
-                                            <td class="border px-4 py-2">{{ $product->nutrition->gula }} g</td>
+                                            <td class="border px-4 py-2">{{ $product->nutritions->kalori }} kkal</td>
+                                            <td class="border px-4 py-2">{{ $product->nutritions->lemak }} g</td>
+                                            <td class="border px-4 py-2">{{ $product->nutritions->gula }} g</td>
                                         @endif
                                     </tr>
                                 </tbody>

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('nutrition', function (Blueprint $table) {
+        Schema::create('nutritions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id');
             $table->integer('kalori')->nullable();
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('nutrition');
+        Schema::dropIfExists('nutritions');
     }
 };

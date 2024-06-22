@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tenant;
 use App\Models\Product;
 use App\Models\Category;
-use App\Models\Nutrition;
+use App\Models\nutritions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
@@ -91,7 +91,7 @@ class ProductController extends Controller
             'status' => $request->status,
         ]);
 
-        Nutrition::create([
+        nutritions::create([
             'product_id' => $product->id,
             'kalori' => $request->kalori,
             'lemak' => $request->lemak,
@@ -155,7 +155,7 @@ class ProductController extends Controller
             'status' => $request->status,
         ]);
 
-        $product->nutrition->updateOrCreate(
+        $product->nutritions->updateOrCreate(
             ['product_id' => $product->id],
             [
                 'kalori' => $request->kalori,
@@ -175,7 +175,7 @@ class ProductController extends Controller
             Storage::disk('public')->delete($product->image);
         }
 
-        $product->nutrition()->delete();
+        $product->nutritions()->delete();
         $product->delete();
 
         return redirect()->route('products.index')->with('success', 'Product deleted successfully.');

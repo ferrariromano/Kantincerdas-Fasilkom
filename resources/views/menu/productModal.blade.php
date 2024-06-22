@@ -34,21 +34,21 @@
                 <div class="desc">
                     <p>{{ $product->description }}</p>
                 </div>
-                @if($product->nutrition)
+                @if($product->nutritions)
                 <div class="grid">
                     <div class="header">Kalori</div>
                     @if($product->category_id == 1)
                         <div class="header">Karbohidrat</div>
                         <div class="header">Protein</div>
-                        <div class="cell">{{ $product->nutrition->kalori ?? 'N/A' }} kkal</div>
-                        <div class="cell">{{ $product->nutrition->karbohidrat ?? 'N/A' }} g</div>
-                        <div class="cell">{{ $product->nutrition->protein ?? 'N/A' }} g</div>
+                        <div class="cell">{{ $product->nutritions->kalori ?? 'N/A' }} kkal</div>
+                        <div class="cell">{{ $product->nutritions->karbohidrat ?? 'N/A' }} g</div>
+                        <div class="cell">{{ $product->nutritions->protein ?? 'N/A' }} g</div>
                     @else
                         <div class="header">Lemak</div>
                         <div class="header">Gula</div>
-                        <div class="cell">{{ $product->nutrition->kalori ?? 'N/A' }} kkal</div>
-                        <div class="cell">{{ $product->nutrition->lemak ?? 'N/A' }} g</div>
-                        <div class="cell">{{ $product->nutrition->gula ?? 'N/A' }} g</div>
+                        <div class="cell">{{ $product->nutritions->kalori ?? 'N/A' }} kkal</div>
+                        <div class="cell">{{ $product->nutritions->lemak ?? 'N/A' }} g</div>
+                        <div class="cell">{{ $product->nutritions->gula ?? 'N/A' }} g</div>
                     @endif
                 </div>
                 @endif

@@ -29,9 +29,9 @@ class Product extends Model
     {
         return $this->belongsTo(Tenant::class);
     }
-    public function nutrition()
+    public function nutritions()
     {
-        return $this->hasOne(Nutrition::class);
+        return $this->hasOne(nutritions::class);
     }
     public function orderItems()
     {
