@@ -15,7 +15,7 @@ class OrderItem extends Model
         'tenant_id',
         'quantity',
         'price',
-        'orderStatus',
+        'orderItemStatus',
     ];
 
     public function order()
@@ -41,13 +41,13 @@ class OrderItem extends Model
 
     // Methods to check status
     public function isPending() {
-        return $this->orderStatus === self::STATUS_PENDING;
+        return $this->orderItemStatus === self::STATUS_PENDING;
     }
     public function isInProgress() {
-        return $this->orderStatus === self::STATUS_IN_PROGRESS;
+        return $this->orderItemStatus === self::STATUS_IN_PROGRESS;
     }
     public function isCompleted() {
-        return $this->orderStatus === self::STATUS_COMPLETED;
+        return $this->orderItemStatus === self::STATUS_COMPLETED;
     }
     // public function isCancelled() {
     //     return $this->orderStatus === self::STATUS_CANCELLED;

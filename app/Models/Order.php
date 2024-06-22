@@ -27,7 +27,7 @@ class Order extends Model
     public static function hasPendingOrders($uid)
     {
         return self::where('uid', $uid)
-                    ->whereIn('orderStatus', ['Pending', 'In Progress'])
+                    ->whereIn('orderStatus', ['Uncompleted'])
                     ->exists();
     }
 

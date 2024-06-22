@@ -38,7 +38,7 @@ class OrderController extends Controller
         $order->orderPhone = $validatedData['order-phone'];
         $order->orderNotes = $validatedData['additional'];
         $order->orderTotalAmounts = $validatedData['orderTotalAmounts'];
-        $order->orderStatus = 'Pending';
+        $order->orderStatus = 'Uncompleted';
         $order->orderPayment = $validatedData['order-payment'];
         $order->save();
 
@@ -53,7 +53,7 @@ class OrderController extends Controller
             $orderItem->tenant_id = $item['tenant_id'];
             $orderItem->quantity = $item['quantity'];
             $orderItem->price = $item['price'];
-            $orderItem->orderStatus = 'Pending';
+            $orderItem->orderItemStatus = 'Pending';
             $orderItem->save();
         }
 

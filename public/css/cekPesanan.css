@@ -9,6 +9,7 @@ a {
     width: 900px;
     margin: auto;
     max-width: 90vw;
+    min-height: 630px;
     text-align: center;
     margin-top: 6rem;
     transition: 0.5s;
@@ -88,6 +89,7 @@ a {
     width: 600px;
     margin: auto;
     max-width: 90vw;
+    min-height: 630px;
     text-align: center;
     margin-top: 6rem;
     transition: 0.5s;

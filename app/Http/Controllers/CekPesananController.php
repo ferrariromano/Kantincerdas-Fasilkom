@@ -45,7 +45,7 @@ class CekPesananController extends Controller
                 // Menghitung waiting list untuk tenant ini
                 $waitingList = Order::whereHas('orderItems', function($query) use ($tenantId) {
                         $query->where('tenant_id', $tenantId)
-                              ->where('orderStatus', 'In Progress');
+                              ->where('orderItemStatus', 'In Progress');
                     })
                     ->where('created_at', '<', $order->created_at)
                     ->count();
@@ -87,12 +87,12 @@ class CekPesananController extends Controller
 
         // Jika user belum memesan, hitung waiting list untuk semua tenant
         $allWaitingLists = Order::whereHas('orderItems', function ($query) {
-                $query->where('orderStatus', 'In Progress');
+                $query->where('orderItemStatus', 'In Progress');
             })
             ->with('orderItems')
             ->get()
             ->flatMap(function ($order) {
-                return $order->orderItems->where('orderStatus', 'In Progress');
+                return $order->orderItems->where('orderItemStatus', 'In Progress');
             })
             ->groupBy('tenant_id')
             ->map(function ($items) {

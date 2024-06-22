@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreign('tenant_id')->references('id_tenant')->on('tenants');
             $table->integer('quantity');
             $table->decimal('price', 8, 2);
-            $table->enum('orderStatus', ['Pending', 'Cancelled', 'In Progress', 'Completed'])->default('Pending');
+            $table->enum('orderItemStatus', ['Pending', 'Cancelled', 'In Progress', 'Completed'])->default('Pending');
             $table->timestamps();
         });
     }
