@@ -12,16 +12,38 @@ use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
-    public function listActiveProducts()
+    public function listActiveProducts(Request $request)
     {
+        // Mengambil semua kategori
         $categories = Category::all();
-        $products = Product::where('status', 'Aktif')->get();
 
+        // Mengambil input dari request
+        $category_id = $request->input('category_id');
+        $tenant_id = $request->input('tenant_id');
+
+        // Membuat query untuk produk dengan status 'Aktif'
+        $productsQuery = Product::where('status', 'Aktif');
+
+        // Menambahkan kondisi untuk filter kategori jika ada
+        if ($category_id) {
+            $productsQuery->where('category_id', $category_id);
+        }
+
+        // Menambahkan kondisi untuk filter tenant jika ada
+        if ($tenant_id) {
+            $productsQuery->where('tenant_id', $tenant_id);
+        }
+
+        // Mendapatkan hasil query
+        $products = $productsQuery->get();
+
+        // Nama tenant untuk dropdown
         $nama_tenant = [
             1 => 'Left Canteen',
             2 => 'Right Canteen'
         ];
 
+        // Mengembalikan view dengan data yang diperlukan
         return view('menu.index', [
             'active' => 'menu',
             'products' => $products,

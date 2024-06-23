@@ -1,16 +1,49 @@
 @extends ('layouts.main')
-
 @push('css')
     <link rel="stylesheet" href="{{ asset('css/menu.css') }}">
     <link rel="stylesheet" href="{{ asset('css/productModal.css') }}">
     <link rel="stylesheet" href="{{ asset('css/form.css') }}">
     <link rel="stylesheet" href="{{ asset('css/confirmModal.css') }}">
     <link rel="stylesheet" href="{{ asset('css/alertModal.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/dropdown.css') }}">
 @endpush
 
 @section('container')
     <div class="wrapper">
         <header>
+            <div class="filterGroup" id="responsive-filter-group">
+                <!-- Existing filter groups for category and tenant -->
+                <div class="filter">
+                    <form class="filterForm" action="{{ route('menu.index') }}" method="GET">
+                        <!-- Dropdown untuk kategori -->
+                        <input class="dropdown" type="checkbox" id="dropdown-category" name="dropdown-category"/>
+                        <label class="for-dropdown" for="dropdown-category" id="label-category">Pilih Kategori</label>
+                        <div class="section-dropdown" id="dropdown-category-menu">
+                            <a class="dropDownLink" href="{{ route('menu.index', ['category_id' => '', 'tenant_id' => request()->input('tenant_id')]) }}" data-category="Semua Kategori">Semua Kategori</a>
+                            @foreach ($categories as $category)
+                                <a class="dropDownLink" href="{{ route('menu.index', ['category_id' => $category->id, 'tenant_id' => request()->input('tenant_id')]) }}" data-category="{{ $category->name }}">
+                                    {{ $category->name }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </form>
+                </div>
+                <div class="filter">
+                    <form class="filterForm" action="{{ route('menu.index') }}" method="GET">
+                        <!-- Dropdown untuk tenant -->
+                        <input class="dropdown" type="checkbox" id="dropdown-tenant" name="dropdown-tenant"/>
+                        <label class="for-dropdown" for="dropdown-tenant" id="label-tenant">Pilih Outlet</label>
+                        <div class="section-dropdown" id="dropdown-tenant-menu">
+                            <a class="dropDownLink" href="{{ route('menu.index', ['tenant_id' => '', 'category_id' => request()->input('category_id')]) }}" data-tenant="Semua Outlet">Semua Outlet</a>
+                            @foreach ($nama_tenant as $id => $name)
+                                <a class="dropDownLink" href="{{ route('menu.index', ['tenant_id' => $id, 'category_id' => request()->input('category_id')]) }}" data-tenant="{{ $name }}">
+                                    {{ $name }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </form>
+                </div>
+            </div>
             <div class="title">
                 <a href="/menu">MENU</a>
             </div>
@@ -22,6 +55,7 @@
             </div>
         </header>
     </div>
+
 
     <div class="contentTab">
         <div class="listProduct">
@@ -60,11 +94,11 @@
             @csrf
             <div class="inputUser">
                 <div class="input-group">
-                    <input type="text" name="order-name" id="order-name" placeholder=" " />
+                    <input type="text" name="order-name" id="order-name" placeholder=" " maxlength="25" required />
                     <span for="order-name">Nama Pemesan</span>
                 </div>
                 <div class="input-group">
-                    <input type="text" name="order-phone" id="order-phone" placeholder=" " />
+                    <input type="text" name="order-phone" id="order-phone" placeholder=" " maxlength="15" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required />
                     <span for="order-name">Nomor Handphone</span>
                 </div>
             </div>
@@ -97,6 +131,7 @@
 
 @push('js')
     <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
+    <script src="{{ asset('js/dropDown.js') }}"></script>
     <script src="{{ asset('js/cart.js') }}"></script>
     <script src="{{ asset('js/productModal.js') }}"></script>
     <script src="{{ asset('js/confirmModal.js') }}"></script>

@@ -3,15 +3,16 @@ a {
    text-decoration: none;
 }
 
+
 .defaultContainer {
     display: flex;
     flex-direction: column;
     width: 900px;
     margin: auto;
     max-width: 90vw;
-    min-height: 630px;
     text-align: center;
     margin-top: 6rem;
+    min-height: calc((100vh - 6rem) - 80px);
     transition: 0.5s;
 }
 
@@ -48,7 +49,7 @@ a {
 .linkToMenu p{
     font-weight: 700;
     font-size: 1.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
 .linkToMenu a{
     font-weight: 500;
@@ -89,7 +90,7 @@ a {
     width: 600px;
     margin: auto;
     max-width: 90vw;
-    min-height: 630px;
+    min-height: calc((100vh - 6rem) - 80px);
     text-align: center;
     margin-top: 6rem;
     transition: 0.5s;

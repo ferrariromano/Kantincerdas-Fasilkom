@@ -16,7 +16,8 @@ a{
 
 header{
   position: fixed;
-  display: flex;
+  display: grid;
+  grid-template-columns: 2fr 2fr 30px;
   width: 900px;
   max-width: 90vw;
   justify-content: space-between;
@@ -50,7 +51,6 @@ header{
   right: -20px;
 }
 
-
 /* ========= Product Item ========= */
 .contentTab {
     width: 900px;
@@ -59,6 +59,7 @@ header{
     text-align: center;
     transition: 0.5s;
     margin-top: 6rem;
+    min-height: calc(100vh - 17rem);
   }
   .listProduct{
     display: grid;
@@ -285,12 +286,41 @@ header{
   }
 }
 
+@media only screen and (max-width: 600px) {
+  header {
+    grid-template-columns: 100px 100px 30px 100px;
+    grid-template-rows: auto auto;
+    row-gap: .8rem;
+    column-gap: 0;
+    padding: 10px 10px;
+  }
+
+  .title {
+      grid-column: 2 / 3;
+      grid-row: 1 / 2;
+  }
+
+  .icon-cart {
+      grid-column: 3 / 4  ;
+      grid-row: 1 / 2;
+  }
+
+  .filterGroup {
+      grid-column: 1 / 5;
+      grid-row: 2 / 3;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+  }
+
+  .contentTab {
+    margin-top: 8rem;
+  }
+}
+
 @media (max-width: 485px) {
   .wrapper {
     margin-top: 9rem;
-  }
-  .contentTab {
-    margin-top: 6rem;
   }
   .cartTab {
     margin-top: 9rem;
@@ -317,7 +347,33 @@ header{
   }
 }
 
-@media only screen and (max-width: 375px) {
+@media only screen and (max-width: 376px) {
+  header {
+    grid-template-columns: 100px 30px;
+    grid-template-rows: auto auto;
+    row-gap: 1rem;
+    column-gap: 0;
+    padding: 10px 30px;
+  }
+
+  .title {
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+  }
+
+  .icon-cart {
+      grid-column: 2 / 3  ;
+      grid-row: 1 / 2;
+  }
+
+  .filterGroup {
+      grid-column: 1 / 3;
+      grid-row: 2 / 3;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+  }
+
   .listCart .item{
       grid-template-columns: 100px 90px 60px 1fr;
       gap: 5px;
@@ -333,6 +389,13 @@ header{
 }
 
 @media only screen and (max-width: 330px) {
+  header {
+    grid-template-columns: 100px 30px;
+    grid-template-rows: auto auto;
+    row-gap: 1rem;
+    column-gap: 0;
+    padding: 10px 30px;
+  }
   .listCart .item{
       grid-template-columns: 100px 80px 60px 1fr;
       gap: 5px;
