@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const additionalNotesSection = document.querySelector('.additional-notes');
     const toggleIcon = document.querySelector('.toggle-icon');
 
-    const orderItems = document.getElementById('order-items');
+    const orderProducts = document.getElementById('order-items');
 
     // AlertModal Attribute
     const alertModalOverlay = document.querySelector('.alert-modal-overlay');
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Event to submit data on Ok button click
     confirmOrderFinalButton.addEventListener('click', () => {
-        orderItems.value = JSON.stringify(cart);
+        orderProducts.value = JSON.stringify(cart);
         const uid = getUID();
         localStorage.setItem('uid', uid);  // Simpan UID di LocalStorage
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
-use App\Models\OrderItem;
+use App\Models\OrderProduct;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -43,18 +43,18 @@ class OrderController extends Controller
         $order->save();
 
         // Get the order items from the request
-        $orderItems = json_decode($validatedData['order-items'], true);
+        $orderProducts = json_decode($validatedData['order-items'], true);
 
         // Create order items
-        foreach ($orderItems as $item) {
-            $orderItem = new OrderItem();
-            $orderItem->order_id = $order->id;
-            $orderItem->product_id = $item['product_id'];
-            $orderItem->tenant_id = $item['tenant_id'];
-            $orderItem->quantity = $item['quantity'];
-            $orderItem->price = $item['price'];
-            $orderItem->orderItemStatus = 'Pending';
-            $orderItem->save();
+        foreach ($orderProducts as $item) {
+            $orderProducts = new OrderProduct();
+            $orderProducts->order_id = $order->id;
+            $orderProducts->product_id = $item['product_id'];
+            $orderProducts->tenant_id = $item['tenant_id'];
+            $orderProducts->quantity = $item['quantity'];
+            $orderProducts->price = $item['price'];
+            $orderProducts->orderItemStatus = 'Pending';
+            $orderProducts->save();
         }
 
         // Return JSON response

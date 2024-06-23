@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
-use App\Models\OrderItem;
+use App\Models\OrderProduct;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
@@ -15,17 +15,17 @@ class TenantOrderController extends Controller
         $tenant = Auth::guard('tenant')->user();
         $tenantId = $tenant->id_tenant;
 
-        $orders = Order::whereHas('orderItems', function($query) use ($tenantId) {
+        $orders = Order::whereHas('orderProducts', function($query) use ($tenantId) {
             $query->where('tenant_id', $tenantId);
-        })->with(['orderItems' => function($query) use ($tenantId) {
+        })->with(['orderProducts' => function($query) use ($tenantId) {
             $query->where('tenant_id', $tenantId);
         }])->paginate(10);
 
         $subtotals = [];
 
         foreach ($orders as $order) {
-            $orderItems = $order->orderItems;
-            $subtotal = $orderItems->sum(function ($item) {
+            $orderProducts = $order->orderProducts;
+            $subtotal = $orderProducts->sum(function ($item) {
                 return $item->quantity * $item->price;
             });
             $subtotals[$order->id] = $subtotal;
@@ -40,7 +40,7 @@ class TenantOrderController extends Controller
     public function show($id)
     {
         // Get a specific order by ID
-        $order = Order::with('orderItems')->find($id);
+        $order = Order::with('orderProducts')->find($id);
         if (!$order) {
             return redirect()->route('tenantOrders.index')->with('error', 'Pesanan tidak ditemukan.');
         }
@@ -52,29 +52,29 @@ class TenantOrderController extends Controller
         $tenant = Auth::guard('tenant')->user();
         $tenantId = $tenant->id_tenant;
 
-        $orderItems = OrderItem::where('tenant_id', $tenantId)
+        $orderProducts = OrderProduct::where('tenant_id', $tenantId)
         ->with(['order', 'product'])
         ->get();
 
-        $orders = Order::whereHas('orderItems', function($query) use ($tenantId) {
+        $orders = Order::whereHas('orderProducts', function($query) use ($tenantId) {
             $query->where('tenant_id', $tenantId);
-        })->with(['orderItems' => function($query) use ($tenantId) {
+        })->with(['orderProducts' => function($query) use ($tenantId) {
             $query->where('tenant_id', $tenantId);
         }])->get();
 
         $subtotals = [];
 
         foreach ($orders as $order) {
-            $orderItems = $order->orderItems;
-            $subtotal = $orderItems->sum(function ($item) {
+            $orderProducts = $order->orderProducts;
+            $subtotal = $orderProducts->sum(function ($item) {
                 return $item->quantity * $item->price;
             });
             $subtotals[$order->id] = $subtotal;
         }
 
-        $order = Order::with('orderItems')->find($id);
+        $order = Order::with('orderProducts')->find($id);
 
-        return view('tenantOrders.edit', compact('order', 'orderItems', 'subtotals'));
+        return view('tenantOrders.edit', compact('order', 'orderProducts', 'subtotals'));
     }
 
     public function update(Request $request, $id)
@@ -91,7 +91,7 @@ class TenantOrderController extends Controller
         ]);
 
         // Cari pesanan berdasarkan ID
-        $order = Order::with('orderItems')->find($id);
+        $order = Order::with('orderProducts')->find($id);
         if (!$order) {
             return redirect()->route('tenantOrders.index')->with('error', 'Pesanan tidak ditemukan.');
         }
@@ -105,7 +105,7 @@ class TenantOrderController extends Controller
         $order->save();
 
         // Perbarui status item-item pesanan
-        foreach ($order->orderItems as $item) {
+        foreach ($order->orderProducts as $item) {
             if (isset($validatedData['itemStatus'][$item->id])) {
                 $item->orderStatus = $validatedData['itemStatus'][$item->id];
                 // if ($item->orderStatus == OrderItem::STATUS_CANCELED) {
@@ -139,14 +139,14 @@ class TenantOrderController extends Controller
 
     public function markInProgress($id)
     {
-        $order = Order::with('orderItems')->find($id);
+        $order = Order::with('orderProducts')->find($id);
         if (!$order) {
             return redirect()->route('tenantOrders.index')->with('error', 'Pesanan tidak ditemukan.');
         }
 
         // Ubah status semua item pesanan
-        foreach ($order->orderItems as $item) {
-            $item->orderStatus = OrderItem::STATUS_IN_PROGRESS;
+        foreach ($order->orderProducts as $item) {
+            $item->orderStatus = OrderProduct::STATUS_IN_PROGRESS;
             $item->save();
         }
 
@@ -155,22 +155,4 @@ class TenantOrderController extends Controller
 
         return redirect()->route('tenantOrders.show', $id)->with('success', 'Status pesanan dan item berhasil diperbarui.');
     }
-
-    // public function markItemAsCanceled($orderId, $itemId)
-    // {
-    //     $orderItem = OrderItem::find($itemId);
-    //     if (!$orderItem) {
-    //         return redirect()->route('tenantOrders.show', $orderId)->with('error', 'Item pesanan tidak ditemukan.');
-    //     }
-
-    //     // Ubah status item pesanan menjadi Canceled dan hapus
-    //     $orderItem->orderStatus = OrderItem::STATUS_CANCELED;
-    //     $orderItem->delete();
-
-    //     // Kalkulasi ulang status pesanan
-    //     $order = Order::find($orderId);
-    //     $order->calculateStatus();
-
-    //     return redirect()->route('tenantOrders.show', $orderId)->with('success', 'Status item pesanan berhasil diubah menjadi Canceled dan dihapus.');
-    // }
 }

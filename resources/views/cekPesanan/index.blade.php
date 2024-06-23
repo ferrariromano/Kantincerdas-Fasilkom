@@ -33,8 +33,8 @@
             </p>
         </div>
     </div>
-    <div class="outletGroup {{ count($orderItemsGrouped) === 1 ? 'single-tenant' : '' }}">
-        @foreach ($orderItemsGrouped as $tenantId => $items)
+    <div class="outletGroup {{ count($orderProductsGrouped) === 1 ? 'single-tenant' : '' }}">
+        @foreach ($orderProductsGrouped as $tenantId => $items)
             <div class="outlet">
                 <div class="outletHeader">
                     <div class="headerLeft">
@@ -63,7 +63,7 @@
         @endforeach
     </div>
     <div class="orderHighlight">
-        <p><span class="orderHighlight__value">{{ $order->orderItems->sum('quantity') }}</span> Item</p>
+        <p><span class="orderHighlight__value">{{ $order->orderProducts->sum('quantity') }}</span> Item</p>
         <div class="priceOrder">
             <p>Total Harga</p>
             <span class="orderHighlight__value">Rp {{ number_format($order->orderTotalAmounts, 0, ',', '.') }}</span>

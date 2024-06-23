@@ -19,9 +19,9 @@ class Order extends Model
         'orderPayment',
     ];
 
-    public function orderItems()
+    public function orderProducts()
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->hasMany(OrderProduct::class);
     }
 
     public static function hasPendingOrders($uid)
@@ -34,7 +34,7 @@ class Order extends Model
         // Kalkulasi status pesanan
         public function calculateStatus()
         {
-            $items = $this->orderItems;
+            $items = $this->orderProducts;
 
             $allInProgress = $items->every(function ($item) {
                 return $item->isInProgress();
@@ -43,17 +43,17 @@ class Order extends Model
                 return $item->isCompleted();
             });
             $allPending = $items->every(function ($item) {
-                return $item->orderStatus === OrderItem::STATUS_PENDING;
+                return $item->orderStatus === OrderProduct::STATUS_PENDING;
             });
 
             if ($allInProgress) {
-                $this->orderStatus = OrderItem::STATUS_IN_PROGRESS;
+                $this->orderStatus = OrderProduct::STATUS_IN_PROGRESS;
             } elseif ($allCompleted) {
-                $this->orderStatus = OrderItem::STATUS_COMPLETED;
+                $this->orderStatus = OrderProduct::STATUS_COMPLETED;
             } elseif ($allPending) {
-                $this->orderStatus = OrderItem::STATUS_PENDING;
+                $this->orderStatus = OrderProduct::STATUS_PENDING;
             } else {
-                $this->orderStatus = OrderItem::STATUS_PENDING;
+                $this->orderStatus = OrderProduct::STATUS_PENDING;
             }
 
             $this->save();

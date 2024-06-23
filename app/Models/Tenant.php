@@ -22,9 +22,9 @@ class Tenant extends Authenticatable
     {
         return $this->hasMany(Product::class);
     }
-    public function orderItems()
+    public function orderProducts()
     {
-        return $this->hasMany(OrderItem::class, 'tenant_id', 'id_tenant');
+        return $this->hasMany(OrderProduct::class, 'tenant_id', 'id_tenant');
     }
 }
 

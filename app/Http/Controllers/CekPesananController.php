@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
-use App\Models\OrderItem;
+use App\Models\OrderProduct;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -17,11 +17,11 @@ class CekPesananController extends Controller
             2 => "Right Canteen"
         ];
         // Cek apakah user sudah melakukan pesanan
-        $order = Order::where('uid', $uid)->with('orderItems')->first();
+        $order = Order::where('uid', $uid)->with('orderProducts')->first();
 
         if ($order) {
             // Kelompokkan order items berdasarkan tenant
-            $orderItemsGrouped = $order->orderItems->groupBy('tenant_id');
+            $orderProductsGrouped = $order->orderProducts->groupBy('tenant_id');
 
             // Hitung subtotal dan waiting list untuk setiap tenant
             $subtotals = [];
@@ -29,7 +29,7 @@ class CekPesananController extends Controller
             $waitingLists = [];
             $statuses = [];
 
-            foreach ($orderItemsGrouped as $tenantId => $items) {
+            foreach ($orderProductsGrouped as $tenantId => $items) {
                 // Menghitung subtotal untuk tenant ini
                 $subtotal = $items->sum(function ($item) {
                     return $item->quantity * $item->price;
@@ -43,7 +43,7 @@ class CekPesananController extends Controller
                 $quantities[$tenantId] = $quantity;
 
                 // Menghitung waiting list untuk tenant ini
-                $waitingList = Order::whereHas('orderItems', function($query) use ($tenantId) {
+                $waitingList = Order::whereHas('orderProducts', function($query) use ($tenantId) {
                         $query->where('tenant_id', $tenantId)
                               ->where('orderItemStatus', 'In Progress');
                     })
@@ -60,11 +60,11 @@ class CekPesananController extends Controller
                 });
 
                 if ($allInProgress) {
-                    $statuses[$tenantId] = strtolower(OrderItem::STATUS_IN_PROGRESS);
+                    $statuses[$tenantId] = strtolower(OrderProduct::STATUS_IN_PROGRESS);
                 } elseif ($allCompleted) {
-                    $statuses[$tenantId] = strtolower(OrderItem::STATUS_COMPLETED);
+                    $statuses[$tenantId] = strtolower(OrderProduct::STATUS_COMPLETED);
                 } else {
-                    $statuses[$tenantId] = strtolower(OrderItem::STATUS_PENDING);
+                    $statuses[$tenantId] = strtolower(OrderProduct::STATUS_PENDING);
                 }
             }
 
@@ -72,7 +72,7 @@ class CekPesananController extends Controller
             return view('cekPesanan.index', [
                 'active' => 'cekPesanan',
                 'order' => $order,
-                'orderItemsGrouped' => $orderItemsGrouped,
+                'orderProductsGrouped' => $orderProductsGrouped,
                 'subtotals' => $subtotals,
                 'quantities' => $quantities,
                 'waitingLists' => $waitingLists,
@@ -86,13 +86,13 @@ class CekPesananController extends Controller
         }
 
         // Jika user belum memesan, hitung waiting list untuk semua tenant
-        $allWaitingLists = Order::whereHas('orderItems', function ($query) {
+        $allWaitingLists = Order::whereHas('orderProducts', function ($query) {
                 $query->where('orderItemStatus', 'In Progress');
             })
-            ->with('orderItems')
+            ->with('orderProducts')
             ->get()
             ->flatMap(function ($order) {
-                return $order->orderItems->where('orderItemStatus', 'In Progress');
+                return $order->orderProducts->where('orderItemStatus', 'In Progress');
             })
             ->groupBy('tenant_id')
             ->map(function ($items) {

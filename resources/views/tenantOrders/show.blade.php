@@ -47,7 +47,7 @@
                 <div class="mb-4">
                     <h6 class="mb-2 text-lg font-bold">Item Pesanan:</h6>
                     <ul>
-                        @foreach ($order->orderItems as $item)
+                        @foreach ($order->orderProducts as $item)
                         <li class="text-slate-500 dark:text-zink-200">
                             {{ $item->product_id }} - {{ $item->quantity }} x {{ $item->price }}
                             <span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border

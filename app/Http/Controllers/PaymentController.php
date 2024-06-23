@@ -42,7 +42,7 @@ class PaymentController extends Controller
 
         // Prepare item details
         $item_details = [];
-        foreach ($order->orderItems as $item) {
+        foreach ($order->orderProducts as $item) {
             $item_details[] = [
                 'id' => $item->product_id,
                 'price' => $item->price,

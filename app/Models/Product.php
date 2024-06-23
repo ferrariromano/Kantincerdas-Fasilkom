@@ -33,8 +33,8 @@ class Product extends Model
     {
         return $this->hasOne(nutritions::class);
     }
-    public function orderItems()
+    public function orderProducts()
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->hasMany(OrderProduct::class);
     }
 }

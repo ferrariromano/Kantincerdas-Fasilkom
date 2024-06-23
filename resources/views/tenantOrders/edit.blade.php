@@ -22,7 +22,7 @@
                 <form action="{{ route('tenantOrders.update', $order->id) }}" method="POST">
                 @csrf
                 @method('PUT')
-                @foreach ( $orderItems as $items )
+                @foreach ( $orderProducts as $items )
                 <div class="flex">
                     <div>{{ $items->quantity }}x </div>
                     <div class="mx-3">{{ $items->product->name }}</div>

@@ -17,7 +17,7 @@ const confirmOrderButton = document.querySelector('.confirmOrder');
 const orderName = document.getElementById('order-name');
 const orderPhone = document.getElementById('order-phone');
 const orderPayment = document.getElementById('order-payment');
-const orderItems = document.getElementById('order-items');
+const orderProducts = document.getElementById('order-items');
 const additional = document.getElementById('additional');
 
 
