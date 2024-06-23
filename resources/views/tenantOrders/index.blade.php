@@ -44,10 +44,10 @@
                                 <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
                                     {{ 'Rp ' . number_format($subtotals[$items->id], 2, ',', '.') }}
                                 </td>
-                                <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
+                                <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zinc-500">
                                     <span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border
-                                        {{ $items->orderStatus == 'Pending' ? 'bg-yellow-100 border-yellow-200 text-yellow-500 dark:bg-yellow-500/20 dark:border-yellow-500/20' : ($items->orderStatus == 'Completed' ? 'bg-green-100 border-green-200 text-green-500 dark:bg-green-500/20 dark:border-green-500/20' : ($items->orderStatus == 'Canceled' ? 'bg-red-100 border-red-200 text-red-500 dark:bg-red-500/20 dark:border-red-500/20' : 'bg-blue-100 border-blue-200 text-blue-500 dark:bg-blue-500/20 dark:border-blue-500/20')) }}">
-                                        {{ $items->orderStatus }}
+                                        {{ $statuses[$items->id] == 'Uncompleted' ? 'bg-yellow-100 border-yellow-200 text-yellow-500 dark:bg-yellow-500/20 dark:border-yellow-500/20' : 'bg-green-100 border-green-200 text-green-500 dark:bg-green-500/20 dark:border-green-500/20' }}">
+                                        {{ $statuses[$items->id] }}
                                     </span>
                                 </td>
                                 <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">

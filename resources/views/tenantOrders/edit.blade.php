@@ -19,26 +19,50 @@
 
         <div class="card">
             <div class="card-body">
+                <div class="mb-4">
+                    <h6 class="mb-2 text-lg font-bold">Nama Pemesan:</h6>
+                    <p class="text-slate-500 dark:text-zinc-200">{{ $order->orderName }}</p>
+                </div>
+                <div class="mb-4">
+                    <h6 class="mb-2 text-lg font-bold">No. Telepon:</h6>
+                    <p class="text-slate-500 dark:text-zinc-200">{{ $order->orderPhone }}</p>
+                </div>
+                <div class="mb-4">
+                    <h6 class="mb-2 text-lg font-bold">Total Jumlah:</h6>
+                    <p class="text-slate-500 dark:text-zinc-200">{{ 'Rp ' . number_format($subtotals[$order->id], 2, ',', '.') }}</p>
+                </div>
+                <div class="mb-4">
+                    <h6 class="mb-2 text-lg font-bold">Status:</h6>
+                    <p class="text-slate-500 dark:text-zinc-200">
+                        <span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border
+                            {{ $order->orderStatus == 'Pending' ? 'bg-yellow-100 border-yellow-200 text-yellow-500 dark:bg-yellow-500/20 dark:border-yellow-500/20' : ($order->orderStatus == 'Completed' ? 'bg-green-100 border-green-200 text-green-500 dark:bg-green-500/20 dark:border-green-500/20' : ($order->orderStatus == 'Canceled' ? 'bg-red-100 border-red-200 text-red-500 dark:bg-red-500/20 dark:border-red-500/20' : 'bg-blue-100 border-blue-200 text-blue-500 dark:bg-blue-500/20 dark:border-blue-500/20')) }}">
+                            {{ $order->orderStatus }}
+                        </span>
+                    </p>
+                </div>
+                <div class="mb-4">
+                    <h6 class="mb-2 text-lg font-bold">Item Pesanan:</h6>
+                </div>
                 <form action="{{ route('tenantOrders.update', $order->id) }}" method="POST">
-                @csrf
-                @method('PUT')
-                @foreach ( $orderProducts as $items )
-                <div class="flex">
-                    <div>{{ $items->quantity }}x </div>
-                    <div class="mx-3">{{ $items->product->name }}</div>
-                    <div>{{ $items->product->price }}</div>
-                    <div class="mb-4 mx-3">
-                        <select name="orderStatus" id="orderStatus" class="block w-full mt-1 border-slate-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:border-zink-600 dark:bg-zink-800 dark:text-zink-200" required>
-                            <option value="Pending" {{ $items->orderStatus == 'Pending' ? 'selected' : '' }}>Pending</option>
-                            <option value="Completed" {{ $items->orderStatus == 'Completed' ? 'selected' : '' }}>Completed</option>
-                            <option value="Canceled" {{ $items->orderStatus == 'Canceled' ? 'selected' : '' }}>Canceled</option>
-                        </select>
-                    </div>
+                    @csrf
+                    @method('PUT')
+                    @foreach ($orderProducts as $items)
+                    <div class="flex items-center mb-4">
+                        <div class="mr-3">{{ $items->quantity }}x</div>
+                        <div class="mr-3">{{ $items->product->name }}</div>
+                        <div class="mr-3">{{ $items->product->price }}</div>
+                        <div>
+                            <select name="orderItemStatus[{{ $items->id }}]" id="orderItemStatus" class="block w-full border-slate-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200" required>
+                                <option value="Pending" {{ $items->orderItemStatus == 'Pending' ? 'selected' : '' }}>Pending</option>
+                                <option value="Completed" {{ $items->orderItemStatus == 'Completed' ? 'selected' : '' }}>Completed</option>
+                                <option value="Canceled" {{ $items->orderItemStatus == 'Canceled' ? 'selected' : '' }}>Canceled</option>
+                            </select>
+                        </div>
                     </div>
                     @endforeach
                     <div class="mb-4">
-                        <label for="additional" class="block text-sm font-medium text-slate-700 dark:text-zink-200">Catatan Tambahan</label>
-                        <textarea name="additional" id="additional" class="block w-full mt-1 border-slate-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:border-zink-600 dark:bg-zink-800 dark:text-zink-200" disabled>{{ $order->orderNotes }}</textarea>
+                        <label for="additional" class="mb-2 text-lg font-bold">Catatan Tambahan</label>
+                        <textarea name="additional" id="additional" class="block w-full mt-1 border-slate-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200" disabled>{{ $order->orderNotes }}</textarea>
                     </div>
                     <div class="flex justify-end">
                         <button type="submit" class="btn bg-custom-500 text-white hover:bg-custom-600">Update</button>
@@ -50,7 +74,6 @@
         <div class="flex justify-end mt-4">
             <a href="{{ route('tenantOrders.index') }}" class="btn bg-custom-500 text-white hover:bg-custom-600">Kembali ke Daftar Pesanan</a>
         </div>
-
     </div>
 </div>
 @endsection

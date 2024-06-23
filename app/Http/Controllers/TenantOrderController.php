@@ -22,6 +22,7 @@ class TenantOrderController extends Controller
         }])->paginate(10);
 
         $subtotals = [];
+        $statuses = [];
 
         foreach ($orders as $order) {
             $orderProducts = $order->orderProducts;
@@ -29,11 +30,21 @@ class TenantOrderController extends Controller
                 return $item->quantity * $item->price;
             });
             $subtotals[$order->id] = $subtotal;
+
+            $allCompleted = $orderProducts->every(function ($item) {
+                return $item->orderItemStatus === 'Completed';
+            });
+
+            if ($allCompleted) {
+                $statuses[$order->id] = 'Completed';
+            } else {
+                $statuses[$order->id] = 'Uncompleted';
+            }
         }
 
         // dd($subtotals);
         // dd($orders);
-        return view('tenantOrders.index', compact('orders', 'subtotals'));
+        return view('tenantOrders.index', compact('orders', 'subtotals', 'statuses'));
 
     }
 
@@ -81,43 +92,35 @@ class TenantOrderController extends Controller
     {
         // Validasi data pesanan
         $validatedData = $request->validate([
-            'order-name' => 'required|string|max:255',
-            'order-phone' => 'required|string|max:255',
-            'order-payment' => 'required|string|in:tunai,non-tunai',
-            'additional' => 'nullable|string',
-            'orderTotalAmounts' => 'required|numeric',
-            'orderStatus' => 'required|string|in:Pending,Completed,Canceled,In Progress',
-            'itemStatus.*' => 'required|string|in:Pending,Completed,Canceled,In Progress'
+            'orderStatus.*' => 'required|string|in:UnCompleted, Completed',
+            'orderItemStatus.*' => 'required|string|in:Pending,Completed,Canceled,In Progress',
         ]);
 
-        // Cari pesanan berdasarkan ID
-        $order = Order::with('orderProducts')->find($id);
-        if (!$order) {
-            return redirect()->route('tenantOrders.index')->with('error', 'Pesanan tidak ditemukan.');
-        }
+        $order = Order::with('orderProducts')->findOrFail($id);
 
-        // Perbarui informasi pesanan
-        $order->orderName = $validatedData['order-name'];
-        $order->orderPhone = $validatedData['order-phone'];
-        $order->orderNotes = $validatedData['additional'];
-        $order->orderTotalAmounts = $validatedData['orderTotalAmounts'];
-        $order->orderStatus = $validatedData['orderStatus'];
-        $order->save();
+        $allCompleted = true;
 
-        // Perbarui status item-item pesanan
         foreach ($order->orderProducts as $item) {
-            if (isset($validatedData['itemStatus'][$item->id])) {
-                $item->orderStatus = $validatedData['itemStatus'][$item->id];
-                // if ($item->orderStatus == OrderItem::STATUS_CANCELED) {
-                //     $item->delete();
-                // } else {
-                //     $item->save();
-                // }
+            if (isset($validatedData['orderItemStatus'][$item->id])) {
+                $item->orderItemStatus = $validatedData['orderItemStatus'][$item->id];
+                $item->update();
+
+                if ($item->orderItemStatus !== 'Completed') {
+                    $allCompleted = false;
+                }
             }
         }
 
-        // Kalkulasi ulang status pesanan
-        $order->calculateStatus();
+        $tenantId = $order->orderProducts->first()->tenant_id;
+        if ($allCompleted) {
+            Order::whereHas('orderProducts', function ($query) use ($tenantId) {
+                $query->where('tenant_id', $tenantId);
+            })->update(['orderStatus' => 'Completed']);
+        } else {
+            Order::whereHas('orderProducts', function ($query) use ($tenantId) {
+                $query->where('tenant_id', $tenantId);
+            })->update(['orderStatus' => 'Uncompleted']);
+        }
 
         return redirect()->route('tenantOrders.index')->with('success', 'Pesanan dan item berhasil diperbarui.');
     }
