@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\OrderItem;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 
@@ -11,9 +12,29 @@ class TenantOrderController extends Controller
 {
     public function index()
     {
-        // Mengambil semua pesanan dengan paginasi
-        $orders = Order::paginate(10); // Sesuaikan jumlah item per halaman sesuai kebutuhan
-        return view('tenantOrders.index', compact('orders'));
+        $tenant = Auth::guard('tenant')->user();
+        $tenantId = $tenant->id_tenant;
+
+        $orders = Order::whereHas('orderItems', function($query) use ($tenantId) {
+            $query->where('tenant_id', $tenantId);
+        })->with(['orderItems' => function($query) use ($tenantId) {
+            $query->where('tenant_id', $tenantId);
+        }])->paginate(10);
+
+        $subtotals = [];
+
+        foreach ($orders as $order) {
+            $orderItems = $order->orderItems;
+            $subtotal = $orderItems->sum(function ($item) {
+                return $item->quantity * $item->price;
+            });
+            $subtotals[$order->id] = $subtotal;
+        }
+
+        // dd($subtotals);
+        // dd($orders);
+        return view('tenantOrders.index', compact('orders', 'subtotals'));
+
     }
 
     public function show($id)
@@ -28,12 +49,32 @@ class TenantOrderController extends Controller
 
     public function edit($id)
     {
-        // Get a specific order by ID
-        $order = Order::find($id);
-        if (!$order) {
-            return redirect()->route('tenantOrders.index')->with('error', 'Pesanan tidak ditemukan.');
+        $tenant = Auth::guard('tenant')->user();
+        $tenantId = $tenant->id_tenant;
+
+        $orderItems = OrderItem::where('tenant_id', $tenantId)
+        ->with(['order', 'product'])
+        ->get();
+
+        $orders = Order::whereHas('orderItems', function($query) use ($tenantId) {
+            $query->where('tenant_id', $tenantId);
+        })->with(['orderItems' => function($query) use ($tenantId) {
+            $query->where('tenant_id', $tenantId);
+        }])->get();
+
+        $subtotals = [];
+
+        foreach ($orders as $order) {
+            $orderItems = $order->orderItems;
+            $subtotal = $orderItems->sum(function ($item) {
+                return $item->quantity * $item->price;
+            });
+            $subtotals[$order->id] = $subtotal;
         }
-        return view('tenantOrders.edit', compact('order'));
+
+        $order = Order::with('orderItems')->find($id);
+
+        return view('tenantOrders.edit', compact('order', 'orderItems', 'subtotals'));
     }
 
     public function update(Request $request, $id)

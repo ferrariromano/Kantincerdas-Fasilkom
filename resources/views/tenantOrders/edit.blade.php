@@ -7,7 +7,7 @@
 
         <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
             <div class="grow">
-                <h5 class="text-16">Edit Pesanan</h5>
+                <h5 class="text-16">Detail Pesanan</h5>
             </div>
             <ul class="flex items-center gap-2 text-sm font-normal shrink-0">
                 <li class="relative before:content-['\ea54'] before:font-remix ltr:before:-right-1 rtl:before:-left-1 before:absolute before:text-[18px] before:-top-[3px] ltr:pr-4 rtl:pl-4 before:text-slate-400 dark:before:text-zink-200">
@@ -20,38 +20,25 @@
         <div class="card">
             <div class="card-body">
                 <form action="{{ route('tenantOrders.update', $order->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div class="mb-4">
-                        <label for="order-name" class="block text-sm font-medium text-slate-700 dark:text-zink-200">Nama Pemesan</label>
-                        <input type="text" name="order-name" id="order-name" value="{{ $order->orderName }}" class="block w-full mt-1 border-slate-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:border-zink-600 dark:bg-zink-800 dark:text-zink-200" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="order-phone" class="block text-sm font-medium text-slate-700 dark:text-zink-200">No. Telepon</label>
-                        <input type="text" name="order-phone" id="order-phone" value="{{ $order->orderPhone }}" class="block w-full mt-1 border-slate-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:border-zink-600 dark:bg-zink-800 dark:text-zink-200" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="order-payment" class="block text-sm font-medium text-slate-700 dark:text-zink-200">Pembayaran</label>
-                        <select name="order-payment" id="order-payment" class="block w-full mt-1 border-slate-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:border-zink-600 dark:bg-zink-800 dark:text-zink-200" required>
-                            <option value="tunai" {{ $order->orderPayment == 'tunai' ? 'selected' : '' }}>Tunai</option>
-                            <option value="non-tunai" {{ $order->orderPayment == 'non-tunai' ? 'selected' : '' }}>Non-Tunai</option>
-                        </select>
-                    </div>
-                    <div class="mb-4">
-                        <label for="orderTotalAmounts" class="block text-sm font-medium text-slate-700 dark:text-zink-200">Total Jumlah</label>
-                        <input type="number" name="orderTotalAmounts" id="orderTotalAmounts" value="{{ $order->orderTotalAmounts }}" class="block w-full mt-1 border-slate-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:border-zink-600 dark:bg-zink-800 dark:text-zink-200" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="orderStatus" class="block text-sm font-medium text-slate-700 dark:text-zink-200">Status</label>
+                @csrf
+                @method('PUT')
+                @foreach ( $orderItems as $items )
+                <div class="flex">
+                    <div>{{ $items->quantity }}x </div>
+                    <div class="mx-3">{{ $items->product->name }}</div>
+                    <div>{{ $items->product->price }}</div>
+                    <div class="mb-4 mx-3">
                         <select name="orderStatus" id="orderStatus" class="block w-full mt-1 border-slate-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:border-zink-600 dark:bg-zink-800 dark:text-zink-200" required>
-                            <option value="Pending" {{ $order->orderStatus == 'Pending' ? 'selected' : '' }}>Pending</option>
-                            <option value="Completed" {{ $order->orderStatus == 'Completed' ? 'selected' : '' }}>Completed</option>
-                            <option value="Canceled" {{ $order->orderStatus == 'Canceled' ? 'selected' : '' }}>Canceled</option>
+                            <option value="Pending" {{ $items->orderStatus == 'Pending' ? 'selected' : '' }}>Pending</option>
+                            <option value="Completed" {{ $items->orderStatus == 'Completed' ? 'selected' : '' }}>Completed</option>
+                            <option value="Canceled" {{ $items->orderStatus == 'Canceled' ? 'selected' : '' }}>Canceled</option>
                         </select>
                     </div>
+                    </div>
+                    @endforeach
                     <div class="mb-4">
                         <label for="additional" class="block text-sm font-medium text-slate-700 dark:text-zink-200">Catatan Tambahan</label>
-                        <textarea name="additional" id="additional" class="block w-full mt-1 border-slate-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:border-zink-600 dark:bg-zink-800 dark:text-zink-200">{{ $order->orderNotes }}</textarea>
+                        <textarea name="additional" id="additional" class="block w-full mt-1 border-slate-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:border-zink-600 dark:bg-zink-800 dark:text-zink-200" disabled>{{ $order->orderNotes }}</textarea>
                     </div>
                     <div class="flex justify-end">
                         <button type="submit" class="btn bg-custom-500 text-white hover:bg-custom-600">Update</button>

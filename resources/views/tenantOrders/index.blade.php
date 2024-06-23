@@ -7,7 +7,7 @@
 
         <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
             <div class="grow">
-                <h5 class="text-16">Daftar Pesanan</h5>
+                <h5 class="text-16">Daftar Pemesan</h5>
             </div>
             <ul class="flex items-center gap-2 text-sm font-normal shrink-0">
                 <li class="relative before:content-['\ea54'] before:font-remix ltr:before:-right-1 rtl:before:-left-1 before:absolute before:text-[18px] before:-top-[3px] ltr:pr-4 rtl:pl-4 before:text-slate-400 dark:before:text-zink-200">
@@ -31,45 +31,39 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($orders as $order)
+                            @foreach($orders as $items)
                             <tr>
                                 <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
-                                    <a href="{{ route('tenantOrders.show', $order->id) }}" class="flex items-center gap-2">
-                                        <h6>{{ $order->orderName }}</h6>
+                                    <a href="{{ route('tenantOrders.show', $items->id) }}" class="flex items-center gap-2">
+                                        <h6>{{ $items->orderName }}</h6>
                                     </a>
                                 </td>
                                 <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
-                                    {{ $order->orderPhone }}
+                                    {{ $items->orderPhone }}
                                 </td>
                                 <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
-                                    {{ 'Rp ' . number_format($order->orderTotalAmounts, 2, ',', '.') }}
+                                    {{ 'Rp ' . number_format($subtotals[$items->id], 2, ',', '.') }}
                                 </td>
                                 <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
                                     <span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border
-                                        {{ $order->orderStatus == 'Pending' ? 'bg-yellow-100 border-yellow-200 text-yellow-500 dark:bg-yellow-500/20 dark:border-yellow-500/20' : ($order->orderStatus == 'Completed' ? 'bg-green-100 border-green-200 text-green-500 dark:bg-green-500/20 dark:border-green-500/20' : ($order->orderStatus == 'Canceled' ? 'bg-red-100 border-red-200 text-red-500 dark:bg-red-500/20 dark:border-red-500/20' : 'bg-blue-100 border-blue-200 text-blue-500 dark:bg-blue-500/20 dark:border-blue-500/20')) }}">
-                                        {{ $order->orderStatus }}
+                                        {{ $items->orderStatus == 'Pending' ? 'bg-yellow-100 border-yellow-200 text-yellow-500 dark:bg-yellow-500/20 dark:border-yellow-500/20' : ($items->orderStatus == 'Completed' ? 'bg-green-100 border-green-200 text-green-500 dark:bg-green-500/20 dark:border-green-500/20' : ($items->orderStatus == 'Canceled' ? 'bg-red-100 border-red-200 text-red-500 dark:bg-red-500/20 dark:border-red-500/20' : 'bg-blue-100 border-blue-200 text-blue-500 dark:bg-blue-500/20 dark:border-blue-500/20')) }}">
+                                        {{ $items->orderStatus }}
                                     </span>
                                 </td>
                                 <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
-                                    <div class="relative dropdown">
-                                        <button class="flex items-center justify-center w-8 h-8 p-0 text-slate-500 bg-slate-100 rounded-full dropdown-toggle hover:text-white hover:bg-slate-600 focus:text-white focus:bg-slate-600 focus:ring focus:ring-slate-100 active:text-white active:bg-slate-600 active:ring active:ring-slate-100 dark:bg-slate-500/20 dark:text-slate-400 dark:hover:bg-slate-500 dark:hover:text-white dark:focus:bg-slate-500 dark:focus:text-white dark:active:bg-slate-500 dark:active:text-white dark:ring-slate-400/20" id="orderAction{{ $order->id }}" data-bs-toggle="dropdown">
+                                    <div class="dropdown">
+                                        <button class="flex items-center justify-center w-8 h-8 p-0 text-slate-500 bg-slate-100 rounded-full dropdown-toggle hover:text-white hover:bg-slate-600 focus:text-white focus:bg-slate-600 focus:ring focus:ring-slate-100 active:text-white active:bg-slate-600 active:ring active:ring-slate-100 dark:bg-slate-500/20 dark:text-slate-400 dark:hover:bg-slate-500 dark:hover:text-white dark:focus:bg-slate-500 dark:focus:text-white dark:active:bg-slate-500 dark:active:text-white dark:ring-slate-400/20" id="orderAction{{ $items->id }}" data-bs-toggle="dropdown">
                                             <i data-lucide="more-horizontal" class="w-6 h-6"></i>
                                         </button>
-                                        <ul class="absolute z-50 hidden py-2 mt-1 list-none bg-white rounded-md shadow-md dropdown-menu min-w-[10rem] dark:bg-zink-600" aria-labelledby="orderAction{{ $order->id }}">
+                                        <ul class="absolute z-50 hidden py-2 mt-1 list-none bg-white rounded-md shadow-md dropdown-menu min-w-[10rem] dark:bg-zink-600" aria-labelledby="orderAction{{ $items->id }}">
                                             <li>
-                                                <a class="flex items-center px-4 py-1.5 text-base text-slate-600 transition-all duration-200 ease-linear dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="{{ route('tenantOrders.show', $order->id) }}">
-                                                    <i data-lucide="eye" class="w-4 h-4 mr-2"></i>
-                                                    <span class="align-middle">Overview</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="flex items-center px-4 py-1.5 text-base text-slate-600 transition-all duration-200 ease-linear dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="{{ route('tenantOrders.edit', $order->id) }}">
+                                                <a class="flex items-center px-4 py-1.5 text-base text-slate-600 transition-all duration-200 ease-linear dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="{{ route('tenantOrders.edit', $items->id) }}">
                                                     <i data-lucide="file-edit" class="w-4 h-4 mr-2"></i>
-                                                    <span class="align-middle">Edit</span>
+                                                    <span class="align-middle">Lihat Detail</span>
                                                 </a>
                                             </li>
                                             <li>
-                                                <form action="{{ route('tenantOrders.destroy', $order->id) }}" method="POST" class="flex items-center px-4 py-1.5 text-base text-slate-600 transition-all duration-200 ease-linear cursor-pointer dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200">
+                                                <form action="{{ route('tenantOrders.destroy', $items->id) }}" method="POST" class="flex items-center px-4 py-1.5 text-base text-slate-600 transition-all duration-200 ease-linear cursor-pointer dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="flex items-center w-full text-left">

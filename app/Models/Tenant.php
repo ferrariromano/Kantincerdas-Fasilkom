@@ -24,7 +24,7 @@ class Tenant extends Authenticatable
     }
     public function orderItems()
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->hasMany(OrderItem::class, 'tenant_id', 'id_tenant');
     }
 }
 
