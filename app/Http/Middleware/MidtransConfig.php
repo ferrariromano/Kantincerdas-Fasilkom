@@ -16,12 +16,6 @@ class MidtransConfig
         \Midtrans\Config::$isSanitized = config('services.midtrans.isSanitized');
         \Midtrans\Config::$is3ds = config('services.midtrans.is3ds');
 
-        Log::info('Midtrans Configured: ', [
-            'serverKey' => config('services.midtrans.serverKey'),
-            'isProduction' => config('services.midtrans.isProduction'),
-            'isSanitized' => config('services.midtrans.isSanitized'),
-            'is3ds' => config('services.midtrans.is3ds')
-        ]);
 
         return $next($request);
     }

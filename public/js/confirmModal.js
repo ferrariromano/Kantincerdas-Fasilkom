@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Elements for confirmation modal
     const confirmModalOverlay = document.getElementById('confirmModalOverlay');
     const confirmModal = document.getElementById('confirmModal');
     const confirmModalTitle = document.querySelector('.confirm-modal-title');
@@ -14,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmTotalPrice = document.getElementById('confirm-total-price');
     const hlItem = document.querySelectorAll('.hlItem');
 
+    // Elements for order form
     const orderForm = document.querySelector('.orderForm');
     const orderName = document.getElementById('order-name');
     const orderPhone = document.getElementById('order-phone');
@@ -30,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const orderProducts = document.getElementById('order-items');
 
-    // AlertModal Attribute
+    // Elements for alert modal
     const alertModalOverlay = document.querySelector('.alert-modal-overlay');
     const alertModal = document.querySelector('.alertModal');
     const alertMessage = document.querySelector('.alertMessage');
@@ -41,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const iconError = document.querySelector('.icon-error');
     const closeAlertModal = document.querySelector('.closeModal');
 
+    // Generate and set UID
     const uid = getUID();
     document.getElementById('uid').value = uid;
 
@@ -85,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
     confirmOrderFinalButton.addEventListener('click', () => {
         orderProducts.value = JSON.stringify(cart);
         const uid = getUID();
-        localStorage.setItem('uid', uid);  // Simpan UID di LocalStorage
+        localStorage.setItem('uid', uid);  // Save UID in LocalStorage
 
         const formData = new FormData(orderForm);
         formData.append('uid', uid);
@@ -122,6 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Function to initiate Midtrans payment
     function initiateMidtransPayment(snapToken) {
         snap.pay(snapToken, {
             onSuccess: function (result) {
@@ -146,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ====== Alert Modal ======
+    // ====== Alert Modal Functions ======
     closeAlertModal.addEventListener('click', closeModal);
 
     // Close the alert modal and redirect
@@ -159,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = `/cekPesanan/${uid}`;
     }
 
-    // Show Alert Modal
+    // Show Success Modal
     function showSuccessModal(message) {
         alertMessage.textContent = message;
         alertModal.style.display = 'block';
@@ -170,6 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
         iconError.style.display = 'none';
     }
 
+    // Show Failed Modal
     function showFailedModal(message) {
         alertMessage.textContent = message;
         alertModal.style.display = 'block';
@@ -180,6 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
         iconError.style.display = 'none';
     }
 
+    // Show Error Modal
     function showErrorModal(message) {
         alertMessage.textContent = message;
         alertModal.style.display = 'block';
@@ -187,5 +193,16 @@ document.addEventListener('DOMContentLoaded', () => {
         iconError.style.display = 'block';
         iconSuccess.style.display = 'none';
         iconFailed.style.display = 'none';
+    }
+
+    // Helper function to generate UID
+    function getUID() {
+        // Implement your UID generation logic here
+        return 'some-unique-id';
+    }
+
+    // Helper function to update confirmation items
+    function updateConfirmationItems() {
+        // Implement the logic to update confirmation items here
     }
 });

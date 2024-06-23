@@ -17,8 +17,10 @@ class PaymentController extends Controller
             'order_id' => 'required|integer|exists:orders,id',
         ]);
 
-        $order = Order::find($validatedData['order_id']);
+        // Find the order by ID
+        $order = Order::with('orderProducts')->find($validatedData['order_id']);
 
+        // Check if order exists and payment method is non-cash
         if (!$order || $order->orderPayment !== 'non-tunai') {
             return response()->json([
                 'success' => false,
@@ -59,7 +61,7 @@ class PaymentController extends Controller
         ];
         Log::info('Customer details prepared.', ['customer_details' => $customer_details]);
 
-        // Prepare params for Snap API
+        // Prepare parameters for Snap API
         $params = [
             'transaction_details' => $transaction_details,
             'item_details' => $item_details,
@@ -68,8 +70,10 @@ class PaymentController extends Controller
         Log::info('Params for Snap API prepared.', ['params' => $params]);
 
         try {
+            // Get Snap Token
             $snapToken = Snap::getSnapToken($params);
             Log::info('Midtrans Snap Token obtained.', ['snap_token' => $snapToken]);
+
             return response()->json([
                 'success' => true,
                 'message' => 'Token berhasil diperoleh',
@@ -78,7 +82,11 @@ class PaymentController extends Controller
             ]);
         } catch (\Exception $e) {
             Log::error('Midtrans Error: ' . $e->getMessage());
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat memproses pembayaran.',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 }

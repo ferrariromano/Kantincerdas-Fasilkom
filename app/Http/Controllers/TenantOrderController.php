@@ -32,7 +32,7 @@ class TenantOrderController extends Controller
             $subtotals[$order->id] = $subtotal;
 
             $allCompleted = $orderProducts->every(function ($item) {
-                return $item->orderItemStatus === 'Completed';
+                return $item->orderProductStatus === 'Completed';
             });
 
             if ($allCompleted) {
@@ -93,7 +93,7 @@ class TenantOrderController extends Controller
         // Validasi data pesanan
         $validatedData = $request->validate([
             'orderStatus.*' => 'required|string|in:UnCompleted, Completed',
-            'orderItemStatus.*' => 'required|string|in:Pending,Completed,Canceled,In Progress',
+            'orderProductStatus.*' => 'required|string|in:Pending,Completed,Canceled,In Progress',
         ]);
 
         $order = Order::with('orderProducts')->findOrFail($id);
@@ -101,11 +101,11 @@ class TenantOrderController extends Controller
         $allCompleted = true;
 
         foreach ($order->orderProducts as $item) {
-            if (isset($validatedData['orderItemStatus'][$item->id])) {
-                $item->orderItemStatus = $validatedData['orderItemStatus'][$item->id];
+            if (isset($validatedData['orderProductStatus'][$item->id])) {
+                $item->orderProductStatus = $validatedData['orderProductStatus'][$item->id];
                 $item->update();
 
-                if ($item->orderItemStatus !== 'Completed') {
+                if ($item->orderProductStatus !== 'Completed') {
                     $allCompleted = false;
                 }
             }

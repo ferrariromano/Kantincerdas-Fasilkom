@@ -44,7 +44,11 @@ Route::post('/submitOrder', [OrderController::class, 'submitOrder'])->name('subm
 Route::get('cekPesanan/{uid}', [CekPesananController::class, 'showOrder'])->name('cekPesanan');
 
 Route::post('/submit-order', [OrderController::class, 'submitOrder'])->name('submitOrder');
-Route::post('/process-payment', [PaymentController::class, 'processPayment'])->name('processPayment');
+
+
+// Route::post('/process-payment', [PaymentController::class, 'processPayment'])->name('processPayment');
+Route::post('/payment/snap-token', [PaymentController::class, 'processPayment']);
+
 
 
 

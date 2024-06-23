@@ -13,7 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         //
-        $middleware->append(MidtransConfig::class); // tambahkan ini
+        $middleware->append(MidtransConfig::class);
 
         $middleware-> alias([
             'auth.tenant' => \App\Http\Middleware\AuthTenant::class,

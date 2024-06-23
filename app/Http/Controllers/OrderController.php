@@ -53,7 +53,7 @@ class OrderController extends Controller
             $orderProducts->tenant_id = $item['tenant_id'];
             $orderProducts->quantity = $item['quantity'];
             $orderProducts->price = $item['price'];
-            $orderProducts->orderItemStatus = 'Pending';
+            $orderProducts->orderProductStatus = 'Pending';
             $orderProducts->save();
         }
 

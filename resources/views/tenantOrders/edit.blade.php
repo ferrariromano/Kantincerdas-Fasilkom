@@ -52,10 +52,10 @@
                         <div class="mr-3">{{ $items->product->name }}</div>
                         <div class="mr-3">{{ $items->product->price }}</div>
                         <div>
-                            <select name="orderItemStatus[{{ $items->id }}]" id="orderItemStatus" class="block w-full border-slate-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200" required>
-                                <option value="Pending" {{ $items->orderItemStatus == 'Pending' ? 'selected' : '' }}>Pending</option>
-                                <option value="Completed" {{ $items->orderItemStatus == 'Completed' ? 'selected' : '' }}>Completed</option>
-                                <option value="Canceled" {{ $items->orderItemStatus == 'Canceled' ? 'selected' : '' }}>Canceled</option>
+                            <select name="orderProductStatus[{{ $items->id }}]" id="orderProductStatus" class="block w-full border-slate-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200" required>
+                                <option value="Pending" {{ $items->orderProductStatus == 'Pending' ? 'selected' : '' }}>Pending</option>
+                                <option value="Completed" {{ $items->orderProductStatus == 'Completed' ? 'selected' : '' }}>Completed</option>
+                                <option value="Canceled" {{ $items->orderProductStatus == 'Canceled' ? 'selected' : '' }}>Canceled</option>
                             </select>
                         </div>
                     </div>
