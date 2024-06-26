@@ -37,6 +37,23 @@
                 cekPesananLink.href = `/cekPesanan/${uid}`;
             }
         });
+
+        // Cek apakah saat ini tidak di halaman 'Menu'
+        if (!window.location.pathname.includes('/menu')) {
+            resetMenuFilters();
+        }
+
+        // Fungsi untuk reset filter
+        function resetMenuFilters() {
+        localStorage.setItem('selectedCategory', 'Semua Kategori');
+        localStorage.setItem('selectedTenant', 'Semua Outlet');
+        const categoryLabel = document.getElementById('label-category');
+        const tenantLabel = document.getElementById('label-tenant');
+        if (categoryLabel && tenantLabel) {
+            categoryLabel.textContent = 'Semua Kategori';
+            tenantLabel.textContent = 'Semua Outlet';
+            }
+        }
     </script>
 </body>
 

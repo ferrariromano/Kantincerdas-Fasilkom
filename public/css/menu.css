@@ -14,10 +14,11 @@ a{
   transition: 0.5s;
 }
 
+/* ===== Header ===== */
 header{
   position: fixed;
-  display: grid;
-  grid-template-columns: 2fr 2fr 30px;
+  display: flex;
+  flex-direction: column;
   width: 900px;
   max-width: 90vw;
   justify-content: space-between;
@@ -26,8 +27,38 @@ header{
   background-color: #353432;
   z-index: 3;
   transition: 0.5s;
+  gap: 1rem;
 }
 
+/* Top Header */
+.topHeader {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  padding: 0rem 1rem;
+}
+.icon-filter {
+  border: solid #ffeba7 3px;
+  border-radius: 2rem;
+  padding: .3rem;
+  cursor: pointer;
+}
+.icon-filter:hover{
+  background-color: #ffeba7;
+}
+.icon-filter.activeFilter {
+  background-color: #ffeba7;
+}
+.filterIcon path.activeFilter{
+  stroke: #353432;
+}
+.icon-filter:hover .filterIcon path {
+  stroke: #353432;
+}
+.filterIcon path {
+  stroke: #ffeba7;
+}
 .title a {
   font-size: xx-large;
   color: #eee;
@@ -51,8 +82,51 @@ header{
   right: -20px;
 }
 
+/* Filter Group */
+.filterGroup {
+  display: none;
+  gap: 1rem;
+  align-items: center;
+  transition: 0.5s;
+}
+.filterGroup.activeFilter {
+  display: flex;
+  transition: 0.5s;
+}
+.filter {
+  position: relative;
+  max-width: 100%;
+  text-align: center;
+  z-index: 200;
+}
+.searchGroup {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+.icon-search {
+    width: 24px;
+    height: 24px;
+}
+.search-input {
+    width: 10.5rem;
+    height: 2rem;
+    border-radius: 5px;
+    padding: 1rem 0.5rem;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    background-color: #ffeba7;
+    cursor: pointer;
+    color: #102770;
+}
+.subFilterGroup {
+  display: flex;
+  gap: 1rem;
+}
+
 /* ========= Product Item ========= */
-.contentTab {
+  .contentTab {
     width: 900px;
     margin: auto;
     max-width: 90vw;
@@ -60,6 +134,9 @@ header{
     transition: 0.5s;
     margin-top: 6rem;
     min-height: calc(100vh - 17rem);
+  }
+  .contentTab.activeFilter {
+    margin-top: 9rem;
   }
   .listProduct{
     display: grid;
@@ -279,6 +356,7 @@ header{
   }
 }
 
+
 /* mobile */
 @media only screen and (max-width: 767px) {
   .listProduct{
@@ -286,41 +364,29 @@ header{
   }
 }
 
-@media only screen and (max-width: 600px) {
-  header {
-    grid-template-columns: 100px 100px 30px 100px;
-    grid-template-rows: auto auto;
-    row-gap: .8rem;
-    column-gap: 0;
-    padding: 10px 10px;
+@media only screen and (max-width: 650px) {
+  .filterGroup.activeFilter {
+    display: flex;
+    flex-direction: column;
   }
-
-  .title {
-      grid-column: 2 / 3;
-      grid-row: 1 / 2;
+  .search-input {
+    width: 19rem;
   }
-
-  .icon-cart {
-      grid-column: 3 / 4  ;
-      grid-row: 1 / 2;
-  }
-
-  .filterGroup {
-      grid-column: 1 / 5;
-      grid-row: 2 / 3;
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-  }
-
-  .contentTab {
-    margin-top: 8rem;
+  .contentTab.activeFilter {
+    margin-top: 12rem;
   }
 }
 
 @media (max-width: 485px) {
   .wrapper {
     margin-top: 9rem;
+  }
+  header {
+    padding: 20px;
+  }
+  .topHeader{
+    padding-left: 0;
+    padding-right: 12px;
   }
   .cartTab {
     margin-top: 9rem;
@@ -347,33 +413,18 @@ header{
   }
 }
 
+@media only screen and (max-width: 390px) {
+  .search-input {
+    width: 17rem;
+  }
+}
+@media only screen and (max-width: 350px) {
+  .search-input {
+    width: 15rem;
+  }
+}
+
 @media only screen and (max-width: 376px) {
-  header {
-    grid-template-columns: 100px 30px;
-    grid-template-rows: auto auto;
-    row-gap: 1rem;
-    column-gap: 0;
-    padding: 10px 30px;
-  }
-
-  .title {
-      grid-column: 1 / 2;
-      grid-row: 1 / 2;
-  }
-
-  .icon-cart {
-      grid-column: 2 / 3  ;
-      grid-row: 1 / 2;
-  }
-
-  .filterGroup {
-      grid-column: 1 / 3;
-      grid-row: 2 / 3;
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-  }
-
   .listCart .item{
       grid-template-columns: 100px 90px 60px 1fr;
       gap: 5px;
@@ -390,11 +441,11 @@ header{
 
 @media only screen and (max-width: 330px) {
   header {
-    grid-template-columns: 100px 30px;
-    grid-template-rows: auto auto;
-    row-gap: 1rem;
-    column-gap: 0;
-    padding: 10px 30px;
+    padding: 15px;
+  }
+  .topHeader{
+    padding-left: 0;
+    padding-right: 12px;
   }
   .listCart .item{
       grid-template-columns: 100px 80px 60px 1fr;

@@ -6,16 +6,7 @@
 *::after {
   box-sizing: border-box;
 }
-.filterGroup {
-    display: flex;
-    gap: 1rem;
-}
-.filter {
-  position: relative;
-  max-width: 100%;
-  text-align: center;
-  z-index: 200;
-}
+
 [type="checkbox"]:checked,
 [type="checkbox"]:not(:checked){
   position: absolute;

@@ -2,48 +2,49 @@
 
 namespace App\Http\Controllers;
 
+use Log;
 use App\Models\Tenant;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\nutritions;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
     public function listActiveProducts(Request $request)
     {
-        // Mengambil semua kategori
         $categories = Category::all();
-
-        // Mengambil input dari request
         $category_id = $request->input('category_id');
         $tenant_id = $request->input('tenant_id');
+        $search = $request->input('search');
 
-        // Membuat query untuk produk dengan status 'Aktif'
-        $productsQuery = Product::where('status', 'Aktif');
+        $productsQuery = Product::with(['category', 'tenant'])->where('status', 'Aktif');
 
-        // Menambahkan kondisi untuk filter kategori jika ada
         if ($category_id) {
             $productsQuery->where('category_id', $category_id);
         }
 
-        // Menambahkan kondisi untuk filter tenant jika ada
         if ($tenant_id) {
             $productsQuery->where('tenant_id', $tenant_id);
         }
 
-        // Mendapatkan hasil query
+        if ($search) {
+            $productsQuery->where('name', 'LIKE', "%{$search}%");
+        }
+
         $products = $productsQuery->get();
 
-        // Nama tenant untuk dropdown
         $nama_tenant = [
             1 => 'Left Canteen',
             2 => 'Right Canteen'
         ];
 
-        // Mengembalikan view dengan data yang diperlukan
+        if ($request->ajax()) {
+            return view('menu.productList', ['products' => $products])->render();
+        }
+
         return view('menu.index', [
             'active' => 'menu',
             'products' => $products,

@@ -195,14 +195,4 @@ document.addEventListener('DOMContentLoaded', () => {
         iconFailed.style.display = 'none';
     }
 
-    // Helper function to generate UID
-    function getUID() {
-        // Implement your UID generation logic here
-        return 'some-unique-id';
-    }
-
-    // Helper function to update confirmation items
-    function updateConfirmationItems() {
-        // Implement the logic to update confirmation items here
-    }
 });
