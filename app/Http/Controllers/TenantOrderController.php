@@ -5,21 +5,33 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use Illuminate\Support\Facades\Auth;
-
 use Illuminate\Http\Request;
 
 class TenantOrderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $tenant = Auth::guard('tenant')->user();
         $tenantId = $tenant->id_tenant;
 
-        $orders = Order::whereHas('orderProducts', function($query) use ($tenantId) {
+        // Ambil nilai dari select box statusFilter
+        $selectedStatus = $request->input('statusFilter', 'all');
+
+        // Fetch orders and apply the status filter
+        $orders = Order::whereHas('orderProducts', function ($query) use ($tenantId) {
             $query->where('tenant_id', $tenantId);
-        })->with(['orderProducts' => function($query) use ($tenantId) {
+        })->with(['orderProducts' => function ($query) use ($tenantId) {
             $query->where('tenant_id', $tenantId);
-        }])->paginate(10);
+        }]);
+
+        // Apply the status filter if selectedStatus is not 'all'
+        if ($selectedStatus !== 'all') {
+            $orders = $orders->whereHas('orderProducts', function ($query) use ($selectedStatus) {
+                $query->where('orderProductStatus', $selectedStatus);
+            });
+        }
+
+        $orders = $orders->paginate(10);
 
         $subtotals = [];
         $statuses = [];
@@ -35,22 +47,40 @@ class TenantOrderController extends Controller
                 return $item->orderProductStatus === 'Completed';
             });
 
+            $allPending = $orderProducts->every(function ($item) {
+                return $item->orderProductStatus === 'Pending';
+            });
+
+            $allCancelled = $orderProducts->every(function ($item) {
+                return $item->orderProductStatus === 'Cancelled';
+            });
+
+            $hasInProgress = $orderProducts->contains(function ($item) {
+                return $item->orderProductStatus === 'In Progress';
+            });
+
             if ($allCompleted) {
                 $statuses[$order->id] = 'Completed';
-            } else {
+                $order->orderStatus = 'Completed'; // Update orderStatus
+            } elseif ($allPending || $allCancelled) {
                 $statuses[$order->id] = 'Uncompleted';
+                $order->orderStatus = 'Uncompleted'; // Update orderStatus
+            } elseif ($hasInProgress) {
+                $statuses[$order->id] = 'In Progress';
+                $order->orderStatus = 'In Progress'; // Update orderStatus
+            } else {
+                $statuses[$order->id] = 'In Progress';
+                $order->orderStatus = 'In Progress'; // Update orderStatus
             }
+
+            $order->save(); // Save the updated orderStatus
         }
 
-        // dd($subtotals);
-        // dd($orders);
-        return view('tenantOrders.index', compact('orders', 'subtotals', 'statuses'));
-
+        return view('tenantOrders.index', compact('orders', 'subtotals', 'statuses', 'selectedStatus'));
     }
 
     public function show($id)
     {
-        // Get a specific order by ID
         $order = Order::with('orderProducts')->find($id);
         if (!$order) {
             return redirect()->route('tenantOrders.index')->with('error', 'Pesanan tidak ditemukan.');
@@ -64,12 +94,12 @@ class TenantOrderController extends Controller
         $tenantId = $tenant->id_tenant;
 
         $orderProducts = OrderProduct::where('tenant_id', $tenantId)
-        ->with(['order', 'product'])
-        ->get();
+            ->with(['order', 'product'])
+            ->get();
 
-        $orders = Order::whereHas('orderProducts', function($query) use ($tenantId) {
+        $orders = Order::whereHas('orderProducts', function ($query) use ($tenantId) {
             $query->where('tenant_id', $tenantId);
-        })->with(['orderProducts' => function($query) use ($tenantId) {
+        })->with(['orderProducts' => function ($query) use ($tenantId) {
             $query->where('tenant_id', $tenantId);
         }])->get();
 
@@ -90,55 +120,38 @@ class TenantOrderController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Validasi data pesanan
+        // Validate order data
         $validatedData = $request->validate([
-            'orderStatus.*' => 'required|string|in:UnCompleted, Completed',
             'orderProductStatus.*' => 'required|string|in:Pending,Completed,Canceled,In Progress',
         ]);
 
         $order = Order::with('orderProducts')->findOrFail($id);
 
-        $allCompleted = true;
-
+        // Update each order product status
         foreach ($order->orderProducts as $item) {
             if (isset($validatedData['orderProductStatus'][$item->id])) {
                 $item->orderProductStatus = $validatedData['orderProductStatus'][$item->id];
-                $item->update();
-
-                if ($item->orderProductStatus !== 'Completed') {
-                    $allCompleted = false;
-                }
+                $item->save();
             }
         }
 
-        $tenantId = $order->orderProducts->first()->tenant_id;
-        if ($allCompleted) {
-            Order::whereHas('orderProducts', function ($query) use ($tenantId) {
-                $query->where('tenant_id', $tenantId);
-            })->update(['orderStatus' => 'Completed']);
-        } else {
-            Order::whereHas('orderProducts', function ($query) use ($tenantId) {
-                $query->where('tenant_id', $tenantId);
-            })->update(['orderStatus' => 'Uncompleted']);
-        }
+        // Recalculate order status
+        $this->recalculateOrderStatus($order);
 
         return redirect()->route('tenantOrders.index')->with('success', 'Pesanan dan item berhasil diperbarui.');
     }
 
     public function destroy($id)
     {
-        // Find the order by ID
         $order = Order::find($id);
         if (!$order) {
             return redirect()->route('tenantOrders.index')->with('error', 'Pesanan tidak ditemukan.');
         }
 
-        // Delete the order
         $order->delete();
 
         return redirect()->route('tenantOrders.index')->with('success', 'Pesanan berhasil dihapus.');
     }
-
 
     public function markInProgress($id)
     {
@@ -147,15 +160,95 @@ class TenantOrderController extends Controller
             return redirect()->route('tenantOrders.index')->with('error', 'Pesanan tidak ditemukan.');
         }
 
-        // Ubah status semua item pesanan
+        // Update status for all order products
         foreach ($order->orderProducts as $item) {
-            $item->orderStatus = OrderProduct::STATUS_IN_PROGRESS;
+            $item->orderProductStatus = 'In Progress';
             $item->save();
         }
 
-        // Kalkulasi ulang status pesanan
-        $order->calculateStatus();
+        // Recalculate order status
+        $this->recalculateOrderStatus($order);
 
         return redirect()->route('tenantOrders.show', $id)->with('success', 'Status pesanan dan item berhasil diperbarui.');
     }
+
+    private function recalculateOrderStatus($order)
+    {
+        $allCompleted = true;
+
+        foreach ($order->orderProducts as $item) {
+            if ($item->orderProductStatus !== 'Completed') {
+                $allCompleted = false;
+                break;
+            }
+        }
+
+        if ($allCompleted) {
+            $order->orderStatus = 'Completed';
+        } else {
+            $order->orderStatus = 'Uncompleted';
+        }
+
+        $order->save();
+    }
+
+
+    public function inProgress(Request $request)
+    {
+        $tenant = Auth::guard('tenant')->user();
+        $tenantId = $tenant->id_tenant;
+
+        // Fetch orders with status 'In Progress'
+        $orders = Order::whereHas('orderProducts', function ($query) use ($tenantId) {
+            $query->where('tenant_id', $tenantId)->where('orderProductStatus', 'In Progress');
+        })->with(['orderProducts' => function ($query) use ($tenantId) {
+            $query->where('tenant_id', $tenantId);
+        }])->paginate(10);
+
+        $subtotals = [];
+        $statuses = [];
+
+        foreach ($orders as $order) {
+            $orderProducts = $order->orderProducts;
+            $subtotal = $orderProducts->sum(function ($item) {
+                return $item->quantity * $item->price;
+            });
+            $subtotals[$order->id] = $subtotal;
+
+            $allCompleted = $orderProducts->every(function ($item) {
+                return $item->orderProductStatus === 'Completed';
+            });
+
+            $allPending = $orderProducts->every(function ($item) {
+                return $item->orderProductStatus === 'Pending';
+            });
+
+            $allCancelled = $orderProducts->every(function ($item) {
+                return $item->orderProductStatus === 'Cancelled';
+            });
+
+            $hasInProgress = $orderProducts->contains(function ($item) {
+                return $item->orderProductStatus === 'In Progress';
+            });
+
+            if ($allCompleted) {
+                $statuses[$order->id] = 'Completed';
+                $order->orderStatus = 'Completed'; // Update orderStatus
+            } elseif ($allPending || $allCancelled) {
+                $statuses[$order->id] = 'Uncompleted';
+                $order->orderStatus = 'Uncompleted'; // Update orderStatus
+            } elseif ($hasInProgress) {
+                $statuses[$order->id] = 'In Progress';
+                $order->orderStatus = 'In Progress'; // Update orderStatus
+            } else {
+                $statuses[$order->id] = 'In Progress';
+                $order->orderStatus = 'In Progress'; // Update orderStatus
+            }
+
+            $order->save(); // Save the updated orderStatus
+        }
+
+        return view('tenantOrders.inProgress', compact('orders', 'subtotals', 'statuses'));
+    }
+
 }

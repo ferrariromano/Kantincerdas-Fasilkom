@@ -93,7 +93,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const formData = new FormData(orderForm);
         formData.append('uid', uid);
 
-        fetch(orderForm.action, {
+        const apiEndpoint = '/submit-order'; // Update the API endpoint to match web.php
+
+        fetch(apiEndpoint, {
             method: 'POST',
             body: formData,
             headers: {
@@ -149,7 +151,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
     // ====== Alert Modal Functions ======
     closeAlertModal.addEventListener('click', closeModal);
 

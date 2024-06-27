@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('orderPhone');
             $table->text('orderNotes')->nullable();
             $table->decimal('orderTotalAmounts', 8, 2);
-            $table->enum('orderStatus', ['Uncompleted','Completed'])->default('uncompleted');
+            $table->enum('orderStatus', ['Uncompleted', 'Completed', 'In Progress'])->default('Uncompleted');
             $table->enum('orderPayment', ['tunai', 'non-tunai'])->default('tunai');
             $table->timestamps();
         });

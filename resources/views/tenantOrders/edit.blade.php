@@ -56,6 +56,7 @@
                                 <option value="Pending" {{ $items->orderProductStatus == 'Pending' ? 'selected' : '' }}>Pending</option>
                                 <option value="Completed" {{ $items->orderProductStatus == 'Completed' ? 'selected' : '' }}>Completed</option>
                                 <option value="Canceled" {{ $items->orderProductStatus == 'Canceled' ? 'selected' : '' }}>Canceled</option>
+                                <option value="In Progress" {{ $items->orderProductStatus == 'In Progress' ? 'selected' : '' }}>In Progress</option>
                             </select>
                         </div>
                     </div>

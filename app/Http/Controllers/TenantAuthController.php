@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Tenant;
-use Illuminate\Support\Str; // Tambahkan ini untuk menggunakan fungsi Str::slug()
+use Illuminate\Support\Str;
 
 class TenantAuthController extends Controller
 {
@@ -30,19 +30,10 @@ class TenantAuthController extends Controller
             $dashboard = Str::slug($tenant->nama_tenant);
 
             // Arahkan pengguna ke dashboard dengan parameter nama_tenant
-            return redirect()->route('dashboard', ['dashboard' => $dashboard]);
+            return redirect()->route('tenant.dashboard', ['dashboard' => $dashboard]);
         }
 
         return redirect()->back()->withErrors(['login' => 'Invalid credentials']);
-    }
-
-    public function dashboard($dashboard)
-    {
-        // Temukan tenant berdasarkan nama
-        $tenant = Tenant::where('nama_tenant', $dashboard)->firstOrFail();
-
-        // Kirim data tenant ke view
-        return view('dashboard.home', ['tenant' => $tenant]);
     }
 
     public function logout(Request $request)
@@ -53,6 +44,3 @@ class TenantAuthController extends Controller
         return redirect()->route('tenant.login'); // Mengarahkan ke halaman login
     }
 }
-
-
-

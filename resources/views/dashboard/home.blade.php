@@ -193,7 +193,7 @@
                         <div class="flex items-center justify-center mx-auto rounded-full size-14 bg-custom-100 text-custom-500 dark:bg-custom-500/20">
                             <i data-lucide="wallet-2"></i>
                         </div>
-                        <h5 class="mt-4 mb-2">Rp <span class="counter-value" data-target="236180">0</span></h5>
+                        <h5 class="mt-4 mb-2">Rp <span class="counter-value" data-target="{{ $financialReportData['totalRevenue'] }}"></span></h5>
                         <p class="text-slate-500 dark:text-zink-200">Total Pendapatan</p>
                     </div>
                 </div><!--end col-->
