@@ -13,19 +13,11 @@ class TenantOrderController extends Controller
         $tenant = Auth::guard('tenant')->user();
         $tenantId = $tenant->id_tenant;
 
-        $selectedStatus = $request->input('statusFilter', 'all');
-
         $orders = Order::whereHas('orderProducts', function ($query) use ($tenantId) {
             $query->where('tenant_id', $tenantId);
         })->with(['orderProducts' => function ($query) use ($tenantId) {
             $query->where('tenant_id', $tenantId);
         }]);
-
-        if ($selectedStatus !== 'all') {
-            $orders = $orders->whereHas('orderProducts', function ($query) use ($selectedStatus) {
-                $query->where('orderProductStatus', $selectedStatus);
-            });
-        }
 
         $orders = $orders->paginate(10);
 
@@ -44,7 +36,7 @@ class TenantOrderController extends Controller
             $order->save();
         }
 
-        return view('tenantOrders.index', compact('orders', 'subtotals', 'statuses', 'selectedStatus'));
+        return view('tenantOrders.index', compact('orders', 'subtotals', 'statuses'));
     }
 
     public function show($id)
@@ -80,7 +72,7 @@ class TenantOrderController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'orderProductStatus.*' => 'required|string|in:Pending,Completed,Canceled,In Progress',
+            'orderProductStatus.*' => 'required|string|in:Pending,Completed,Cancelled,In Progress',
         ]);
 
         $tenant = Auth::guard('tenant')->user();
@@ -118,8 +110,10 @@ class TenantOrderController extends Controller
 
     private function recalculateOrderStatus($order)
     {
-        // Ensure we consider all order products for the given order
+        // Ensure we consider all order products for the given order, not just those for the current tenant
         $order->load('orderProducts');
+
+        // Update the order status based on the status of all order products
         $order->orderStatus = $this->calculateOrderStatus($order);
         $order->save();
     }
@@ -192,8 +186,6 @@ class TenantOrderController extends Controller
 
             $order->save();
         }
-
         return view('tenantOrders.completed', compact('orders', 'subtotals', 'statuses'));
     }
-
 }

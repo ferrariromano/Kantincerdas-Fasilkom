@@ -5,7 +5,7 @@ a{
 
 .wrapper {
   position: fixed;
-  z-index: 888;
+  z-index: 500;
   display: flex;
   justify-content: center;
   width: 100vw;
@@ -29,7 +29,7 @@ header{
   align-items: center;
   padding: 20px 30px;
   background-color: #353432;
-  z-index: 1000;
+  z-index: 800;
   transition: 0.5s;
   gap: 1rem;
 }

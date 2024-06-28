@@ -56,9 +56,8 @@ Route::post('/submit-order', [OrderController::class, 'submitOrder']);
 
 
 
-
-
 Route::middleware(['auth.tenant'])->group(function () {
+    Route::get('orders/incoming', [TenantOrderController::class, 'incoming'])->name('tenantOrders.incoming');
     Route::get('orders', [TenantOrderController::class, 'index'])->name('tenantOrders.index');
     Route::get('orders/create', [TenantOrderController::class, 'create'])->name('tenantOrders.create');
     Route::post('orders', [TenantOrderController::class, 'store'])->name('tenantOrders.store');
@@ -66,14 +65,9 @@ Route::middleware(['auth.tenant'])->group(function () {
     Route::put('orders/{order}', [TenantOrderController::class, 'update'])->name('tenantOrders.update');
     Route::delete('orders/{order}', [TenantOrderController::class, 'destroy'])->name('tenantOrders.destroy');
     Route::get('orders/{order}', [TenantOrderController::class, 'show'])->name('tenantOrders.show');
-
     Route::get('/tenantOrders/in-progress', [TenantOrderController::class, 'inProgress'])->name('tenantOrders.inProgress');
     Route::get('/tenantOrders/completed', [TenantOrderController::class, 'completed'])->name('tenantOrders.completed');
-
 });
-
-
-
 Route::middleware(['auth.tenant'])->prefix('tenant')->group(function () {
     Route::get('/tenant-financial-report', [TenantFinancialReportController::class, 'index'])->name('tenantFinancialReport.index');
 });
