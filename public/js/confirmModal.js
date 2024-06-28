@@ -173,6 +173,13 @@ document.addEventListener('DOMContentLoaded', () => {
         successMessage.style.display = 'block';
         iconFailed.style.display = 'none';
         iconError.style.display = 'none';
+        confirmModal.style.display = 'none';
+        confirmModalOverlay.style.display = 'none';
+        // Clear the cart
+        localStorage.removeItem('cart');
+        cart = [];
+        addCartToHTML(cart);
+        updateCheckOutButton();
     }
 
     // Show Failed Modal

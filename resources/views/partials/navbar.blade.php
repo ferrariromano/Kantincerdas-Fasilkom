@@ -1,5 +1,7 @@
 <nav>
-    <img class="logo" src="{{ asset('images/img/logo.png') }}" alt="Logo">
+    <a href="/" class="imagesLogo">
+        <img class="logo" src="{{ asset('images/img/logo.png') }}" alt="Logo">
+    </a>
     <ul class="navbar-links">
         <li>
             <a class="{{ ($active === "beranda") ? 'active' : '' }}" href="/">Beranda</a>

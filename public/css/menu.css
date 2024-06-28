@@ -4,14 +4,18 @@ a{
 }
 
 .wrapper {
+  position: fixed;
+  z-index: 888;
   display: flex;
   justify-content: center;
-  width: 900px;
+  width: 100vw;
   margin: auto;
-  max-width: 90vw;
+  margin-top: -6rem;
   text-align: center;
-  margin-top: 6rem;
   transition: 0.5s;
+}
+.wrapper.activeFilter{
+  margin-top: -9rem;
 }
 
 /* ===== Header ===== */
@@ -25,10 +29,14 @@ header{
   align-items: center;
   padding: 20px 30px;
   background-color: #353432;
-  z-index: 3;
+  z-index: 1000;
   transition: 0.5s;
   gap: 1rem;
 }
+.header.activeTabCart {
+    position: fixed;
+    z-index: 1000;
+  }
 
 /* Top Header */
 .topHeader {
@@ -132,11 +140,11 @@ header{
     max-width: 90vw;
     text-align: center;
     transition: 0.5s;
-    margin-top: 6rem;
+    margin-top: 12rem;
     min-height: calc(100vh - 17rem);
   }
   .contentTab.activeFilter {
-    margin-top: 9rem;
+    margin-top: 15rem;
   }
   .listProduct{
     display: grid;
@@ -205,7 +213,7 @@ header{
   grid-template-rows: 70px 1fr 70px;
   transition: 0.5s;
   margin-top: 6rem;
-  z-index: 5;
+  z-index: 1000;
 }
 
 .cartTab .flex-group {
@@ -345,7 +353,7 @@ header{
   }
   .header.activeTabCart {
     position: fixed;
-    z-index: 100;
+    z-index: 1000;
   }
 }
 
@@ -372,14 +380,26 @@ header{
   .search-input {
     width: 19rem;
   }
+  .wrapper.activeFilter{
+    margin-top: -12rem;
+  }
   .contentTab.activeFilter {
-    margin-top: 12rem;
+    margin-top: 18rem;
   }
 }
 
 @media (max-width: 485px) {
+  .contentTab {
+    margin-top: 15rem;
+  }
   .wrapper {
-    margin-top: 9rem;
+    margin-top: -6rem;
+  }
+  .wrapper.activeFilter{
+    margin-top: -12rem;
+  }
+  .contentTab.activeFilter {
+    margin-top: 21rem;
   }
   header {
     padding: 20px;

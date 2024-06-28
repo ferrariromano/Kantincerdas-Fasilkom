@@ -51,17 +51,17 @@
                     <div class="bestseller__item">
                         <img src="{{ asset('images/products/food1.png') }}" alt="food1">
                         <span class="bestseller__text">Soto Sate</span>
-                        <a href="#">Pesan ></a>
+                        <a href="/menu">Pesan ></a>
                     </div>
                     <div class="bestseller__item">
                         <img src="{{ asset('images/products/food2.png') }}" alt="food2">
                         <span class="bestseller__text">Ayam Geprek</span>
-                        <a href="#">Pesan ></a>
+                        <a href="/menu">Pesan ></a>
                     </div>
                     <div class="bestseller__item">
                         <img src="{{ asset('images/products/food3.png') }}" alt="food3">
                         <span class="bestseller__text">Tahu Tek</span>
-                        <a href="#">Pesan ></a>
+                        <a href="/menu?category_id=&tenant_id=&search=tahu%20tek">Pesan ></a>
                     </div>
                 </div>
             </section>

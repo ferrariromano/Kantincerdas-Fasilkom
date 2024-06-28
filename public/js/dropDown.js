@@ -39,6 +39,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const filterGroup = document.querySelector('.filterGroup');
     const iconFilter = document.querySelector('.icon-filter');
     const contentTab = document.querySelector('.contentTab');
+    const wrapper = document.querySelector('.wrapper');
     const filterIconPath = document.querySelector('.filterIcon path');
 
     iconFilter.addEventListener('click', function () {
@@ -50,6 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
         contentTab.classList.toggle('activeFilter');
         iconFilter.classList.toggle('activeFilter');
         filterIconPath.classList.toggle('activeFilter');
+        wrapper.classList.toggle('activeFilter');
     }
 
     // Fitur dynamic search

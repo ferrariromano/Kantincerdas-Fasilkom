@@ -111,6 +111,10 @@ margin: 2rem 2rem 0 2rem;
   color: var(--clr-primary-400);
   font-size: 1.3rem;
   text-decoration: none;
+  cursor: pointer;
+}
+.bestseller a:hover{
+    color: rgb(205, 54, 13);
 }
 
 

@@ -26,7 +26,7 @@
                         <img src="assets/images/logo.png" alt="" class="h-6 mx-auto">
                     </span>
                     <span class="group-data-[sidebar-size=sm]:hidden">
-                        <img src="{{asset('assets/images/logo-dark.png')}}" alt="" class="h-6 mx-auto">
+                        <img src="{{asset('assets/images/logo-dark.png')}}" alt="" class="h-6 mx-auto logoDashborad">
                     </span>
                 </a>
                 <a href="{{ route('tenant.dashboard', ['dashboard' => Str::slug($tenant->nama_tenant)]) }}" class="hidden group-data-[sidebar=dark]:block group-data-[sidebar=brand]:block group-data-[sidebar=modern]:block">

@@ -35,7 +35,10 @@
                     <h6 class="mb-2 text-lg font-bold">Status:</h6>
                     <p class="text-slate-500 dark:text-zinc-200">
                         <span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border
-                            {{ $order->orderStatus == 'Pending' ? 'bg-yellow-100 border-yellow-200 text-yellow-500 dark:bg-yellow-500/20 dark:border-yellow-500/20' : ($order->orderStatus == 'Completed' ? 'bg-green-100 border-green-200 text-green-500 dark:bg-green-500/20 dark:border-green-500/20' : ($order->orderStatus == 'Canceled' ? 'bg-red-100 border-red-200 text-red-500 dark:bg-red-500/20 dark:border-red-500/20' : 'bg-blue-100 border-blue-200 text-blue-500 dark:bg-blue-500/20 dark:border-blue-500/20')) }}">
+                            {{ $order->orderStatus == 'Pending' ? 'bg-yellow-100 border-yellow-200 text-yellow-500 dark:bg-yellow-500/20 dark:border-yellow-500/20' :
+                            ($order->orderStatus == 'Completed' ? 'bg-green-100 border-green-200 text-green-500 dark:bg-green-500/20 dark:border-green-500/20' :
+                            ($order->orderStatus == 'Canceled' ? 'bg-red-100 border-red-200 text-red-500 dark:bg-red-500/20 dark:border-red-500/20' :
+                            'bg-blue-100 border-blue-200 text-blue-500 dark:bg-blue-500/20 dark:border-blue-500/20')) }}">
                             {{ $order->orderStatus }}
                         </span>
                     </p>
@@ -43,24 +46,50 @@
                 <div class="mb-4">
                     <h6 class="mb-2 text-lg font-bold">Item Pesanan:</h6>
                 </div>
+
                 <form action="{{ route('tenantOrders.update', $order->id) }}" method="POST">
                     @csrf
                     @method('PUT')
-                    @foreach ($orderProducts as $items)
-                    <div class="flex items-center mb-4">
-                        <div class="mr-3">{{ $items->quantity }}x</div>
-                        <div class="mr-3">{{ $items->product->name }}</div>
-                        <div class="mr-3">{{ $items->product->price }}</div>
-                        <div>
-                            <select name="orderProductStatus[{{ $items->id }}]" id="orderProductStatus" class="block w-full border-slate-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200" required>
-                                <option value="Pending" {{ $items->orderProductStatus == 'Pending' ? 'selected' : '' }}>Pending</option>
-                                <option value="Completed" {{ $items->orderProductStatus == 'Completed' ? 'selected' : '' }}>Completed</option>
-                                <option value="Canceled" {{ $items->orderProductStatus == 'Canceled' ? 'selected' : '' }}>Canceled</option>
-                                <option value="In Progress" {{ $items->orderProductStatus == 'In Progress' ? 'selected' : '' }}>In Progress</option>
-                            </select>
-                        </div>
-                    </div>
-                    @endforeach
+                    <table class="w-full whitespace-nowrap" id="orderTable">
+                        <thead class="ltr:text-left rtl:text-right bg-slate-100 dark:bg-zink-600">
+                            <tr>
+                                <th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Jumlah Item</th>
+                                <th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Nama Produk</th>
+                                <th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Harga</th>
+                                <th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($orderProducts as $items)
+                            <tr>
+                                <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
+                                    <a href=# class="flex items-center gap-2">
+                                        <h6>{{ $items->quantity }}</h6>
+                                    </a>
+                                </td>
+                                <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
+                                    {{ $items->product->name }}
+                                </td>
+                                <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
+                                    {{ 'Rp ' . number_format($items->product->price, 2, ',', '.') }}
+                                </td>
+                                <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zinc-500">
+                                    <select name="orderProductStatus[{{ $items->id }}]" id="orderProductStatus" class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border
+                                        {{ $order->orderStatus == 'Pending' ? 'bg-yellow-100 border-yellow-200 text-yellow-500 dark:bg-yellow-500/20 dark:border-yellow-500/20' :
+                                        ($order->orderStatus == 'Completed' ? 'bg-green-100 border-green-200 text-green-500 dark:bg-green-500/20 dark:border-green-500/20' :
+                                        ($order->orderStatus == 'Canceled' ? 'bg-red-100 border-red-200 text-red-500 dark:bg-red-500/20 dark:border-red-500/20' :
+                                        'bg-blue-100 border-blue-200 text-blue-500 dark:bg-blue-500/20 dark:border-blue-500/20')) }}" required>
+                                        <option value="Pending" {{ $items->orderProductStatus == 'Pending' ? 'selected' : '' }} class="bg-yellow-100 border-yellow-200 text-yellow-500 dark:bg-yellow-500/20 dark:border-yellow-500/20" >Pending</option>
+                                        <option value="In Progress" {{ $items->orderProductStatus == 'In Progress' ? 'selected' : '' }} class="bg-blue-100 border-blue-200 text-blue-500 dark:bg-blue-500/20 dark:border-blue-500/20">In Progress</option>
+                                        <option value="Completed" {{ $items->orderProductStatus == 'Completed' ? 'selected' : ''}} class="bg-green-100 border-green-200 text-green-500 dark:bg-green-500/20 dark:border-green-500/20">Completed</option>
+                                        <option value="Cancelled" {{ $items->orderProductStatus == 'Cancelled' ? 'selected' : '' }} class="bg-red-100 border-red-200 text-red-500 dark:bg-red-500/20 dark:border-red-500/20">Cancelled</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+
                     <div class="mb-4">
                         <label for="additional" class="mb-2 text-lg font-bold">Catatan Tambahan</label>
                         <textarea name="additional" id="additional" class="block w-full mt-1 border-slate-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200" disabled>{{ $order->orderNotes }}</textarea>
