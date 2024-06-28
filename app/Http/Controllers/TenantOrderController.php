@@ -166,6 +166,34 @@ class TenantOrderController extends Controller
 
         return view('tenantOrders.inProgress', compact('orders', 'subtotals', 'statuses'));
     }
+
+    public function completed(Request $request)
+    {
+        $tenant = Auth::guard('tenant')->user();
+        $tenantId = $tenant->id_tenant;
+
+        $orders = Order::whereHas('orderProducts', function ($query) use ($tenantId) {
+            $query->where('tenant_id', $tenantId)->where('orderProductStatus', 'Completed');
+        })->with(['orderProducts' => function ($query) use ($tenantId) {
+            $query->where('tenant_id', $tenantId);
+        }])->paginate(10);
+
+        $subtotals = [];
+        $statuses = [];
+
+        foreach ($orders as $order) {
+            $orderProducts = $order->orderProducts;
+            $subtotal = $orderProducts->sum(function ($item) {
+                return $item->quantity * $item->price;
+            });
+            $subtotals[$order->id] = $subtotal;
+
+            $statuses[$order->id] = $this->calculateOrderStatus($order);
+
+            $order->save();
+        }
+
+        return view('tenantOrders.completed', compact('orders', 'subtotals', 'statuses'));
+    }
+
 }
-
-

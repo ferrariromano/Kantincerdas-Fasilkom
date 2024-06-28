@@ -53,7 +53,7 @@
                     <div class="flex items-center gap-3 card-body">
                         <div class="flex items-center justify-center text-yellow-500 rounded-md size-12 text-15 bg-yellow-50 dark:bg-yellow-500/20 shrink-0"><i data-lucide="loader"></i></div>
                         <div class="grow">
-                            <h5 class="mb-1 text-16 counter-value" data-target="{{ $financialReportData['pendingOrdersCount'] }}">0</h5>
+                            {{-- <h5 class="mb-1 text-16 counter-value" data-target="{{ $financialReportData['pendingOrdersCount'] }}">0</h5> --}}
                             <p class="text-slate-500 dark:text-zink-200">Pending Orders</p>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                     <div class="flex items-center gap-3 card-body">
                         <div class="flex items-center justify-center text-purple-500 rounded-md size-12 text-15 bg-purple-50 dark:bg-purple-500/20 shrink-0"><i data-lucide="truck"></i></div>
                         <div class="grow">
-                            <h5 class="mb-1 text-16 counter-value" data-target="{{ $financialReportData['shippingOrdersCount'] }}">0</h5>
+                            {{-- <h5 class="mb-1 text-16 counter-value" data-target="{{ $financialReportData['shippingOrdersCount'] }}">0</h5> --}}
                             <p class="text-slate-500 dark:text-zink-200">Shipping Orders</p>
                         </div>
                     </div>
@@ -75,7 +75,7 @@
                     <div class="flex items-center gap-3 card-body">
                         <div class="flex items-center justify-center text-green-500 rounded-md size-12 text-15 bg-green-50 dark:bg-green-500/20 shrink-0"><i data-lucide="package-check"></i></div>
                         <div class="grow">
-                            <h5 class="mb-1 text-16 counter-value" data-target="{{ $financialReportData['deliveredOrdersCount'] }}">0</h5>
+                            {{-- <h5 class="mb-1 text-16 counter-value" data-target="{{ $financialReportData['deliveredOrdersCount'] }}">0</h5> --}}
                             <p class="text-slate-500 dark:text-zink-200">Delivered Orders</p>
                         </div>
                     </div>
@@ -86,7 +86,7 @@
                     <div class="flex items-center gap-3 card-body">
                         <div class="flex items-center justify-center text-red-500 rounded-md size-12 text-15 bg-red-50 dark:bg-red-500/20 shrink-0"><i data-lucide="package-x"></i></div>
                         <div class="grow">
-                            <h5 class="mb-1 text-16 counter-value" data-target="{{ $financialReportData['cancelledOrdersCount'] }}">0</h5>
+                            {{-- <h5 class="mb-1 text-16 counter-value" data-target="{{ $financialReportData['cancelledOrdersCount'] }}">0</h5> --}}
                             <p class="text-slate-500 dark:text-zink-200">Cancelled Orders</p>
                         </div>
                     </div>
@@ -96,5 +96,28 @@
     </div>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var options = {
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            series: [{
+                name: 'Revenue',
+                data: [{{ implode(', ', $financialReportData['monthlyOrders']) }}]
+            }],
+            xaxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            },
+            colors: ['#4f46e5'],
+            dataLabels: {
+                enabled: true
+            }
+        };
 
+        var chart = new ApexCharts(document.querySelector("#ordersOverview"), options);
+        chart.render();
+    });
+</script>
 @endsection

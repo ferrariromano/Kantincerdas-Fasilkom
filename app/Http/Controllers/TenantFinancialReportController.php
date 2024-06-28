@@ -31,12 +31,10 @@ class TenantFinancialReportController extends Controller
 
         $totalRevenue = 0;
         $completedOrdersCount = 0;
-        $inProgressOrdersCount = 0;
-        $cancelledOrdersCount = 0;
-        $pendingOrdersCount = 0;
-        $shippingOrdersCount = 0;
-        $deliveredOrdersCount = 0;
+        $uncompletedOrdersCount = 0;
         $totalOrdersCount = $orders->count();
+
+        $monthlyOrders = array_fill_keys(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], 0);
 
         foreach ($orders as $order) {
             $orderProducts = $order->orderProducts;
@@ -46,23 +44,13 @@ class TenantFinancialReportController extends Controller
 
             $totalRevenue += $subtotal;
 
-            switch ($order->orderStatus) {
-                case 'Completed':
-                    $completedOrdersCount++;
-                    $deliveredOrdersCount++;
-                    break;
-                case 'In Progress':
-                    $inProgressOrdersCount++;
-                    break;
-                case 'Cancelled':
-                    $cancelledOrdersCount++;
-                    break;
-                case 'Pending':
-                    $pendingOrdersCount++;
-                    break;
-                case 'Shipping':
-                    $shippingOrdersCount++;
-                    break;
+            $month = $order->created_at->format('M');
+            $monthlyOrders[$month] += $subtotal;
+
+            if ($order->orderStatus == 'Completed') {
+                $completedOrdersCount++;
+            } else {
+                $uncompletedOrdersCount++;
             }
         }
 
@@ -71,11 +59,8 @@ class TenantFinancialReportController extends Controller
             'totalRevenue' => $totalRevenue,
             'totalOrdersCount' => $totalOrdersCount,
             'completedOrdersCount' => $completedOrdersCount,
-            'inProgressOrdersCount' => $inProgressOrdersCount,
-            'cancelledOrdersCount' => $cancelledOrdersCount,
-            'pendingOrdersCount' => $pendingOrdersCount,
-            'shippingOrdersCount' => $shippingOrdersCount,
-            'deliveredOrdersCount' => $deliveredOrdersCount,
+            'uncompletedOrdersCount' => $uncompletedOrdersCount,
+            'monthlyOrders' => array_values($monthlyOrders),
         ];
     }
 }

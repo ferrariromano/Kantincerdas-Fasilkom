@@ -68,6 +68,7 @@ Route::middleware(['auth.tenant'])->group(function () {
     Route::get('orders/{order}', [TenantOrderController::class, 'show'])->name('tenantOrders.show');
 
     Route::get('/tenantOrders/in-progress', [TenantOrderController::class, 'inProgress'])->name('tenantOrders.inProgress');
+    Route::get('/tenantOrders/completed', [TenantOrderController::class, 'completed'])->name('tenantOrders.completed');
 
 });
 

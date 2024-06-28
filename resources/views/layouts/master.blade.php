@@ -610,5 +610,7 @@
     <script src="{{ asset("assets/js/pages/dashboards-ecommerce.init.js") }}"></script>
     <!-- App js -->
     <script src="{{ asset("assets/js/app.js") }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
 </body>
 </html>
