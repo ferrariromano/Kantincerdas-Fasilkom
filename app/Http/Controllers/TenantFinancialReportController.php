@@ -13,8 +13,19 @@ class TenantFinancialReportController extends Controller
         $tenant = Auth::guard('tenant')->user();
         $tenantId = $tenant->id_tenant;
 
-        $startDate = $request->input('date_range') ? explode(' to ', $request->input('date_range'))[0] : null;
-        $endDate = $request->input('date_range') ? explode(' to ', $request->input('date_range'))[1] : null;
+        $singleDate = $request->input('single_date');
+        $dateRange = $request->input('date_range');
+        $startDate = null;
+        $endDate = null;
+
+        if ($singleDate) {
+            $startDate = \Carbon\Carbon::parse($singleDate)->startOfDay();
+            $endDate = \Carbon\Carbon::parse($singleDate)->endOfDay();
+        } elseif ($dateRange) {
+            $dates = explode(' to ', $dateRange);
+            $startDate = isset($dates[0]) ? \Carbon\Carbon::parse($dates[0])->startOfDay() : null;
+            $endDate = isset($dates[1]) ? \Carbon\Carbon::parse($dates[1])->endOfDay() : $startDate;
+        }
 
         // Get the financial report data for the authenticated tenant
         $financialReportData = $this->getFinancialReportData($tenantId, $startDate, $endDate);
@@ -32,6 +43,14 @@ class TenantFinancialReportController extends Controller
 
         $orders = $ordersQuery->get();
 
+        $completedOrders = $orders->filter(function($order) {
+            return $order->orderStatus == 'Completed';
+        });
+
+        $uncompletedOrders = $orders->filter(function($order) {
+            return $order->orderStatus != 'Completed';
+        });
+
         $statuses = $orders->pluck('orderStatus', 'id');
         $subtotals = $orders->mapWithKeys(function ($order) {
             $subtotal = $order->orderProducts->sum(function ($item) {
@@ -41,8 +60,9 @@ class TenantFinancialReportController extends Controller
         });
 
         // Return the view with the financial report data and orders
-        return view('tenantFinancialReport.index', compact('financialReportData', 'orders', 'statuses', 'subtotals'));
+        return view('tenantFinancialReport.index', compact('financialReportData', 'orders', 'statuses', 'subtotals', 'completedOrders', 'uncompletedOrders'));
     }
+
 
     public function getFinancialReportData($tenantId, $startDate = null, $endDate = null)
     {
@@ -94,4 +114,3 @@ class TenantFinancialReportController extends Controller
         ];
     }
 }
-

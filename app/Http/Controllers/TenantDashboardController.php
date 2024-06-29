@@ -10,19 +10,25 @@ class TenantDashboardController extends Controller
 {
     public function dashboard($dashboard)
     {
-        // Find the tenant based on the name
+        // Cari tenant berdasarkan nama
         $tenant = Tenant::where('nama_tenant', $dashboard)->firstOrFail();
 
-        // Create an instance of TenantFinancialReportController
+        // Buat instance dari TenantFinancialReportController
         $financialReportController = new TenantFinancialReportController();
 
-        // Get the financial report data for the tenant
-        $financialReportData = $financialReportController->getFinancialReportData($tenant->id);
+        // Ambil data laporan keuangan untuk tenant
+        $financialReportData = $financialReportController->getFinancialReportData($tenant->id_tenant);
 
-        // Send tenant data and financial report data to the view
+        // Ambil data pesanan
+        $completedOrders = $financialReportData['completedOrdersCount'];
+        $uncompletedOrders = $financialReportData['uncompletedOrdersCount'];
+
+        // Kirim data tenant dan data laporan keuangan ke tampilan
         return view('dashboard.home', [
             'tenant' => $tenant,
-            'financialReportData' => $financialReportData
+            'financialReportData' => $financialReportData,
+            'completedOrders' => $completedOrders,
+            'uncompletedOrders' => $uncompletedOrders
         ]);
     }
 }

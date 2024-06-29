@@ -128,11 +128,15 @@ class TenantOrderController extends Controller
         $tenant = Auth::guard('tenant')->user();
         $tenantId = $tenant->id_tenant;
 
+        // Fetch orders with 'In Progress' status and order them by 'updated_at'
         $orders = Order::whereHas('orderProducts', function ($query) use ($tenantId) {
-            $query->where('tenant_id', $tenantId)->where('orderProductStatus', 'In Progress');
+            $query->where('tenant_id', $tenantId)
+                  ->where('orderProductStatus', 'In Progress');
         })->with(['orderProducts' => function ($query) use ($tenantId) {
             $query->where('tenant_id', $tenantId);
-        }])->paginate(10);
+        }])
+        ->orderBy('updated_at', 'asc') // Urutkan berdasarkan 'updated_at'
+        ->paginate(10);
 
         $orders->transform(function ($order) {
             $orderProducts = $order->orderProducts;
