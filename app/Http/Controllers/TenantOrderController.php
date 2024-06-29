@@ -21,22 +21,20 @@ class TenantOrderController extends Controller
 
         $orders = $orders->paginate(10);
 
-        $subtotals = [];
-        $statuses = [];
-
-        foreach ($orders as $order) {
+        $orders->transform(function ($order) {
             $orderProducts = $order->orderProducts;
-            $subtotal = $orderProducts->sum(function ($item) {
+            $order->subtotal = $orderProducts->sum(function ($item) {
                 return $item->quantity * $item->price;
             });
-            $subtotals[$order->id] = $subtotal;
+            $order->status = $this->calculateOrderStatus($order);
+            return $order;
+        });
 
-            $statuses[$order->id] = $this->calculateOrderStatus($order);
-
-            $order->save();
-        }
-
-        return view('tenantOrders.index', compact('orders', 'subtotals', 'statuses'));
+        return view('tenantOrders.index', [
+            'orders' => $orders,
+            'subtotals' => $orders->pluck('subtotal', 'id'),
+            'statuses' => $orders->pluck('status', 'id'),
+        ]);
     }
 
     public function show($id)
@@ -59,14 +57,15 @@ class TenantOrderController extends Controller
             }])
             ->firstOrFail();
 
-        $subtotals = [];
-        $orderProducts = $order->orderProducts;
-        $subtotal = $orderProducts->sum(function ($item) {
+        $order->subtotal = $order->orderProducts->sum(function ($item) {
             return $item->quantity * $item->price;
         });
-        $subtotals[$order->id] = $subtotal;
 
-        return view('tenantOrders.edit', compact('order', 'orderProducts', 'subtotals'));
+        return view('tenantOrders.edit', [
+            'order' => $order,
+            'orderProducts' => $order->orderProducts,
+            'subtotals' => [$order->id => $order->subtotal]
+        ]);
     }
 
     public function update(Request $request, $id)
@@ -110,26 +109,18 @@ class TenantOrderController extends Controller
 
     private function recalculateOrderStatus($order)
     {
-        // Ensure we consider all order products for the given order, not just those for the current tenant
         $order->load('orderProducts');
-
-        // Update the order status based on the status of all order products
         $order->orderStatus = $this->calculateOrderStatus($order);
         $order->save();
     }
 
     private function calculateOrderStatus($order)
     {
-        // Check if all order products are completed
         $allCompleted = $order->orderProducts->every(function ($item) {
             return $item->orderProductStatus === 'Completed';
         });
 
-        if ($allCompleted) {
-            return 'Completed';
-        }
-
-        return 'Uncompleted';
+        return $allCompleted ? 'Completed' : 'Uncompleted';
     }
 
     public function inProgress(Request $request)
@@ -143,22 +134,20 @@ class TenantOrderController extends Controller
             $query->where('tenant_id', $tenantId);
         }])->paginate(10);
 
-        $subtotals = [];
-        $statuses = [];
-
-        foreach ($orders as $order) {
+        $orders->transform(function ($order) {
             $orderProducts = $order->orderProducts;
-            $subtotal = $orderProducts->sum(function ($item) {
+            $order->subtotal = $orderProducts->sum(function ($item) {
                 return $item->quantity * $item->price;
             });
-            $subtotals[$order->id] = $subtotal;
+            $order->status = $this->calculateOrderStatus($order);
+            return $order;
+        });
 
-            $statuses[$order->id] = $this->calculateOrderStatus($order);
-
-            $order->save();
-        }
-
-        return view('tenantOrders.inProgress', compact('orders', 'subtotals', 'statuses'));
+        return view('tenantOrders.inProgress', [
+            'orders' => $orders,
+            'subtotals' => $orders->pluck('subtotal', 'id'),
+            'statuses' => $orders->pluck('status', 'id'),
+        ]);
     }
 
     public function completed(Request $request)
@@ -172,20 +161,19 @@ class TenantOrderController extends Controller
             $query->where('tenant_id', $tenantId);
         }])->paginate(10);
 
-        $subtotals = [];
-        $statuses = [];
-
-        foreach ($orders as $order) {
+        $orders->transform(function ($order) {
             $orderProducts = $order->orderProducts;
-            $subtotal = $orderProducts->sum(function ($item) {
+            $order->subtotal = $orderProducts->sum(function ($item) {
                 return $item->quantity * $item->price;
             });
-            $subtotals[$order->id] = $subtotal;
+            $order->status = $this->calculateOrderStatus($order);
+            return $order;
+        });
 
-            $statuses[$order->id] = $this->calculateOrderStatus($order);
-
-            $order->save();
-        }
-        return view('tenantOrders.completed', compact('orders', 'subtotals', 'statuses'));
+        return view('tenantOrders.completed', [
+            'orders' => $orders,
+            'subtotals' => $orders->pluck('subtotal', 'id'),
+            'statuses' => $orders->pluck('status', 'id'),
+        ]);
     }
 }

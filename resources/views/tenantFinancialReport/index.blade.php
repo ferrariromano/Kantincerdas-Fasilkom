@@ -10,7 +10,7 @@
                 <h5 class="text-16">Financial Report</h5>
             </div>
             <ul class="flex items-center gap-2 text-sm font-normal shrink-0">
-                <li class="relative before:content-['\ea54'] before:font-remix ltr:before:-right-1 rtl:before:-left-1  before:absolute before:text-[18px] before:-top-[3px] ltr:pr-4 rtl:pl-4 before:text-slate-400 dark:text-zink-200">
+                <li class="relative before:content-['\ea54'] before:font-remix ltr:before:-right-1 rtl:before:-left-1 before:absolute before:text-[18px] before:-top-[3px] ltr:pr-4 rtl:pl-4 before:text-slate-400 dark:text-zink-200">
                     <a href="#!" class="text-slate-400 dark:text-zink-200">Report</a>
                 </li>
                 <li class="text-slate-700 dark:text-zink-100">
@@ -36,8 +36,7 @@
                         <div class="flex items-center justify-center rounded-md size-12 text-15 bg-sky-50 text-sky-500 dark:bg-sky-500/20 shrink-0"><i data-lucide="package-plus"></i></div>
                         <div class="grow">
                             <h5 class="mb-1 text-16 counter-value" data-target="{{ $financialReportData['totalRevenue'] }}"></h5>
-                            <p class="text-slate-500 dark:text-zink-200">Total Pendapatan
-                            </p>
+                            <p class="text-slate-500 dark:text-zink-200">Total Pendapatan</p>
                         </div>
                     </div>
                 </div>
@@ -53,8 +52,8 @@
                     <div class="flex items-center gap-3 card-body">
                         <div class="flex items-center justify-center text-yellow-500 rounded-md size-12 text-15 bg-yellow-50 dark:bg-yellow-500/20 shrink-0"><i data-lucide="loader"></i></div>
                         <div class="grow">
-                            {{-- <h5 class="mb-1 text-16 counter-value" data-target="{{ $financialReportData['pendingOrdersCount'] }}">0</h5> --}}
-                            <p class="text-slate-500 dark:text-zink-200">Pending Orders</p>
+                            <h5 class="mb-1 text-16 counter-value" data-target="{{ $financialReportData['uncompletedOrdersCount'] }}">0</h5>
+                            <p class="text-slate-500 dark:text-zink-200">Uncompleted Orders</p>
                         </div>
                     </div>
                 </div>
@@ -62,37 +61,122 @@
             <div class="2xl:col-span-2 2xl:row-span-1">
                 <div class="card">
                     <div class="flex items-center gap-3 card-body">
-                        <div class="flex items-center justify-center text-purple-500 rounded-md size-12 text-15 bg-purple-50 dark:bg-purple-500/20 shrink-0"><i data-lucide="truck"></i></div>
+                        <div class="flex items-center justify-center text-green-500 rounded-md size-12 text-15 bg-green-50 dark:bg-green-500/20 shrink-0"><i data-lucide="check-circle"></i></div>
                         <div class="grow">
-                            {{-- <h5 class="mb-1 text-16 counter-value" data-target="{{ $financialReportData['shippingOrdersCount'] }}">0</h5> --}}
-                            <p class="text-slate-500 dark:text-zink-200">Shipping Orders</p>
-                        </div>
-                    </div>
-                </div>
-            </div><!--end col-->
-            <div class="2xl:col-span-2 2xl:row-span-1">
-                <div class="card">
-                    <div class="flex items-center gap-3 card-body">
-                        <div class="flex items-center justify-center text-green-500 rounded-md size-12 text-15 bg-green-50 dark:bg-green-500/20 shrink-0"><i data-lucide="package-check"></i></div>
-                        <div class="grow">
-                            {{-- <h5 class="mb-1 text-16 counter-value" data-target="{{ $financialReportData['deliveredOrdersCount'] }}">0</h5> --}}
-                            <p class="text-slate-500 dark:text-zink-200">Delivered Orders</p>
-                        </div>
-                    </div>
-                </div>
-            </div><!--end col-->
-            <div class="2xl:col-span-2 2xl:row-span-1">
-                <div class="card">
-                    <div class="flex items-center gap-3 card-body">
-                        <div class="flex items-center justify-center text-red-500 rounded-md size-12 text-15 bg-red-50 dark:bg-red-500/20 shrink-0"><i data-lucide="package-x"></i></div>
-                        <div class="grow">
-                            {{-- <h5 class="mb-1 text-16 counter-value" data-target="{{ $financialReportData['cancelledOrdersCount'] }}">0</h5> --}}
-                            <p class="text-slate-500 dark:text-zink-200">Cancelled Orders</p>
+                            <h5 class="mb-1 text-16 counter-value" data-target="{{ $financialReportData['completedOrdersCount'] }}">0</h5>
+                            <p class="text-slate-500 dark:text-zink-200">Completed Orders</p>
                         </div>
                     </div>
                 </div>
             </div><!--end col-->
         </div><!--end grid-->
+
+        <!-- Date Range Picker -->
+        <form method="GET" action="{{ route('tenantFinancialReport.index') }}">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="mb-1 text-15">Range</h6>
+                    <p class="mb-4">Set <code class="text-xs text-pink-500 select-all">data-provider="flatpickr" data-date-format="d M, Y" data-range-date="true"</code> attribute.</p>
+                    <input type="text" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" data-provider="flatpickr" data-date-format="d M, Y" data-range-date="true" readonly="readonly" placeholder="Select Date" name="date_range">
+                    <button type="submit" class="btn bg-custom-500 border-custom-500 text-white">Apply</button>
+                </div>
+            </div><!--end card-->
+        </form>
+
+        <!-- Orders Table -->
+        <div class="card" id="ordersTable">
+            <div class="card-body">
+                <div class="grid grid-cols-1 gap-4 lg:grid-cols-12">
+                    <div class="lg:col-span-3">
+                        <div class="relative">
+                            <input type="text" class="ltr:pl-8 rtl:pr-8 search form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" placeholder="Search for ..." autocomplete="off">
+                            <i data-lucide="search" class="inline-block size-4 absolute ltr:left-2.5 rtl:right-2.5 top-2.5 text-slate-500 dark:text-zink-200 fill-slate-100 dark:fill-zink-600"></i>
+                        </div>
+                    </div><!--end col-->
+                    <div class="lg:col-span-2 lg:col-start-11">
+                        <div class="ltr:lg:text-right rtl:lg:text-left">
+                            <a href="#!" data-modal-target="addOrderModal" type="button" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20"><i data-lucide="plus" class="inline-block size-4"></i> <span class="align-middle">Add Order</span></a>
+                        </div>
+                    </div>
+                </div><!--col grid-->
+
+                <ul class="flex flex-wrap w-full mt-5 text-sm font-medium text-center text-gray-500 nav-tabs">
+                    <li class="group active">
+                        <a href="javascript:void(0);" data-tab-toggle="" data-target="allOrders" class="inline-block px-4 py-1.5 text-base transition-all duration-300 ease-linear rounded-md text-slate-500 dark:text-zink-200 border border-transparent group-[.active]:bg-custom-500 group-[.active]:text-white dark:group-[.active]:text-white hover:text-custom-500 dark:hover:text-custom-500 active:text-custom-500 dark:active:text-custom-500 -mb-[1px]"><i data-lucide="boxes" class="inline-block size-4 ltr:mr-1 rtl:ml-1"></i> <span class="align-middle">All Orders</span></a>
+                    </li>
+                    <li class="group">
+                        <a href="javascript:void(0);" data-tab-toggle="" data-target="pendingOrder" class="inline-block px-4 py-1.5 text-base transition-all duration-300 ease-linear rounded-md text-slate-500 dark:text-zink-200 border border-transparent group-[.active]:bg-custom-500 group-[.active]:text-white dark:group-[.active]:text-white hover:text-custom-500 dark:hover:text-custom-500 active:text-custom-500 dark:active:text-custom-500 -mb-[1px]"><i data-lucide="loader" class="inline-block size-4 ltr:mr-1 rtl:ml-1"></i> <span class="align-middle">Pending</span></a>
+                    </li>
+                    <li class="group">
+                        <a href="javascript:void(0);" data-tab-toggle="" data-target="deliveredOrder" class="inline-block px-4 py-1.5 text-base transition-all duration-300 ease-linear rounded-md text-slate-500 dark:text-zink-200 border border-transparent group-[.active]:bg-custom-500 group-[.active]:text-white dark:group-[.active]:text-white hover:text-custom-500 dark:hover:text-custom-500 active:text-custom-500 dark:active:text-custom-500 -mb-[1px]"><i data-lucide="package-check" class="inline-block size-4 ltr:mr-1 rtl:ml-1"></i> <span class="align-middle">Delivered</span></a>
+                    </li>
+                    <li class="group">
+                        <a href="javascript:void(0);" data-tab-toggle="" data-target="returnsOrders" class="inline-block px-4 py-1.5 text-base transition-all duration-300 ease-linear rounded-md text-slate-500 dark:text-zink-200 border border-transparent group-[.active]:bg-custom-500 group-[.active]:text-white dark:group-[.active]:text-white hover:text-custom-500 dark:hover:text-custom-500 active:text-custom-500 dark:active:text-custom-500 -mb-[1px]"><i data-lucide="refresh-ccw" class="inline-block size-4 ltr:mr-1 rtl:ml-1"></i> <span class="align-middle">Returns</span></a>
+                    </li>
+                    <li class="group">
+                        <a href="javascript:void(0);" data-tab-toggle="" data-target="cancelledOrders" class="inline-block px-4 py-1.5 text-base transition-all duration-300 ease-linear rounded-md text-slate-500 dark:text-zink-200 border border-transparent group-[.active]:bg-custom-500 group-[.active]:text-white dark:group-[.active]:text-white hover:text-custom-500 dark:hover:text-custom-500 active:text-custom-500 dark:active:text-custom-500 -mb-[1px]"><i data-lucide="package-x" class="inline-block size-4 ltr:mr-1 rtl:ml-1 "></i> <span class="align-middle">Cancelled</span></a>
+                    </li>
+                </ul>
+
+                <div class="mt-5 overflow-x-auto">
+                    <table class="w-full whitespace-nowrap">
+                        <thead class="ltr:text-left rtl:text-right bg-slate-100 dark:bg-zink-600">
+                            <tr>
+                                <th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200">
+                                    <div class="flex items-center h-full">
+                                        <input id="CheckboxAll" class="size-4 cursor-pointer bg-white border border-slate-200 checked:bg-none dark:bg-zink-700 dark:border-zink-500 rounded-sm appearance-none arrow-none relative after:absolute after:content-['\eb7b'] after:top-0 after:left-0 after:font-remix after:leading-none after:opacity-0 checked:after:opacity-100 after:text-custom-500 checked:border-custom-500 dark:after:text-custom-500 dark:checked:border-custom-800" type="checkbox">
+                                    </div>
+                                </th>
+                                <th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200 sort" data-sort="order_id">Order ID</th>
+                                <th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200 sort" data-sort="order_date">Order Date</th>
+                                <th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200 sort" data-sort="delivery_date">Delivery Date</th>
+                                <th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200 sort" data-sort="customer_name">Customer Name</th>
+                                <th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200 sort" data-sort="payment_method">Payment Method</th>
+                                <th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200 sort" data-sort="amount">Amount</th>
+                                <th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200 sort" data-sort="delivery_status">Delivery Status</th>
+                                <th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($orders as $order)
+                                <tr>
+                                    <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
+                                        <div class="flex items-center h-full">
+                                            <input id="Checkbox{{ $order->id }}" class="size-4 cursor-pointer bg-white border border-slate-200 checked:bg-none dark:bg-zink-700 dark:border-zink-500 rounded-sm appearance-none arrow-none relative after:absolute after:content-['\eb7b'] after:top-0 after:left-0 after:font-remix after:leading-none after:opacity-0 checked:after:opacity-100 after:text-custom-500 checked:border-custom-500 dark:after:text-custom-500 dark:checked:border-custom-800" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500"><a href="#!" class="transition-all duration-150 ease-linear order_id text-custom-500 hover:text-custom-600">#{{ $order->id }}</a></td>
+                                    <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 order_date">{{ $order->created_at->format('d M, Y') }}</td>
+                                    {{-- <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 delivery_date">{{ $order->delivery_date ? $order->delivery_date->format('d M, Y') : '-' }}</td> --}}
+                                    <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 customer_name">{{ $order->customer_name }}</td>
+                                    <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 payment_method">{{ $order->payment_method }}</td>
+                                    <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 amount">{{ 'Rp ' . number_format($subtotals[$order->id], 2, ',', '.') }}</td>
+                                    <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
+                                        <span class="delivery_status px-2.5 py-0.5 text-xs inline-block font-medium rounded border {{ $order->orderStatus == 'Completed' ? 'bg-green-100 border-green-200 text-green-500 dark:bg-green-500/20 dark:border-green-500/20' : 'bg-yellow-100 border-yellow-200 text-yellow-500 dark:bg-yellow-500/20 dark:border-yellow-500/20' }}">{{ $order->orderStatus }}</span>
+                                    </td>
+                                    <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
+                                        <div class="relative dropdown">
+                                            <button id="orderAction{{ $order->id }}" data-bs-toggle="dropdown" class="flex items-center justify-center size-[30px] dropdown-toggle p-0 text-slate-500 btn bg-slate-100 hover:text-white hover:bg-slate-600 focus:text-white focus:bg-slate-600 focus:ring focus:ring-slate-100 active:text-white active:bg-slate-600 active:ring active:ring-slate-100 dark:bg-slate-500/20 dark:text-slate-400 dark:hover:bg-slate-500 dark:hover:text-white dark:focus:bg-slate-500 dark:focus:text-white dark:active:bg-slate-500 dark:active:text-white dark:ring-slate-400/20"><i data-lucide="more-horizontal" class="size-3"></i></button>
+                                            <ul class="absolute z-50 hidden py-2 mt-1 ltr:text-left rtl:text-right list-none bg-white rounded-md shadow-md dropdown-menu min-w-[10rem] dark:bg-zink-600" aria-labelledby="orderAction{{ $order->id }}">
+                                                <li>
+                                                    <a class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="apps-ecommerce-order-overview.html"><i data-lucide="eye" class="inline-block size-3 ltr:mr-1 rtl:ml-1"></i> <span class="align-middle">Overview</span></a>
+                                                </li>
+                                                <li>
+                                                    <a data-modal-target="addOrderModal" class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="#!"><i data-lucide="file-edit" class="inline-block size-3 ltr:mr-1 rtl:ml-1"></i> <span class="align-middle">Edit</span></a>
+                                                </li>
+                                                <li>
+                                                    <a data-modal-target="deleteModal" class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="#!"><i data-lucide="trash-2" class="inline-block size-3 ltr:mr-1 rtl:ml-1"></i> <span class="align-middle">Delete</span></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div><!--end card-->
     </div>
 </div>
 
@@ -118,6 +202,17 @@
 
         var chart = new ApexCharts(document.querySelector("#ordersOverview"), options);
         chart.render();
+
+        flatpickr("input[data-provider='flatpickr']", {
+            mode: "range",
+            dateFormat: "d M, Y",
+            onChange: function(selectedDates, dateStr, instance) {
+                if (selectedDates.length === 2) {
+                    // Submit the form when the date range is selected
+                    instance.element.closest('form').submit();
+                }
+            }
+        });
     });
 </script>
 @endsection

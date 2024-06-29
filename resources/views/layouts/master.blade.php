@@ -11,6 +11,7 @@
     <!-- Layout config Js -->
     <script src="{{ asset('assets/js/layout.js') }}"></script>
     <!-- StarCode CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="{{ asset('assets/css/starcode2.css') }}">
     <!-- message toastr -->
 	{{-- <link rel="stylesheet" href="{{ URL::to('assets/css/toastr.min.css') }}">
@@ -612,5 +613,18 @@
     <script src="{{ asset("assets/js/app.js") }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
+    <!-- Body content -->
+    <script src="{{ asset('node_modules/flatpickr/dist/flatpickr.min.js') }}"></script>
+
+    <!-- Other scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            flatpickr('[data-provider="flatpickr"]', {
+                mode: 'range',
+                dateFormat: 'd M, Y',
+            });
+        });
+    </script>
 </body>
 </html>

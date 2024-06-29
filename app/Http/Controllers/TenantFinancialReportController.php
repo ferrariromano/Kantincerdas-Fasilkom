@@ -13,21 +13,51 @@ class TenantFinancialReportController extends Controller
         $tenant = Auth::guard('tenant')->user();
         $tenantId = $tenant->id_tenant;
 
+        $startDate = $request->input('date_range') ? explode(' to ', $request->input('date_range'))[0] : null;
+        $endDate = $request->input('date_range') ? explode(' to ', $request->input('date_range'))[1] : null;
+
         // Get the financial report data for the authenticated tenant
-        $financialReportData = $this->getFinancialReportData($tenantId);
+        $financialReportData = $this->getFinancialReportData($tenantId, $startDate, $endDate);
 
-        // Return the view with the financial report data
-        return view('tenantFinancialReport.index', compact('financialReportData'));
-    }
-
-    public function getFinancialReportData($tenantId)
-    {
         // Fetch all orders for the current tenant with orderProducts relation
-        $orders = Order::whereHas('orderProducts', function ($query) use ($tenantId) {
+        $ordersQuery = Order::whereHas('orderProducts', function ($query) use ($tenantId) {
             $query->where('tenant_id', $tenantId);
         })->with(['orderProducts' => function ($query) use ($tenantId) {
             $query->where('tenant_id', $tenantId);
-        }])->get();
+        }]);
+
+        if ($startDate && $endDate) {
+            $ordersQuery->whereBetween('created_at', [$startDate, $endDate]);
+        }
+
+        $orders = $ordersQuery->get();
+
+        $statuses = $orders->pluck('orderStatus', 'id');
+        $subtotals = $orders->mapWithKeys(function ($order) {
+            $subtotal = $order->orderProducts->sum(function ($item) {
+                return $item->quantity * $item->price;
+            });
+            return [$order->id => $subtotal];
+        });
+
+        // Return the view with the financial report data and orders
+        return view('tenantFinancialReport.index', compact('financialReportData', 'orders', 'statuses', 'subtotals'));
+    }
+
+    public function getFinancialReportData($tenantId, $startDate = null, $endDate = null)
+    {
+        // Fetch all orders for the current tenant with orderProducts relation
+        $ordersQuery = Order::whereHas('orderProducts', function ($query) use ($tenantId) {
+            $query->where('tenant_id', $tenantId);
+        })->with(['orderProducts' => function ($query) use ($tenantId) {
+            $query->where('tenant_id', $tenantId);
+        }]);
+
+        if ($startDate && $endDate) {
+            $ordersQuery->whereBetween('created_at', [$startDate, $endDate]);
+        }
+
+        $orders = $ordersQuery->get();
 
         $totalRevenue = 0;
         $completedOrdersCount = 0;
@@ -64,3 +94,4 @@ class TenantFinancialReportController extends Controller
         ];
     }
 }
+
