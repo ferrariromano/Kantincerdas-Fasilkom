@@ -16,6 +16,9 @@ class CekPesananController extends Controller
             1 => "Left Canteen",
             2 => "Right Canteen"
         ];
+
+        $this->deletePendingOrderProducts(); // Panggil metode ini sebelum mengambil data order
+
         // Cek apakah user sudah melakukan pesanan
         $order = Order::where('uid', $uid)->with('orderProducts')->first();
 
@@ -123,6 +126,26 @@ class CekPesananController extends Controller
             'uid' => $uid,
         ]);
     }
+
+    private function deletePendingOrderProducts()
+    {
+        // Ambil semua produk order yang statusnya Pending lebih dari 30 detik
+        $pendingProducts = OrderProduct::where('orderProductStatus', 'Pending')
+            ->where('created_at', '<', Carbon::now()->subSeconds(30))
+            ->get();
+
+        $orderIds = [];
+
+        foreach ($pendingProducts as $product) {
+            $orderIds[] = $product->order_id;
+            $product->delete();
+        }
+
+        // Hapus order yang tidak memiliki produk order terkait
+        $emptyOrders = Order::whereDoesntHave('orderProducts')->whereIn('id', $orderIds)->get();
+
+        foreach ($emptyOrders as $order) {
+            $order->delete();
+        }
+    }
 }
-
-
