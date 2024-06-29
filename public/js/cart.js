@@ -10,6 +10,10 @@ let totalItemElement = document.getElementById('total-items');
 let totalPriceElement = document.getElementById('total-price');
 let cart = [];
 
+function setUID(newUID) {
+    localStorage.setItem('uid', newUID);
+}
+
 const checkOutButton = document.querySelector('.checkOut');
 const orderForm = document.querySelector('.orderForm');
 const backToCartButton = document.querySelector('.backToCart');
@@ -17,9 +21,7 @@ const confirmOrderButton = document.querySelector('.confirmOrder');
 const orderName = document.getElementById('order-name');
 const orderPhone = document.getElementById('order-phone');
 const orderPayment = document.getElementById('order-payment');
-const orderProducts = document.getElementById('order-items');
 const additional = document.getElementById('additional');
-
 
 // Create UID from local storage or cookie
 function generateUID() {
@@ -34,7 +36,6 @@ function getUID() {
     }
     return uid;
 }
-
 
 // Open & Close cart tab
 iconCart.addEventListener('click', function () {
@@ -201,7 +202,6 @@ orderName.addEventListener('input', validateForm);
 orderPhone.addEventListener('input', validateForm);
 orderPayment.addEventListener('change', validateForm);
 
-
 // Update CheckOut button state
 const updateCheckOutButton = () => {
     checkOutButton.disabled = cart.length === 0;
@@ -273,15 +273,45 @@ const updateConfirmationItems = () => {
     });
 };
 
-
-
 // show the confirmation modal
-confirmOrderButton.addEventListener('click', () => {
+confirmOrderButton.addEventListener('click', async () => {
     if (confirmOrderButton.disabled) return;
+
+    const uid = getUID();
+    const orderData = {
+        'order-name': orderName.value,
+        'order-phone': orderPhone.value,
+        'order-payment': orderPayment.value,
+        'additional': additional.value,
+        'order-items': JSON.stringify(cart),
+        'orderTotalAmounts': document.getElementById('orderTotalAmounts').value,
+        'uid': uid
+    };
+
+    try {
+        const response = await fetch('/submit-order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(orderData)
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            setUID(result.uid); // Update UID in localStorage
+            // Display success message and handle further steps
+        } else {
+            // Handle error
+        }
+    } catch (error) {
+        console.error('Error submitting order:', error);
+    }
+
     // Menampilkan confirm-modal
     document.getElementById('confirmModal').style.display = 'block';
 });
 
 // Load cart from local storage on page load
 loadCartFromLocalStorage();
-

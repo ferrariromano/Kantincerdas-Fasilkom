@@ -88,7 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
     confirmOrderFinalButton.addEventListener('click', () => {
         orderProducts.value = JSON.stringify(cart);
         const uid = getUID();
-        localStorage.setItem('uid', uid);  // Save UID in LocalStorage
 
         const formData = new FormData(orderForm);
         formData.append('uid', uid);
@@ -106,6 +105,9 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             console.log('Response from server:', data);
             if (data.success) {
+                if (data.uid) {
+                    setUID(data.uid); // Update UID in localStorage
+                }
                 if (orderPayment.value === 'non-tunai') {
                     console.log('Snap Token:', data.snap_token);
                     if (data.snap_token) {
@@ -151,6 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
     // ====== Alert Modal Functions ======
     closeAlertModal.addEventListener('click', closeModal);
 
@@ -202,5 +205,4 @@ document.addEventListener('DOMContentLoaded', () => {
         iconSuccess.style.display = 'none';
         iconFailed.style.display = 'none';
     }
-
 });

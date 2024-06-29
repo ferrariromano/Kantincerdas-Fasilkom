@@ -49,6 +49,11 @@ class OrderController extends Controller
                 'message' => 'Anda masih memiliki pesanan yang belum selesai.'
             ], 400);
         }
+        // Generate a new UID if there are completed orders with the same UID
+        $completedOrders = Order::where('uid', $uid)->where('orderStatus', 'Completed')->exists();
+        if ($completedOrders) {
+            $uid = 'uid-' . uniqid();
+        }
 
         // Create the order
         $order = new Order();
