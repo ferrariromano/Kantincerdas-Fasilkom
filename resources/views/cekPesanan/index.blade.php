@@ -96,15 +96,16 @@
                         if (remainingTime <= 0) {
                             clearInterval(countdownInterval);
                             const productElement = document.getElementById('pendingProduct_' + element.parentElement.id.split('_')[1]);
-                            productElement.style.display = 'none'; // Hide the element once countdown is over
+                            productElement.remove(); // Remove the element from the DOM
                         }
                     }, 1000);
                 } else {
                     element.textContent = '0';
                     const productElement = document.getElementById('pendingProduct_' + element.parentElement.id.split('_')[1]);
-                    productElement.style.display = 'none'; // Hide the element if remainingTime is already 0
+                    productElement.remove(); // Remove the element if remainingTime is already 0
                 }
             });
         });
+
     </script>
 @endpush
