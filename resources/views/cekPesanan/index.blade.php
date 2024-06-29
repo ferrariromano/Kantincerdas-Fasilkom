@@ -11,15 +11,15 @@
         <div class="orderInfo">
             <div class="infoGroup">
                 <p class="pInfoGroup">Nama Pemesan</p>
-                <span class="txt-bld-orange" class="order-name">{{ $orderName }}</span>
+                <span class="txt-bld-orange order-name">{{ $orderName }}</span>
             </div>
             <div class="infoGroup">
                 <p class="pInfoGroup">Nomor Handphone</p>
-                <span class="txt-bld-orange" class="order-phone">{{ $orderPhone }}</span>
+                <span class="txt-bld-orange order-phone">{{ $orderPhone }}</span>
             </div>
             <div class="infoGroup">
                 <p class="pInfoGroup">Metode Pembayaran</p>
-                <span class="txt-bld-orange" class="order-payment">{{ $orderPayment }}</span>
+                <span class="txt-bld-orange order-payment">{{ $orderPayment }}</span>
             </div>
         </div>
         <div class="messageInfo">
@@ -55,7 +55,7 @@
                     @endforeach
                 </div>
                 <div class="outletHighlight">
-                    <p class="quantity__title"><span class="higlightValue">{{$quantities[$tenantId]}}</span> item</p>
+                    <p class="quantity__title"><span class="higlightValue">{{ $quantities[$tenantId] }}</span> item</p>
                     <p class="subTotal__title">Sub Total </p>
                     <p class="higlightValue">Rp {{ number_format($subtotals[$tenantId], 0, ',', '.') }}</p>
                 </div>
@@ -69,6 +69,14 @@
             <span class="orderHighlight__value">Rp {{ number_format($order->orderTotalAmounts, 0, ',', '.') }}</span>
         </div>
     </div>
+
+    @foreach ($pendingProductsData as $product)
+        <div class="pendingProduct" id="pendingProduct_{{ $product['id'] }}">
+            <p>Product: {{ $product['name'] }} ({{ $product['quantity'] }}x)</p>
+            <p>Price: Rp {{ number_format($product['price'], 0, ',', '.') }}</p>
+            <p>Remaining Time: <span class="countdown" data-remaining-time="{{ $product['remainingTime'] }}"></span> seconds</p>
+        </div>
+    @endforeach
 </div>
 
 @endsection
@@ -76,5 +84,27 @@
 @push('js')
     <script src="{{ asset('js/cekPesanan.js') }}"></script>
     <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const countdownElements = document.querySelectorAll('.countdown');
+            countdownElements.forEach(element => {
+                let remainingTime = parseInt(element.getAttribute('data-remaining-time'));
+                if (remainingTime > 0) {
+                    const countdownInterval = setInterval(() => {
+                        remainingTime--;
+                        element.textContent = remainingTime;
+                        if (remainingTime <= 0) {
+                            clearInterval(countdownInterval);
+                            const productElement = document.getElementById('pendingProduct_' + element.parentElement.id.split('_')[1]);
+                            productElement.style.display = 'none'; // Hide the element once countdown is over
+                        }
+                    }, 1000);
+                } else {
+                    element.textContent = '0';
+                    const productElement = document.getElementById('pendingProduct_' + element.parentElement.id.split('_')[1]);
+                    productElement.style.display = 'none'; // Hide the element if remainingTime is already 0
+                }
+            });
+        });
+    </script>
 @endpush

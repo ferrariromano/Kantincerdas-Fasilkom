@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\OrderProduct;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class TenantOrderController extends Controller
 {
     public function index(Request $request)
     {
+        $this->deletePendingOrderProducts(); // Panggil metode ini pada awal metode index
+
         $tenant = Auth::guard('tenant')->user();
         $tenantId = $tenant->id_tenant;
 
@@ -179,5 +183,27 @@ class TenantOrderController extends Controller
             'subtotals' => $orders->pluck('subtotal', 'id'),
             'statuses' => $orders->pluck('status', 'id'),
         ]);
+    }
+
+    private function deletePendingOrderProducts()
+    {
+        // Ambil semua produk order yang statusnya Pending lebih dari 30 detik
+        $pendingProducts = OrderProduct::where('orderProductStatus', 'Pending')
+            ->where('created_at', '<', Carbon::now()->subSeconds(30))
+            ->get();
+
+        $orderIds = [];
+
+        foreach ($pendingProducts as $product) {
+            $orderIds[] = $product->order_id;
+            $product->delete();
+        }
+
+        // Hapus order yang tidak memiliki produk order terkait
+        $emptyOrders = Order::whereDoesntHave('orderProducts')->whereIn('id', $orderIds)->get();
+
+        foreach ($emptyOrders as $order) {
+            $order->delete();
+        }
     }
 }

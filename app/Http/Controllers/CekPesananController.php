@@ -6,12 +6,12 @@ use App\Models\Order;
 use App\Models\OrderProduct;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 
 class CekPesananController extends Controller
 {
     public function showOrder($uid)
     {
-
         $tenantNames = [
             1 => "Left Canteen",
             2 => "Right Canteen"
@@ -28,6 +28,7 @@ class CekPesananController extends Controller
             $quantities = [];
             $waitingLists = [];
             $statuses = [];
+            $pendingProductsData = [];
 
             foreach ($orderProductsGrouped as $tenantId => $items) {
                 // Menghitung subtotal untuk tenant ini
@@ -66,6 +67,20 @@ class CekPesananController extends Controller
                 } else {
                     $statuses[$tenantId] = strtolower(OrderProduct::STATUS_PENDING);
                 }
+
+                // Mengumpulkan data produk pending untuk countdown
+                foreach ($items as $item) {
+                    if ($item->orderProductStatus === 'Pending') {
+                        $remainingTime = 30 - Carbon::now()->diffInSeconds($item->created_at);
+                        $pendingProductsData[] = [
+                            'id' => $item->id,
+                            'name' => $item->product->name,
+                            'quantity' => $item->quantity,
+                            'price' => $item->price,
+                            'remainingTime' => $remainingTime > 0 ? $remainingTime : 0
+                        ];
+                    }
+                }
             }
 
             // Mengirim data ke view cek-pesanan
@@ -81,7 +96,8 @@ class CekPesananController extends Controller
                 'uid' => $uid,
                 'orderName' => $order->orderName,
                 'orderPhone' => $order->orderPhone,
-                'orderPayment' => $order->orderPayment
+                'orderPayment' => $order->orderPayment,
+                'pendingProductsData' => $pendingProductsData
             ]);
         }
 
@@ -108,4 +124,5 @@ class CekPesananController extends Controller
         ]);
     }
 }
+
 

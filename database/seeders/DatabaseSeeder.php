@@ -25,11 +25,11 @@ class DatabaseSeeder extends Seeder
         // Seed Categories
         $this->seedCategories();
 
-        // Seed Products
+        // // Seed Products
         $this->seedProducts();
 
-        // Seed Orders and OrderProducts
-        $this->call(OrdersAndOrderProductsTableSeeder::class);
+        // // Seed Orders and OrderProducts
+        // $this->call(OrdersAndOrderProductsTableSeeder::class);
     }
 
     private function seedCategories()
