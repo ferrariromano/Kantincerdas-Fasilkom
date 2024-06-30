@@ -12,19 +12,21 @@ class TenantOrderController extends Controller
 {
     public function index(Request $request)
     {
-        $this->deletePendingOrderProducts(); // Panggil metode ini pada awal metode index
+        // Panggil metode untuk menghapus order products yang pending
+        $this->deletePendingOrderProducts();
 
+        // Ambil tenant yang sedang login
         $tenant = Auth::guard('tenant')->user();
         $tenantId = $tenant->id_tenant;
 
+        // Ambil orders yang terkait dengan tenant yang sedang login
         $orders = Order::whereHas('orderProducts', function ($query) use ($tenantId) {
             $query->where('tenant_id', $tenantId);
         })->with(['orderProducts' => function ($query) use ($tenantId) {
             $query->where('tenant_id', $tenantId);
-        }]);
+        }])->paginate(10);
 
-        $orders = $orders->paginate(10);
-
+        // Transformasi data untuk menghitung subtotal dan status
         $orders->transform(function ($order) {
             $orderProducts = $order->orderProducts;
             $order->subtotal = $orderProducts->sum(function ($item) {
@@ -34,6 +36,7 @@ class TenantOrderController extends Controller
             return $order;
         });
 
+        // Kirim data ke view
         return view('tenantOrders.index', [
             'orders' => $orders,
             'subtotals' => $orders->pluck('subtotal', 'id'),
@@ -89,12 +92,22 @@ class TenantOrderController extends Controller
 
         foreach ($order->orderProducts as $item) {
             if (isset($validatedData['orderProductStatus'][$item->id])) {
-                $item->orderProductStatus = $validatedData['orderProductStatus'][$item->id];
-                $item->save();
+                if ($validatedData['orderProductStatus'][$item->id] === 'Cancelled') {
+                    $item->delete();
+                } else {
+                    $item->orderProductStatus = $validatedData['orderProductStatus'][$item->id];
+                    $item->save();
+                }
             }
         }
 
+        // After handling the updates and deletions, recalculate the order status
         $this->recalculateOrderStatus($order);
+
+        // If the order has no products left after deletion, delete the order itself
+        if ($order->orderProducts()->count() == 0) {
+            $order->delete();
+        }
 
         return redirect()->route('tenantOrders.index')->with('success', 'Pesanan dan item berhasil diperbarui.');
     }
