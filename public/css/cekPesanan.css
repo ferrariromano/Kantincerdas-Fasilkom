@@ -168,6 +168,19 @@ a {
     grid-template-columns: repeat(1, 2fr);
 }
 
+/* Count Down */
+.tenant-remaining-time {
+    color: var(--clr-primary-500);
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.tenant-remaining-time .countdown {
+    color: black;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
 /* === Outlet Header === */
 .outletHeader {
     display: grid;

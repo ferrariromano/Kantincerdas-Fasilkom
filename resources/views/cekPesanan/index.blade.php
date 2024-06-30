@@ -1,5 +1,4 @@
 @extends ('layouts.main')
-
 @push('css')
     <link rel="stylesheet" href="{{ asset('css/cekPesanan.css') }}">
 @endpush
@@ -36,6 +35,11 @@
     <div class="outletGroup {{ count($orderProductsGrouped) === 1 ? 'single-tenant' : '' }}">
         @foreach ($orderProductsGrouped as $tenantId => $items)
             <div class="outlet">
+                @if(isset($pendingProductsData[$tenantId]))
+                <div class="tenant-remaining-time">
+                    Waktu Tersisa: <span class="countdown" data-remaining-time="{{ $pendingProductsData[$tenantId]['remainingTime'] }}"></span> detik
+                </div>
+                 @endif
                 <div class="outletHeader">
                     <div class="headerLeft">
                         <div class="tenant">Outlet : <span class="tenantName">{{ $tenantNames[$tenantId] }}</span></div>
@@ -75,14 +79,6 @@
             <span class="notes__value">{{ $order->orderNotes }}</span>
         </div>
     </div>
-
-    @foreach ($pendingProductsData as $product)
-        <div class="pendingProduct" id="pendingProduct_{{ $product['id'] }}">
-            <p>Product: {{ $product['name'] }} ({{ $product['quantity'] }}x)</p>
-            <p>Price: Rp {{ number_format($product['price'], 0, ',', '.') }}</p>
-            <p>Remaining Time: <span class="countdown" data-remaining-time="{{ $product['remainingTime'] }}"></span> seconds</p>
-        </div>
-    @endforeach
 </div>
 
 @endsection

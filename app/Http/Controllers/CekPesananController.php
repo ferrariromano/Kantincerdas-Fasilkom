@@ -72,17 +72,13 @@ class CekPesananController extends Controller
                 }
 
                 // Collect pending product data for countdown
-                foreach ($items as $item) {
-                    if ($item->orderProductStatus === 'Pending') {
-                        $remainingTime = 30 - Carbon::now()->diffInSeconds($item->created_at);
-                        $pendingProductsData[] = [
-                            'id' => $item->id,
-                            'name' => $item->product->name,
-                            'quantity' => $item->quantity,
-                            'price' => $item->price,
-                            'remainingTime' => $remainingTime > 0 ? $remainingTime : 0
-                        ];
-                    }
+                $pendingItem = $items->firstWhere('orderProductStatus', 'Pending');
+                if ($pendingItem) {
+                    $remainingTime = 30 - Carbon::now()->diffInSeconds($pendingItem->created_at);
+                    $pendingProductsData[$tenantId] = [
+                        'id' => $pendingItem->id,
+                        'remainingTime' => $remainingTime > 0 ? $remainingTime : 0
+                    ];
                 }
             }
 
