@@ -42,4 +42,26 @@ document.addEventListener('DOMContentLoaded', function() {
     // Update the message
     const message = getMessage(statuses);
     messageElement.textContent = message;
+
+    // Countdown timer functionality
+    const countdownElements = document.querySelectorAll('.countdown');
+    countdownElements.forEach(element => {
+        const remainingTime = parseInt(element.dataset.remainingTime, 10);
+
+        if (remainingTime > 0) {
+            let timeLeft = remainingTime;
+
+            const intervalId = setInterval(() => {
+                timeLeft--;
+                element.textContent = timeLeft;
+
+                if (timeLeft <= 0) {
+                    clearInterval(intervalId);
+                    window.location.reload();
+                }
+            }, 1000);
+        } else {
+            window.location.reload();
+        }
+    });
 });

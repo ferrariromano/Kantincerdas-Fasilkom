@@ -17,16 +17,16 @@ class CekPesananController extends Controller
             2 => "Right Canteen"
         ];
 
-        $this->deletePendingOrderProducts(); // Panggil metode ini sebelum mengambil data order
+        $this->deletePendingOrderProducts(); // Call this method before retrieving order data
 
-        // Cek apakah user sudah melakukan pesanan
+        // Check if user has placed an order
         $order = Order::where('uid', $uid)->with('orderProducts')->first();
 
         if ($order) {
-            // Kelompokkan order items berdasarkan tenant
+            // Group order items by tenant
             $orderProductsGrouped = $order->orderProducts->groupBy('tenant_id');
 
-            // Hitung subtotal dan waiting list untuk setiap tenant
+            // Calculate subtotal and waiting list for each tenant
             $subtotals = [];
             $quantities = [];
             $waitingLists = [];
@@ -34,19 +34,19 @@ class CekPesananController extends Controller
             $pendingProductsData = [];
 
             foreach ($orderProductsGrouped as $tenantId => $items) {
-                // Menghitung subtotal untuk tenant ini
+                // Calculate subtotal for this tenant
                 $subtotal = $items->sum(function ($item) {
                     return $item->quantity * $item->price;
                 });
                 $subtotals[$tenantId] = $subtotal;
 
-                // Menghitung total item untuk tenant ini
+                // Calculate total items for this tenant
                 $quantity = $items->sum(function ($item) {
                     return $item->quantity;
                 });
                 $quantities[$tenantId] = $quantity;
 
-                // Menghitung waiting list untuk tenant ini
+                // Calculate waiting list for this tenant
                 $waitingList = Order::whereHas('orderProducts', function($query) use ($tenantId) {
                         $query->where('tenant_id', $tenantId)
                               ->where('orderProductStatus', 'In Progress');
@@ -55,7 +55,7 @@ class CekPesananController extends Controller
                     ->count();
                 $waitingLists[$tenantId] = $waitingList;
 
-                // Kalkulasi status pesanan
+                // Calculate order status
                 $allInProgress = $items->every(function ($item) {
                     return $item->isInProgress();
                 });
@@ -71,7 +71,7 @@ class CekPesananController extends Controller
                     $statuses[$tenantId] = strtolower(OrderProduct::STATUS_PENDING);
                 }
 
-                // Mengumpulkan data produk pending untuk countdown
+                // Collect pending product data for countdown
                 foreach ($items as $item) {
                     if ($item->orderProductStatus === 'Pending') {
                         $remainingTime = 30 - Carbon::now()->diffInSeconds($item->created_at);
@@ -86,7 +86,7 @@ class CekPesananController extends Controller
                 }
             }
 
-            // Mengirim data ke view cek-pesanan
+            // Send data to cek-pesanan view
             return view('cekPesanan.index', [
                 'active' => 'cekPesanan',
                 'order' => $order,
@@ -104,7 +104,7 @@ class CekPesananController extends Controller
             ]);
         }
 
-        // Jika user belum memesan, hitung waiting list untuk semua tenant
+        // If user hasn't ordered, calculate waiting list for all tenants
         $allWaitingLists = Order::whereHas('orderProducts', function ($query) {
                 $query->where('orderProductStatus', 'In Progress');
             })
@@ -118,7 +118,7 @@ class CekPesananController extends Controller
                 return $items->groupBy('order_id')->count();
             });
 
-        // Mengirim data ke view cek-pesanan-empty
+        // Send data to cek-pesanan-empty view
         return view('cekPesanan.default', [
             'active' => 'cekPesanan',
             'waitingLists' => $allWaitingLists,
@@ -129,7 +129,7 @@ class CekPesananController extends Controller
 
     private function deletePendingOrderProducts()
     {
-        // Ambil semua produk order yang statusnya Pending lebih dari 30 detik
+        // Get all order products with 'Pending' status older than 30 seconds
         $pendingProducts = OrderProduct::where('orderProductStatus', 'Pending')
             ->where('created_at', '<', Carbon::now()->subSeconds(30))
             ->get();
@@ -141,7 +141,7 @@ class CekPesananController extends Controller
             $product->delete();
         }
 
-        // Hapus order yang tidak memiliki produk order terkait
+        // Delete orders without related order products
         $emptyOrders = Order::whereDoesntHave('orderProducts')->whereIn('id', $orderIds)->get();
 
         foreach ($emptyOrders as $order) {
@@ -149,3 +149,4 @@ class CekPesananController extends Controller
         }
     }
 }
+

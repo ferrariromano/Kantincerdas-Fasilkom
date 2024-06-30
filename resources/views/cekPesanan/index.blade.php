@@ -90,28 +90,5 @@
 @push('js')
     <script src="{{ asset('js/cekPesanan.js') }}"></script>
     <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const countdownElements = document.querySelectorAll('.countdown');
-            countdownElements.forEach(element => {
-                let remainingTime = parseInt(element.getAttribute('data-remaining-time'));
-                if (remainingTime > 0) {
-                    const countdownInterval = setInterval(() => {
-                        remainingTime--;
-                        element.textContent = remainingTime;
-                        if (remainingTime <= 0) {
-                            clearInterval(countdownInterval);
-                            const productElement = document.getElementById('pendingProduct_' + element.parentElement.id.split('_')[1]);
-                            productElement.remove(); // Remove the element from the DOM
-                        }
-                    }, 1000);
-                } else {
-                    element.textContent = '0';
-                    const productElement = document.getElementById('pendingProduct_' + element.parentElement.id.split('_')[1]);
-                    productElement.remove(); // Remove the element if remainingTime is already 0
-                }
-            });
-        });
 
-    </script>
 @endpush
