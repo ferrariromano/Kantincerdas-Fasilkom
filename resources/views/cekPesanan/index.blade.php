@@ -69,6 +69,12 @@
             <span class="orderHighlight__value">Rp {{ number_format($order->orderTotalAmounts, 0, ',', '.') }}</span>
         </div>
     </div>
+    <div class="notes">
+        <div class="notes__wrap">
+            <p>Catatan Tambahan :</p>
+            <span class="notes__value">{{ $order->orderNotes }}</span>
+        </div>
+    </div>
 
     @foreach ($pendingProductsData as $product)
         <div class="pendingProduct" id="pendingProduct_{{ $product['id'] }}">
