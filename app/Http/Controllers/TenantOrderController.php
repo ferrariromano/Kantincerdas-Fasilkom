@@ -90,9 +90,13 @@ class TenantOrderController extends Controller
             }])
             ->firstOrFail();
 
+        $orderTotalAmounts = $order->orderTotalAmounts;
+
         foreach ($order->orderProducts as $item) {
             if (isset($validatedData['orderProductStatus'][$item->id])) {
                 if ($validatedData['orderProductStatus'][$item->id] === 'Cancelled') {
+                    // Kurangi total order amount dengan harga produk yang dibatalkan
+                    $orderTotalAmounts -= $item->quantity * $item->price;
                     $item->delete();
                 } else {
                     $item->orderProductStatus = $validatedData['orderProductStatus'][$item->id];
@@ -101,16 +105,20 @@ class TenantOrderController extends Controller
             }
         }
 
-        // After handling the updates and deletions, recalculate the order status
+        // Perbarui total amount order
+        $order->orderTotalAmounts = $orderTotalAmounts;
+        $order->save();
+
+        // Setelah menangani pembaruan dan penghapusan, hitung ulang status order
         $this->recalculateOrderStatus($order);
 
-        // If the order has no products left after deletion, delete the order itself
+        // Jika order tidak memiliki produk lagi setelah penghapusan, hapus order itu sendiri
         if ($order->orderProducts()->count() == 0) {
             $order->delete();
         }
 
         return redirect()->route('tenantOrders.index')->with('success', 'Pesanan dan item berhasil diperbarui.');
-    }
+}
 
     public function destroy($id)
     {
