@@ -74,7 +74,7 @@ class CekPesananController extends Controller
                 // Collect pending product data for countdown
                 $pendingItem = $items->firstWhere('orderProductStatus', 'Pending');
                 if ($pendingItem) {
-                    $remainingTime = 30 - Carbon::now()->diffInSeconds($pendingItem->created_at);
+                    $remainingTime = 5 * 60  - Carbon::now()->diffInSeconds($pendingItem->created_at);
                     $pendingProductsData[$tenantId] = [
                         'id' => $pendingItem->id,
                         'remainingTime' => $remainingTime > 0 ? $remainingTime : 0
@@ -144,5 +144,19 @@ class CekPesananController extends Controller
             $order->delete();
         }
     }
+
+    public function cancelOrder($id)
+    {
+        $order = Order::find($id);
+        if ($order && $order->orderProducts->every(function ($product) {
+            return $product->orderProductStatus == 'Pending';
+        })) {
+            $order->orderProducts()->delete();
+            $order->delete();
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false, 'message' => 'Pesanan tidak dapat dibatalkan.']);
+    }
+
 }
 

@@ -45,6 +45,7 @@ Route::middleware(['auth.tenant'])->group(function () {
 Route::post('/submitOrder', [OrderController::class, 'submitOrder'])->name('submitOrder');
 
 Route::get('cekPesanan/{uid}', [CekPesananController::class, 'showOrder'])->name('cekPesanan');
+Route::post('/cancel-order/{id}', [CekPesananController::class, 'cancelOrder']);
 
 // Route::post('/submit-order', [OrderController::class, 'submitOrder'])->name('submitOrder');
 

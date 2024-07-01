@@ -104,6 +104,25 @@ a {
     align-items: center;
 }
 
+.titleGroup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.cancelOrder__btn {
+    background-color: #d73006;
+    color: whitesmoke;
+    padding: .5rem;
+    padding: .6rem 1rem;
+    border-radius: 1rem;
+    border: none;
+}
+.cancelOrder__btn:hover {
+    background-color: #f13709;
+}
+
 /* === Order Info === */
 .orderInfo {
     grid-area: orderInfo;

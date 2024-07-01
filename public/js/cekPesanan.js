@@ -77,4 +77,33 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.reload();
         }
     });
+
+    // Cancel order functionality
+    const cancelOrderButton = document.getElementById('cancelOrderButton');
+    if (cancelOrderButton) {
+        cancelOrderButton.addEventListener('click', function() {
+            const orderId = cancelOrderButton.getAttribute('data-order-id');
+            if (confirm('Apakah Anda yakin ingin membatalkan pesanan?')) {
+                fetch(`/cancel-order/${orderId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.reload();
+                    } else {
+                        alert('Gagal membatalkan pesanan. Silakan coba lagi.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan. Silakan coba lagi.');
+                });
+            }
+        });
+    }
 });

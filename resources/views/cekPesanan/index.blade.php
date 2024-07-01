@@ -5,7 +5,12 @@
 
 @section('container')
 <div class="indexContainer">
-    <h1>Cek Pesanan</h1>
+    <div class="titleGroup">
+        <h1>Cek Pesanan</h1>
+        @if ($order->orderProducts->every(function ($product) { return $product->orderProductStatus == 'Pending'; }))
+            <button id="cancelOrderButton" class="cancelOrder__btn" data-order-id="{{ $order->id }}">Batalkan Pesanan</button>
+        @endif
+    </div>
     <div class="headerGroup">
         <div class="orderInfo">
             <div class="infoGroup">
