@@ -46,18 +46,31 @@ document.addEventListener('DOMContentLoaded', function() {
     // Countdown timer functionality
     const countdownElements = document.querySelectorAll('.countdown');
     countdownElements.forEach(element => {
-        const remainingTime = parseInt(element.dataset.remainingTime, 10);
+        const tenantId = element.closest('.outlet').dataset.tenantId;
+        const initialRemainingTime = parseInt(element.dataset.remainingTime, 10);
 
-        if (remainingTime > 0) {
-            let timeLeft = remainingTime;
+        // Retrieve the stored remaining time from localStorage, if it exists
+        let timeLeft = localStorage.getItem(`countdown_remaining_${tenantId}`);
 
+        if (timeLeft === null) {
+            // If no stored time is found, use the initial remaining time
+            timeLeft = initialRemainingTime;
+        } else {
+            // Convert the stored time to an integer
+            timeLeft = parseInt(timeLeft, 10);
+        }
+
+        if (timeLeft > 0) {
             const intervalId = setInterval(() => {
                 timeLeft--;
                 element.textContent = timeLeft;
 
                 if (timeLeft <= 0) {
                     clearInterval(intervalId);
+                    localStorage.removeItem(`countdown_remaining_${tenantId}`);
                     window.location.reload();
+                } else {
+                    localStorage.setItem(`countdown_remaining_${tenantId}`, timeLeft);
                 }
             }, 1000);
         } else {

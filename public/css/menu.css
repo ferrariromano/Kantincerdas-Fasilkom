@@ -213,7 +213,7 @@ header{
   grid-template-rows: 70px 1fr 70px;
   transition: 0.5s;
   margin-top: 6rem;
-  z-index: 1000;
+  z-index: 900;
 }
 
 .cartTab .flex-group {
