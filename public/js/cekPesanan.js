@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Cancel order functionality
+    //Cancel order functionality
     const cancelOrderButton = document.getElementById('cancelOrderButton');
     if (cancelOrderButton) {
         cancelOrderButton.addEventListener('click', function() {
@@ -94,6 +94,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
+                        localStorage.removeItem('countdown_remaining_1');
+                        localStorage.removeItem('countdown_remaining_2');
                         window.location.reload();
                     } else {
                         alert('Gagal membatalkan pesanan. Silakan coba lagi.');
@@ -106,4 +108,17 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // Remove countdown from localStorage if status is "In Progress"
+    const removeCountdownForInProgressOrders = () => {
+        document.querySelectorAll('.outlet').forEach(outlet => {
+            const tenantId = outlet.dataset.tenantId;
+            const status = outlet.querySelector('.orderStatus').textContent.trim().toLowerCase();
+            if (status === 'in progress') {
+                localStorage.removeItem(`countdown_remaining_${tenantId}`);
+            }
+        });
+    };
+
+    removeCountdownForInProgressOrders();
 });

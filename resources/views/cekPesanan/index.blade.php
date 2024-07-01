@@ -39,7 +39,7 @@
     </div>
     <div class="outletGroup {{ count($orderProductsGrouped) === 1 ? 'single-tenant' : '' }}">
         @foreach ($orderProductsGrouped as $tenantId => $items)
-            <div class="outlet">
+            <div class="outlet" data-tenant-id="{{ $tenantId }}">
                 @if(isset($pendingProductsData[$tenantId]))
                 <div class="tenant-remaining-time">
                     Waktu Tersisa: <span class="countdown" data-remaining-time="{{ $pendingProductsData[$tenantId]['remainingTime'] }}"></span> detik
