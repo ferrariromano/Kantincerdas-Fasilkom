@@ -74,6 +74,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }, 1000);
         } else {
+            localStorage.removeItem('countdown_remaining_1');
+            localStorage.removeItem('countdown_remaining_2');
             window.location.reload();
         }
     });

@@ -210,7 +210,7 @@ class TenantOrderController extends Controller
     {
         // Ambil semua produk order yang statusnya Pending lebih dari 30 detik
         $pendingProducts = OrderProduct::where('orderProductStatus', 'Pending')
-            ->where('created_at', '<', Carbon::now()->subSeconds(30))
+            ->where('created_at', '<', Carbon::now()->subMinutes(5))
             ->get();
 
         $orderIds = [];

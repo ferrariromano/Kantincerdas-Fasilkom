@@ -127,7 +127,7 @@ class CekPesananController extends Controller
     {
         // Get all order products with 'Pending' status older than 30 seconds
         $pendingProducts = OrderProduct::where('orderProductStatus', 'Pending')
-            ->where('created_at', '<', Carbon::now()->subSeconds(30))
+            ->where('created_at', '<', Carbon::now()->subMinutes(5))
             ->get();
 
         $orderIds = [];
