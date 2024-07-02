@@ -17,8 +17,8 @@
             </ul>
         </div>
 
-        <div class="card" id="productListTable">
-            <div class="!pt-1 card-body">
+        <div id="productListTable">
+            <div class="!pt-1 pl-3 card-body">
                 <div class="overflow-x-auto">
                     <table class="w-full whitespace-nowrap" id="productTable">
                         <thead class="ltr:text-left rtl:text-right bg-slate-100 dark:bg-zink-600">
@@ -51,18 +51,18 @@
                                         {{ $product->status }}
                                     </span>
                                 </td>
-                                <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 flex justify-center items-center gap-6 ">
-                                    <a href="{{ route('products.show', $product->id) }}" class="text-slate-600 transition-all duration-200 ease-linear hover:text-slate-500 focus:text-slate-500 dark:text-zink-100 dark:hover:text-zink-200 dark:focus:text-zink-200 ">
-                                        Overview <i data-lucide="eye" class="w-5 h-5"></i>
+                                <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 flex justify-center items-center gap-5">
+                                    <a href="{{ route('products.show', $product->id) }}" class="flex items-center text-slate-600 transition-all duration-200 ease-linear hover:text-slate-500 focus:text-slate-500 dark:text-zink-100 dark:hover:text-zink-200 dark:focus:text-zink-200">
+                                        View <i data-lucide="eye" class="w-5 h-5 ml-1"></i>
                                     </a>
-                                    <a href="{{ route('products.edit', $product->id) }}" class="text-slate-600 transition-all duration-200 ease-linear hover:text-slate-500 focus:text-slate-500 dark:text-zink-100 dark:hover:text-zink-200 dark:focus:text-zink-200">
-                                        Edit <i data-lucide="file-edit" class="w-5 h-5"></i>
+                                    <a href="{{ route('products.edit', $product->id) }}" class="flex items-center text-slate-600 transition-all duration-200 ease-linear hover:text-slate-500 focus:text-slate-500 dark:text-zink-100 dark:hover:text-zink-200 dark:focus:text-zink-200">
+                                        Edit <i data-lucide="file-edit" class="w-5 h-5 ml-1"></i>
                                     </a>
-                                    <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="inline-block">
+                                    <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="inline-block delete-form">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-slate-600 transition-all duration-200 ease-linear hover:text-slate-500 focus:text-slate-500 dark:text-zink-100 dark:hover:text-zink-200 dark:focus:text-zink-200">
-                                            Delete <i data-lucide="trash-2" class="w-5 h-5"></i>
+                                        <button type="submit" class="flex items-center text-slate-600 transition-all duration-200 ease-linear hover:text-slate-500 focus:text-slate-500 dark:text-zink-100 dark:hover:text-zink-200 dark:focus:text-zink-200">
+                                            Delete <i data-lucide="trash-2" class="w-5 h-5 ml-1"></i>
                                         </button>
                                     </form>
                                 </td>
@@ -101,4 +101,19 @@
 
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteForms = document.querySelectorAll('.delete-form');
+        deleteForms.forEach(form => {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                const confirmed = confirm('Apa anda yakin ingin menghapus produk ini ?');
+                if (confirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+</script>
 @endsection

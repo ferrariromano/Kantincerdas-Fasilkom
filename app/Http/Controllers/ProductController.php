@@ -98,7 +98,6 @@ class ProductController extends Controller
             'name' => 'required',
             'price' => 'required|numeric',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'description' => 'required',
             'status' => 'required|in:Aktif,Tidak Aktif',
         ]);
 

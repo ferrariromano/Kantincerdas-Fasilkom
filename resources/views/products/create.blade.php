@@ -7,7 +7,7 @@
 
         <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
             <div class="grow">
-                <h5 class="text-16">Tambah Baru</h5>
+                <h5 class="text-16">Tambah Produk Baru</h5>
             </div>
             <ul class="flex items-center gap-2 text-sm font-normal shrink-0">
                 <li class="relative before:content-['\ea54'] before:font-remix ltr:before:-right-1 rtl:before:-left-1 before:absolute before:text-[18px] before:-top-[3px] ltr:pr-4 rtl:pl-4 before:text-slate-400 dark:text-zink-200">
@@ -22,7 +22,7 @@
         <div class="xl:col-span-9">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="text-15 mb-4">Buat Produk</h6>
+
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul>
@@ -35,8 +35,8 @@
                     <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-12">
                         @csrf
                         <div class="xl:col-span-6">
-                            <label for="name" class="inline-block mb-2 text-base font-medium">Judul Produk</label>
-                            <input type="text" id="name" name="name" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" placeholder="Judul Produk" required>
+                            <label for="name" class="inline-block mb-2 text-base font-medium">Nama Produk</label>
+                            <input type="text" id="name" name="name" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" placeholder="Nama Produk" required>
                             <p class="mt-1 text-sm text-slate-400 dark:text-zink-200">Harap tidak melebihi 20 karakter saat memasukkan nama produk.</p>
                         </div>
                         <div class="xl:col-span-6">
@@ -57,7 +57,7 @@
                         </div>
                         <div class="xl:col-span-4">
                             <label for="description" class="inline-block mb-2 text-base font-medium">Deskripsi</label>
-                            <textarea id="description" name="description" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" placeholder="Deskripsi" required></textarea>
+                            <textarea id="description" name="description" class="form-input placeholder:text-slate-400 dark:placeholder:text-zink-200 focus:border-custom-500 dark:focus:border-custom-800 dark:bg-zink-700 dark:text-zink-100" placeholder="Deskripsi" ></textarea>
                         </div>
                         <div class="xl:col-span-4">
                             <label for="status" class="inline-block mb-2 text-base font-medium">Status</label>

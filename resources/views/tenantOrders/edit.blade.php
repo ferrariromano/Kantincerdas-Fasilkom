@@ -34,10 +34,7 @@
                     <h6 class="mb-2 text-lg font-bold">Status:</h6>
                     <p class="text-slate-500 dark:text-zinc-200">
                         <span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border
-                            {{ $order->orderStatus == 'Pending' ? 'bg-yellow-100 border-yellow-200 text-yellow-500 dark:bg-yellow-500/20 dark:border-yellow-500/20' :
-                            ($order->orderStatus == 'Completed' ? 'bg-green-100 border-green-200 text-green-500 dark:bg-green-500/20 dark:border-green-500/20' :
-                            ($order->orderStatus == 'Cancelled' ? 'bg-red-100 border-red-200 text-red-500 dark:bg-red-500/20 dark:border-red-500/20' :
-                            'bg-blue-100 border-blue-200 text-blue-500 dark:bg-blue-500/20 dark:border-blue-500/20')) }}">
+                            {{ $order->orderStatus == 'Pending' ? 'bg-yellow-100 border-yellow-200 text-yellow-500 dark:bg-yellow-500/20 dark:border-yellow-500/20' : ($order->orderStatus == 'Completed' ? 'bg-green-100 border-green-200 text-green-500 dark:bg-green-500/20 dark:border-green-500/20' : ($order->orderStatus == 'Canceled' ? 'bg-red-100 border-red-200 text-red-500 dark:bg-red-500/20 dark:border-red-500/20' : 'bg-blue-100 border-blue-200 text-blue-500 dark:bg-blue-500/20 dark:border-blue-500/20')) }}">
                             {{ $order->orderStatus }}
                         </span>
                     </p>
@@ -72,16 +69,16 @@
                                 <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
                                     {{ 'Rp ' . number_format($items->product->price, 2, ',', '.') }}
                                 </td>
-                                <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zinc-500">
-                                    <select name="orderProductStatus[{{ $items->id }}]" id="orderProductStatus" class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border
+                                <td class="px-4 py-2.5 border-y border-slate-200 dark:border-zinc-500">
+                                    <select name="orderProductStatus[{{ $items->id }}]" id="orderProductStatus" class="px-4 py-1 inline-block text-xs font-medium rounded border
                                         {{ $items->orderProductStatus == 'Pending' ? 'bg-yellow-100 border-yellow-200 text-yellow-500 dark:bg-yellow-500/20 dark:border-yellow-500/20' :
                                         ($items->orderProductStatus == 'Completed' ? 'bg-green-100 border-green-200 text-green-500 dark:bg-green-500/20 dark:border-green-500/20' :
                                         ($items->orderProductStatus == 'Cancelled' ? 'bg-red-100 border-red-200 text-red-500 dark:bg-red-500/20 dark:border-red-500/20' :
                                         'bg-blue-100 border-blue-200 text-blue-500 dark:bg-blue-500/20 dark:border-blue-500/20')) }}" required>
-                                        <option value="Pending" {{ $items->orderProductStatus == 'Pending' ? 'selected' : '' }} class="bg-yellow-100 border-yellow-200 text-yellow-500 dark:bg-yellow-500/20 dark:border-yellow-500/20" >Pending</option>
-                                        <option value="In Progress" {{ $items->orderProductStatus == 'In Progress' ? 'selected' : '' }} class="bg-blue-100 border-blue-200 text-blue-500 dark:bg-blue-500/20 dark:border-blue-500/20">In Progress</option>
-                                        <option value="Completed" {{ $items->orderProductStatus == 'Completed' ? 'selected' : ''}} class="bg-green-100 border-green-200 text-green-500 dark:bg-green-500/20 dark:border-green-500/20">Completed</option>
-                                        <option value="Cancelled" {{ $items->orderProductStatus == 'Cancelled' ? 'selected' : '' }} class="bg-red-100 border-red-200 text-red-500 dark:bg-red-500/20 dark:border-red-500/20">Cancelled</option>
+                                        <option value="Pending" {{ $items->orderProductStatus == 'Pending' ? 'selected' : '' }} class="px-4 py-1 bg-yellow-100 border-yellow-200 text-yellow-500 dark:bg-yellow-500/20 dark:border-yellow-500/20" >Pending</option>
+                                        <option value="In Progress" {{ $items->orderProductStatus == 'In Progress' ? 'selected' : '' }} class="px-4 py-1 bg-blue-100 border-blue-200 text-blue-500 dark:bg-blue-500/20 dark:border-blue-500/20">In Progress</option>
+                                        <option value="Completed" {{ $items->orderProductStatus == 'Completed' ? 'selected' : ''}} class="px-4 py-1 bg-green-100 border-green-200 text-green-500 dark:bg-green-500/20 dark:border-green-500/20">Completed</option>
+                                        <option value="Cancelled" {{ $items->orderProductStatus == 'Cancelled' ? 'selected' : '' }} class="px-4 py-1 bg-red-100 border-red-200 text-red-500 dark:bg-red-500/20 dark:border-red-500/20">Cancelled</option>
                                     </select>
                                 </td>
                             </tr>
