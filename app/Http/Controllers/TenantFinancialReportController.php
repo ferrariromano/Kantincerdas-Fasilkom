@@ -30,11 +30,13 @@ class TenantFinancialReportController extends Controller
         // Get the financial report data for the authenticated tenant
         $financialReportData = $this->getFinancialReportData($tenantId, $startDate, $endDate);
 
-        // Fetch all orders for the current tenant with orderProducts relation
+        // Fetch all completed orders for the current tenant with orderProducts relation
         $ordersQuery = Order::whereHas('orderProducts', function ($query) use ($tenantId) {
-            $query->where('tenant_id', $tenantId);
+            $query->where('tenant_id', $tenantId)
+                  ->where('orderProductStatus', 'Completed');
         })->with(['orderProducts' => function ($query) use ($tenantId) {
-            $query->where('tenant_id', $tenantId);
+            $query->where('tenant_id', $tenantId)
+                  ->where('orderProductStatus', 'Completed');
         }]);
 
         if ($startDate && $endDate) {
@@ -42,14 +44,6 @@ class TenantFinancialReportController extends Controller
         }
 
         $orders = $ordersQuery->get();
-
-        $completedOrders = $orders->filter(function($order) {
-            return $order->orderStatus == 'Completed';
-        });
-
-        $uncompletedOrders = $orders->filter(function($order) {
-            return $order->orderStatus != 'Completed';
-        });
 
         $statuses = $orders->pluck('orderStatus', 'id');
         $subtotals = $orders->mapWithKeys(function ($order) {
@@ -60,17 +54,18 @@ class TenantFinancialReportController extends Controller
         });
 
         // Return the view with the financial report data and orders
-        return view('tenantFinancialReport.index', compact('financialReportData', 'orders', 'statuses', 'subtotals', 'completedOrders', 'uncompletedOrders'));
+        return view('tenantFinancialReport.index', compact('financialReportData', 'orders', 'statuses', 'subtotals'));
     }
-
 
     public function getFinancialReportData($tenantId, $startDate = null, $endDate = null)
     {
-        // Fetch all orders for the current tenant with orderProducts relation
+        // Fetch all completed orders for the current tenant with orderProducts relation
         $ordersQuery = Order::whereHas('orderProducts', function ($query) use ($tenantId) {
-            $query->where('tenant_id', $tenantId);
+            $query->where('tenant_id', $tenantId)
+                  ->where('orderProductStatus', 'Completed');
         })->with(['orderProducts' => function ($query) use ($tenantId) {
-            $query->where('tenant_id', $tenantId);
+            $query->where('tenant_id', $tenantId)
+                  ->where('orderProductStatus', 'Completed');
         }]);
 
         if ($startDate && $endDate) {
@@ -80,8 +75,6 @@ class TenantFinancialReportController extends Controller
         $orders = $ordersQuery->get();
 
         $totalRevenue = 0;
-        $completedOrdersCount = 0;
-        $uncompletedOrdersCount = 0;
         $totalOrdersCount = $orders->count();
 
         $monthlyOrders = array_fill_keys(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], 0);
@@ -96,20 +89,13 @@ class TenantFinancialReportController extends Controller
 
             $month = $order->created_at->format('M');
             $monthlyOrders[$month] += $subtotal;
-
-            if ($order->orderStatus == 'Completed') {
-                $completedOrdersCount++;
-            } else {
-                $uncompletedOrdersCount++;
-            }
         }
 
         // Return an array containing the financial report data
         return [
             'totalRevenue' => $totalRevenue,
             'totalOrdersCount' => $totalOrdersCount,
-            'completedOrdersCount' => $completedOrdersCount,
-            'uncompletedOrdersCount' => $uncompletedOrdersCount,
+            'completedOrdersCount' => $totalOrdersCount,  // Semua order yang diambil adalah yang "Completed"
             'monthlyOrders' => array_values($monthlyOrders),
         ];
     }

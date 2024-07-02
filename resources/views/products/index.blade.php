@@ -27,7 +27,7 @@
                                 <th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Category</th>
                                 <th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Harga</th>
                                 <th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Status</th>
-                                <th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Aksi</th>
+                                <th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500 text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -51,36 +51,20 @@
                                         {{ $product->status }}
                                     </span>
                                 </td>
-                                <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
-                                    <div class="relative dropdown">
-                                        <button class="flex items-center justify-center w-8 h-8 p-0 text-slate-500 bg-slate-100 rounded-full dropdown-toggle hover:text-white hover:bg-slate-600 focus:text-white focus:bg-slate-600 focus:ring focus:ring-slate-100 active:text-white active:bg-slate-600 active:ring active:ring-slate-100 dark:bg-slate-500/20 dark:text-slate-400 dark:hover:bg-slate-500 dark:hover:text-white dark:focus:bg-slate-500 dark:focus:text-white dark:active:bg-slate-500 dark:active:text-white dark:ring-slate-400/20" id="productAction{{ $product->id }}" data-bs-toggle="dropdown">
-                                            <i data-lucide="more-horizontal" class="w-6 h-6"></i>
+                                <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 flex justify-center items-center gap-6 ">
+                                    <a href="{{ route('products.show', $product->id) }}" class="text-slate-600 transition-all duration-200 ease-linear hover:text-slate-500 focus:text-slate-500 dark:text-zink-100 dark:hover:text-zink-200 dark:focus:text-zink-200 ">
+                                        Overview <i data-lucide="eye" class="w-5 h-5"></i>
+                                    </a>
+                                    <a href="{{ route('products.edit', $product->id) }}" class="text-slate-600 transition-all duration-200 ease-linear hover:text-slate-500 focus:text-slate-500 dark:text-zink-100 dark:hover:text-zink-200 dark:focus:text-zink-200">
+                                        Edit <i data-lucide="file-edit" class="w-5 h-5"></i>
+                                    </a>
+                                    <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="inline-block">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-slate-600 transition-all duration-200 ease-linear hover:text-slate-500 focus:text-slate-500 dark:text-zink-100 dark:hover:text-zink-200 dark:focus:text-zink-200">
+                                            Delete <i data-lucide="trash-2" class="w-5 h-5"></i>
                                         </button>
-                                        <ul class="absolute z-50 hidden py-2 mt-1 list-none bg-white rounded-md shadow-md dropdown-menu min-w-[10rem] dark:bg-zink-600" aria-labelledby="productAction{{ $product->id }}">
-                                            <li>
-                                                <a class="flex items-center px-4 py-1.5 text-base text-slate-600 transition-all duration-200 ease-linear dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="{{ route('products.show', $product->id) }}">
-                                                    <i data-lucide="eye" class="w-4 h-4 mr-2"></i>
-                                                    <span class="align-middle">Overview</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="flex items-center px-4 py-1.5 text-base text-slate-600 transition-all duration-200 ease-linear dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="{{ route('products.edit', $product->id) }}">
-                                                    <i data-lucide="file-edit" class="w-4 h-4 mr-2"></i>
-                                                    <span class="align-middle">Edit</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="flex items-center px-4 py-1.5 text-base text-slate-600 transition-all duration-200 ease-linear cursor-pointer dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="flex items-center w-full text-left">
-                                                        <i data-lucide="trash-2" class="w-4 h-4 mr-2"></i>
-                                                        <span class="align-middle">Delete</span>
-                                                    </button>
-                                                </form>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    </form>
                                 </td>
                             </tr>
                             @endforeach

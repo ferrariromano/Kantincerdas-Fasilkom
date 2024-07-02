@@ -24323,6 +24323,10 @@ div.flatpickr-day.dataTables_scrollBody>table.dataTable>:is(thead>tr>th, thead>t
     width: 20rem
 }
 
+.w-85 {
+    width: 25rem
+}
+
 .w-9 {
     width: 2.25rem
 }

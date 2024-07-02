@@ -20,7 +20,7 @@
                 </ul>
             </div>
             <div class="grid grid-cols-12 2xl:grid-cols-12 gap-x-5">
-                <div class="relative col-span-12 overflow-hidden card 2xl:col-span-8 bg-slate-900">
+                <div class="relative col-span-12 overflow-hidden card 2xl:col-span-12 bg-slate-900">
                     <div class="absolute inset-0">
                         <svg xmlns="http://www.w3.org/2000/svg" class="size-100" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev/svgjs" width="1440" height="560" preserveaspectratio="none" viewbox="0 0 1440 560">
                             <g mask="url(&quot;#SvgjsMask1000&quot;)" fill="none">
@@ -165,79 +165,14 @@
                     <div class="relative card-body">
                         <div class="grid items-center grid-cols-12">
                             <div class="col-span-12 lg:col-span-8 2xl:col-span-7">
-                                <h5 class="mb-3 font-normal tracking-wide text-slate-200">Selamat Datang di Kantin Cerdas Fasilkom 🎉</h5>
-                                <p class="mb-5 text-slate-400">Sebuah dasbor kantin cerdas memiliki tujuan tersebut. Dasbor ini memberikan tim kantin Anda gambaran yang jelas tentang indikator kinerja keuangan dan situs web utama kapan saja.</p>
+                                <h5 class="mb-3 font-normal tracking-wide text-slate-200">Selamat Datang di Dashboard Kantin Cerdas Fasilkom 🎉</h5>
+                                <p class="mb-5 text-slate-400">Gunakan Dasboard kantin cerdas untuk mengelola pesanan, menu, dan pendapatan anda</p>
                             </div>
                             <div class="hidden col-span-12 2xl:col-span-3 lg:col-span-2 lg:col-start-11 2xl:col-start-10 lg:block">
                                 <img src="{{asset('assets/images/dashboard.png')}}" alt="" class="h-40 ltr:2xl:ml-auto rtl:2xl:mr-auto">
                             </div>
                         </div>
                     </div>`
-                </div><!--end col-->
-                <div class="col-span-12 card 2xl:col-span-4 2xl:row-span-2">
-           <!-- resources/views/dashboard/home.blade.php -->
-                {{-- <div class="card-body">
-                    <div class="flex items-center mb-3">
-                        <h6 class="grow text-15">Statistik Pesanan</h6>
-                        <div class="relative">
-                            <a href="#!" class="underline transition-all duration-200 ease-linear text-custom-500 hover:text-custom-600">Lihat Semua <i data-lucide="move-right" class="inline-block align-middle size-4 ltr:ml-1 rtl:mr-1"></i></a>
-                        </div>
-                    </div>
-                    <div id="orderStatisticsChart" class="apex-charts" data-chart-colors='["bg-purple-500", "bg-sky-500"]' dir="ltr">
-                        <script>
-                            var options = {
-                                series: [{
-                                    name: 'Completed Orders',
-                                    data: [{{ $completedOrders }}]
-                                }, {
-                                    name: 'Uncompleted Orders',
-                                    data: [{{ $uncompletedOrders }}]
-                                }],
-                                chart: {
-                                    type: 'bar',
-                                    height: 350
-                                },
-                                plotOptions: {
-                                    bar: {
-                                        horizontal: false,
-                                        columnWidth: '55%',
-                                        endingShape: 'rounded'
-                                    },
-                                },
-                                dataLabels: {
-                                    enabled: false
-                                },
-                                stroke: {
-                                    show: true,
-                                    width: 2,
-                                    colors: ['transparent']
-                                },
-                                xaxis: {
-                                    categories: ['Orders'],
-                                },
-                                yaxis: {
-                                    title: {
-                                        text: 'Count'
-                                    }
-                                },
-                                fill: {
-                                    opacity: 1
-                                },
-                                tooltip: {
-                                    y: {
-                                        formatter: function (val) {
-                                            return val;
-                                        }
-                                    }
-                                }
-                            };
-
-                            var chart = new ApexCharts(document.querySelector("#orderStatisticsChart"), options);
-                            chart.render();
-                        </script>
-                    </div>
-                </div> --}}
-
                 </div><!--end col-->
                 <div class="col-span-12 card md:col-span-6 lg:col-span-3 2xl:col-span-2">
                     <div class="text-center card-body">
@@ -254,7 +189,7 @@
                             <i data-lucide="package"></i>
                         </div>
                         <h5 class="mt-4 mb-2"><span class="counter-value" data-target="{{ $financialReportData['totalOrdersCount'] }}"></span></h5>
-                        <p class="text-slate-500 dark:text-zink-200">Jumlah Pesanan  </p>
+                        <p class="text-slate-500 dark:text-zink-200">Jumlah Pesanan </p>
                     </div>
                 </div><!--end col-->
                 <div class="col-span-12 card md:col-span-6 lg:col-span-3 2xl:col-span-2">
@@ -262,8 +197,8 @@
                         <div class="flex items-center justify-center mx-auto text-green-500 bg-green-100 rounded-full size-14 dark:bg-green-500/20">
                             <i data-lucide="truck"></i>
                         </div>
-                        <h5 class="mt-4 mb-2"><span class="counter-value" data-target="17150">0</span></h5>
-                        <p class="text-slate-500 dark:text-zink-200">Terkirim                        </p>
+                        <h5 class="mt-4 mb-2"><span class="counter-value" data-target="{{ $pendingOrdersCount }}">0</span></h5>
+                        <p class="text-slate-500 dark:text-zink-200">Pending</p>
                     </div>
                 </div><!--end col-->
                 <div class="col-span-12 card md:col-span-6 lg:col-span-3 2xl:col-span-2">
@@ -271,337 +206,17 @@
                         <div class="flex items-center justify-center mx-auto text-red-500 bg-red-100 rounded-full size-14 dark:bg-red-500/20">
                             <i data-lucide="package-x"></i>
                         </div>
-                        <h5 class="mt-4 mb-2"><span class="counter-value" data-target="3519">0</span></h5>
-                        <p class="text-slate-500 dark:text-zink-200">Dibatalkan</p>
+                        <h5 class="mt-4 mb-2"><span class="counter-value" data-target="{{ $inProgressOrdersCount }}">0</span></h5>
+                        <p class="text-slate-500 dark:text-zink-200">In Progress</p>
                     </div>
                 </div><!--end col-->
-                <div class="col-span-12 card 2xl:col-span-8">
-                    <div class="card-body">
-                        <div class="flex flex-col gap-4 mb-4 md:mb-3 md:items-center md:flex-row">
-                            <h6 class="grow text-15"> Pendapatan Penjualan</h6>
-
+                <div class="col-span-12 card md:col-span-6 lg:col-span-3 2xl:col-span-2">
+                    <div class="text-center card-body">
+                        <div class="flex items-center justify-center mx-auto text-red-500 bg-red-100 rounded-full size-14 dark:bg-red-500/20">
+                            <i data-lucide="package-x"></i>
                         </div>
-                        <div class="grid grid-cols-12 gap-4 mb-3">
-                            <div class="col-span-12 md:col-span-6 lg:col-span-3">
-                                <div class="flex items-center gap-3">
-                                    <div class="flex items-center justify-center rounded-md size-12 text-sky-500 bg-sky-50 shrink-0 dark:bg-sky-500/10">
-                                        <i data-lucide="bar-chart"></i>
-                                    </div>
-                                    <div class="grow">
-                                        <p class="mb-1 text-slate-500 dark:text-zink-200">Jumlah Penjualan
-                                        </p>
-                                        <h5 class="text-15">Rp<span class="counter-value" data-target="1517.36">0</span>k</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-span-12 md:col-span-6 lg:col-span-3">
-                                <div class="flex items-center gap-3">
-                                    <div class="flex items-center justify-center text-green-500 rounded-md size-12 bg-green-50 shrink-0 dark:bg-green-500/10">
-                                        <i data-lucide="trending-up"></i>
-                                    </div>
-                                    <div class="grow">
-                                        <p class="mb-1 text-slate-500 dark:text-zink-200">Total keuntungan</p>
-                                        <h5 class="text-15">Rp <span class="counter-value" data-target="746840">0</span></h5>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div><!--end col-->
-                <div class="col-span-12 2xl:col-span-4">
-                    <div class="grid grid-cols-12 gap-x-5">
-                        <div class="col-span-12 card lg:col-span-6 2xl:col-span-12">
-
-                        </div><!--end col-->
-                        {{-- <div class="col-span-12 card lg:col-span-6 2xl:col-span-12">
-                            <div class="card-body">
-                                <div class="flex items-center mb-2">
-                                    <h5 class="grow"><span class="counter-value" data-target="1596">0</span></h5>
-                                    <span class="px-2.5 py-0.5 text-xs inline-block font-medium rounded border bg-white border-red-100 text-red-500 dark:bg-zink-700 dark:border-red-900"><i data-lucide="trending-down" class="inline-block size-3 ltr:mr-1 rtl:ml-1"></i> 6.8%</span>
-                                </div>
-                                <h6 class="mb-0">Sasaran Pesanan Bulanan (20000+)
-                                </h6>
-                                <div>
-                                    <div class="flex items-center justify-between mt-5 mb-2">
-                                        <p class="text-slate-500 dark:text-zink-200">Jumlah Pesanan
-                                        </p>
-                                        <h6 class="mb-0 text-custom-500">85%</h6>
-                                    </div>
-                                    <div class="w-full bg-slate-200 rounded-full h-2.54 dark:bg-zink-600">
-                                        <div class="bg-custom-500 h-2.5 rounded-full" style="width: 85%"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!--end col--> --}}
-                    </div><!--end grid-->
-                </div><!--end col-->
-                {{-- <div class="col-span-12 card lg:col-span-6 2xl:col-span-3">
-                    <div class="card-body">
-                        <div class="flex items-center mb-3">
-                            <h6 class="grow text-15">Pelayanan pelanggan  </h6>
-                            <div class="relative dropdown shrink-0">
-                                <button type="button" class="flex items-center justify-center size-[30px] p-0 bg-white text-slate-500 btn hover:text-slate-500 hover:bg-slate-100 focus:text-slate-500 focus:bg-slate-100 active:text-slate-500 active:bg-slate-100 dark:bg-zink-700 dark:hover:bg-slate-500/10 dark:focus:bg-slate-500/10 dark:active:bg-slate-500/10 dropdown-toggle" id="customServiceDropdown" data-bs-toggle="dropdown">
-                                    <i data-lucide="more-vertical" class="inline-block size-4"></i>
-                                </button>
-
-                                <ul class="absolute z-50 hidden py-2 mt-1 ltr:text-left rtl:text-right list-none bg-white rounded-md shadow-md dropdown-menu min-w-[10rem] dark:bg-zink-600" aria-labelledby="customServiceDropdown">
-                                    <li>
-                                        <a class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="#!">1 Weekly</a>
-                                    </li>
-                                    <li>
-                                        <a class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="#!">1 Monthly</a>
-                                    </li>
-                                    <li>
-                                        <a class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="#!">3 Monthly</a>
-                                    </li>
-                                    <li>
-                                        <a class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="#!">6 Monthly</a>
-                                    </li>
-                                    <li>
-                                        <a class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="#!">This Yearly</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="flex items-center justify-between mt-5 mb-2">
-                                <p class="text-slate-500 dark:text-zink-200">8% dari Sasaran Tercapai ($25k)
-                                </p>
-                            </div>
-                            <div class="w-full h-2 rounded-full bg-slate-200 dark:bg-zink-600">
-                                <div class="h-2 bg-green-500 rounded-full" style="width: 28%"></div>
-                            </div>
-                            <div class="grid mt-3 xl:grid-cols-2">
-                                <div class="flex items-center gap-2">
-                                    <div class="shrink-0">
-                                        <i data-lucide="calendar-days" class="inline-block mb-1 align-middle size-4"></i>
-                                    </div>
-                                    <p class="mb-0 text-slate-500 dark:text-zink-200">Bulan ini: <span class="font-medium text-slate-800 dark:text-zink-50">$13,741</span></p>
-                                </div>
-                            </div>
-                        </div>
-                        <h6 class="mt-4 mb-3">Pelanggan Teratas </h6>
-                        <ul class="divide-y divide-slate-200 dark:divide-zink-500">
-                            <li class="flex items-center gap-3 py-2 first:pt-0 last:pb-0">
-                                <div class="w-8 h-8 rounded-full shrink-0 bg-slate-100 dark:bg-zink-600">
-                                    <img src="assets/images/avatar-2.png" alt="" class="w-8 h-8 rounded-full">
-                                </div>
-                                <div class="grow">
-                                    <h6 class="font-medium">Urrie Arthur</h6>
-                                    <p class="text-slate-500 dark:text-zink-200">arthur@starcode.com</p>
-                                </div>
-                                <div class="shrink-0">
-                                    <h6>$2,452</h6>
-                                </div>
-                            </li>
-                            <li class="flex items-center gap-3 py-2 first:pt-0 last:pb-0">
-                                <div class="w-8 h-8 rounded-full shrink-0 bg-slate-100 dark:bg-zink-600">
-                                    <img src="assets/images/avatar-3.png" alt="" class="w-8 h-8 rounded-full">
-                                </div>
-                                <div class="grow">
-                                    <h6 class="font-medium">Natalie Christy</h6>
-                                    <p class="text-slate-500 dark:text-zink-200">natalie@starcode.com</p>
-                                </div>
-                                <div class="shrink-0">
-                                    <h6>$1,893</h6>
-                                </div>
-                            </li>
-                            <li class="flex items-center gap-3 py-2 first:pt-0 last:pb-0">
-                                <div class="w-8 h-8 rounded-full shrink-0 bg-slate-100 dark:bg-zink-600">
-                                    <img src="assets/images/avatar-4.png" alt="" class="w-8 h-8 rounded-full">
-                                </div>
-                                <div class="grow">
-                                    <h6 class="font-medium">Laurie Jackson</h6>
-                                    <p class="text-slate-500 dark:text-zink-200">jackson@starcode.com</p>
-                                </div>
-                                <div class="shrink-0">
-                                    <h6>$1,196</h6>
-                                </div>
-                            </li>
-                            <li class="flex items-center gap-3 py-2 first:pt-0 last:pb-0">
-                                <div class="w-8 h-8 rounded-full shrink-0 bg-slate-100 dark:bg-zink-600">
-                                    <img src="assets/images/avatar-5.png" alt="" class="w-8 h-8 rounded-full">
-                                </div>
-                                <div class="grow">
-                                    <h6 class="font-medium">Michael Torres</h6>
-                                    <p class="text-slate-500 dark:text-zink-200">torres@starcode.com</p>
-                                </div>
-                                <div class="shrink-0">
-                                    <h6>$976</h6>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div><!--end col--> --}}
-                <div class="col-span-12 card lg:col-span-6 2xl:col-span-3">
-                    <div class="card-body">
-                        <div class="flex items-center mb-3">
-                            <h6 class="grow text-15">Penjualan Bulan Ini </h6>
-                            <div class="relative dropdown shrink-0">
-                                <button type="button" class="flex items-center justify-center size-[30px] p-0 bg-white text-slate-500 btn hover:text-slate-500 hover:bg-slate-100 focus:text-slate-500 focus:bg-slate-100 active:text-slate-500 active:bg-slate-100 dark:bg-zink-700 dark:hover:bg-slate-500/10 dark:focus:bg-slate-500/10 dark:active:bg-slate-500/10 dropdown-toggle" id="sellingProductDropdown" data-bs-toggle="dropdown">
-                                    <i data-lucide="more-vertical" class="inline-block size-4"></i>
-                                </button>
-
-                                <ul class="absolute z-50 hidden py-2 mt-1 ltr:text-left rtl:text-right list-none bg-white rounded-md shadow-md dropdown-menu min-w-[10rem] dark:bg-zink-600" aria-labelledby="sellingProductDropdown">
-                                    <li>
-                                        <a class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="#!">1 Weekly</a>
-                                    </li>
-                                    <li>
-                                        <a class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="#!">1 Monthly</a>
-                                    </li>
-                                    <li>
-                                        <a class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="#!">3 Monthly</a>
-                                    </li>
-                                    <li>
-                                        <a class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="#!">6 Monthly</a>
-                                    </li>
-                                    <li>
-                                        <a class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="#!">This Yearly</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-3 my-3">
-                            <div class="flex items-center justify-center text-green-500 rounded-md size-12 bg-green-50 shrink-0 dark:bg-green-500/10">
-                                <i data-lucide="trending-up"></i>
-                            </div>
-                            <div class="grow">
-                                <p class="mb-1 text-slate-500 dark:text-zink-200">Total keuntungan</p>
-                                <h5 class="text-15">Rp <span class="counter-value" data-target="746840">0</span></h5>
-                            </div>
-
-                        </div>
-                        <div id="salesThisMonthChart" class="apex-charts" data-chart-colors='["bg-sky-100", "bg-orange-100", "bg-sky-500", "bg-orange-500"]' dir="ltr"></div>
-                    </div>
-                </div><!--end col-->
-                <div class="col-span-12 card lg:col-span-6 2xl:col-span-3">
-                    <div class="card-body">
-                        <div class="flex items-center mb-3">
-                            <h6 class="grow text-15">Produk Terlaris</h6>
-                            <div class="relative dropdown shrink-0">
-                                <button type="button" class="flex items-center justify-center size-[30px] p-0 bg-white text-slate-500 btn hover:text-slate-500 hover:bg-slate-100 focus:text-slate-500 focus:bg-slate-100 active:text-slate-500 active:bg-slate-100 dark:bg-zink-700 dark:hover:bg-slate-500/10 dark:focus:bg-slate-500/10 dark:active:bg-slate-500/10 dropdown-toggle" id="sellingProductDropdown" data-bs-toggle="dropdown">
-                                    <i data-lucide="more-vertical" class="inline-block size-4"></i>
-                                </button>
-
-                                <ul class="absolute z-50 hidden py-2 mt-1 ltr:text-left rtl:text-right list-none bg-white rounded-md shadow-md dropdown-menu min-w-[10rem] dark:bg-zink-600" aria-labelledby="sellingProductDropdown">
-                                    <li>
-                                        <a class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="#!">1 Weekly</a>
-                                    </li>
-                                    <li>
-                                        <a class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="#!">1 Monthly</a>
-                                    </li>
-                                    <li>
-                                        <a class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="#!">3 Monthly</a>
-                                    </li>
-                                    <li>
-                                        <a class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="#!">6 Monthly</a>
-                                    </li>
-                                    <li>
-                                        <a class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="#!">This Yearly</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <ul class="flex flex-col gap-5">
-                            <li class="flex items-center gap-3">
-                                <div class="flex items-center justify-center w-10 h-10 rounded-md bg-slate-100 dark:bg-zink-600">
-                                    <img src="assets/images/img-02.png" alt="" class="h-6">
-                                </div>
-                                <div class="overflow-hidden grow">
-                                    <h6 class="truncate">Mesh Ergonomic Black Chair</h6>
-                                    <div class="text-yellow-500">
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-half-fill"></i>
-                                    </div>
-                                </div>
-                                <h6 class="shrink-0"><i data-lucide="shopping-cart" class="inline-block align-middle size-4 text-slate-500 dark:text-zink-200 ltr:mr-1 rtl:ml-1"></i> 798</h6>
-                            </li>
-                            <li class="flex items-center gap-3">
-                                <div class="flex items-center justify-center w-10 h-10 rounded-md bg-slate-100 dark:bg-zink-600">
-                                    <img src="assets/images/img-03.png" alt="" class="h-6">
-                                </div>
-                                <div class="overflow-hidden grow">
-                                    <h6 class="truncate">Fastcolors Typography Men</h6>
-                                    <div class="text-yellow-500">
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-half-fill"></i>
-                                    </div>
-                                </div>
-                                <h6 class="shrink-0"><i data-lucide="shopping-cart" class="inline-block align-middle size-4 text-slate-500 dark:text-zink-200 ltr:mr-1 rtl:ml-1"></i> 695</h6>
-                            </li>
-                            <li class="flex items-center gap-3">
-                                <div class="flex items-center justify-center w-10 h-10 rounded-md bg-slate-100 dark:bg-zink-600">
-                                    <img src="assets/images/img-04.png" alt="" class="h-6">
-                                </div>
-                                <div class="overflow-hidden grow">
-                                    <h6 class="truncate">Mesh Ergonomic Green Chair</h6>
-                                    <div class="text-yellow-500">
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-half-fill"></i>
-                                    </div>
-                                </div>
-                                <h6 class="shrink-0"><i data-lucide="shopping-cart" class="inline-block align-middle size-4 text-slate-500 dark:text-zink-200 ltr:mr-1 rtl:ml-1"></i> 985</h6>
-                            </li>
-                            <li class="flex items-center gap-3">
-                                <div class="flex items-center justify-center w-10 h-10 rounded-md bg-slate-100 dark:bg-zink-600">
-                                    <img src="assets/images/img-05.png" alt="" class="h-6">
-                                </div>
-                                <div class="overflow-hidden grow">
-                                    <h6 class="truncate">Techel Black Bluetooth Soundbar</h6>
-                                    <div class="text-yellow-500">
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-half-fill"></i>
-                                    </div>
-                                </div>
-                                <h6 class="shrink-0"><i data-lucide="shopping-cart" class="inline-block align-middle size-4 text-slate-500 dark:text-zink-200 ltr:mr-1 rtl:ml-1"></i> 813</h6>
-                            </li>
-                            <li class="flex items-center gap-3">
-                                <div class="flex items-center justify-center w-10 h-10 rounded-md bg-slate-100 dark:bg-zink-600">
-                                    <img src="assets/images/img-06.png" alt="" class="h-6">
-                                </div>
-                                <div class="overflow-hidden grow">
-                                    <h6 class="truncate">Bovet Fleurier AIFSQ029</h6>
-                                    <div class="text-yellow-500">
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-half-fill"></i>
-                                    </div>
-                                </div>
-                                <h6 class="shrink-0"><i data-lucide="shopping-cart" class="inline-block align-middle size-4 text-slate-500 dark:text-zink-200 ltr:mr-1 rtl:ml-1"></i> 915</h6>
-                            </li>
-                            <li class="flex items-center gap-3">
-                                <div class="flex items-center justify-center w-10 h-10 rounded-md bg-slate-100 dark:bg-zink-600">
-                                    <img src="assets/images/img-03.png" alt="" class="h-6">
-                                </div>
-                                <div class="overflow-hidden grow">
-                                    <h6 class="truncate">Fastcolors Typography Men</h6>
-                                    <div class="text-yellow-500">
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-half-fill"></i>
-                                    </div>
-                                </div>
-                                <h6 class="shrink-0"><i data-lucide="shopping-cart" class="inline-block align-middle size-4 text-slate-500 dark:text-zink-200 ltr:mr-1 rtl:ml-1"></i> 785</h6>
-                            </li>
-                        </ul>
+                        <h5 class="mt-4 mb-2"><span class="counter-value" data-target="{{ $completedOrdersCount }}">0</span></h5>
+                        <p class="text-slate-500 dark:text-zink-200">Completed</p>
                     </div>
                 </div><!--end col-->
             </div><!--end grid-->
