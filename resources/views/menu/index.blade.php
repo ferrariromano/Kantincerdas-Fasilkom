@@ -147,7 +147,9 @@
 @endsection
 
 @push('js')
-    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
+<script type="text/javascript"
+src="https://app.sandbox.midtrans.com/snap/snap.js"
+data-client-key="{{ config('services.midtrans.clientKey') }}"></script>
     <script src="{{ asset('js/dropDown.js') }}"></script>
     <script src="{{ asset('js/cart.js') }}"></script>
     <script src="{{ asset('js/productModal.js') }}"></script>

@@ -4,8 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Log;
 
 class MidtransConfig
 {
@@ -15,7 +13,11 @@ class MidtransConfig
         \Midtrans\Config::$isProduction = config('services.midtrans.isProduction');
         \Midtrans\Config::$isSanitized = config('services.midtrans.isSanitized');
         \Midtrans\Config::$is3ds = config('services.midtrans.is3ds');
-
+                // Disable SSL verification
+        \Midtrans\Config::$curlOptions = array(
+            CURLOPT_SSL_VERIFYHOST => 0,
+            CURLOPT_SSL_VERIFYPEER => 0,
+        );
 
         return $next($request);
     }

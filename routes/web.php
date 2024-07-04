@@ -42,18 +42,18 @@ Route::middleware(['auth.tenant'])->group(function () {
 
 // Route::resource('products', ProductController::class);
 
-Route::post('/submitOrder', [OrderController::class, 'submitOrder'])->name('submitOrder');
+// Route::post('/submitOrder', [OrderController::class, 'submitOrder'])->name('submitOrder');
 
 Route::get('cekPesanan/{uid}', [CekPesananController::class, 'showOrder'])->name('cekPesanan');
 Route::post('/cancel-order/{id}', [CekPesananController::class, 'cancelOrder']);
 
-// Route::post('/submit-order', [OrderController::class, 'submitOrder'])->name('submitOrder');
 
+Route::post('/submit-order', [OrderController::class, 'submitOrder'])->name('submitOrder');
 
 // Route::post('/process-payment', [PaymentController::class, 'processPayment'])->name('processPayment');
 // Route::post('/payment/snap-token', [PaymentController::class, 'processPayment']);
 
-Route::post('/submit-order', [OrderController::class, 'submitOrder']);
+// Route::post('/get-snap-token', [PaymentController::class, 'getSnapToken']);
 
 
 

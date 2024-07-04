@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class DeletePendingOrderProducts extends Command
+class DeleteOldPendingOrderProducts extends Command
 {
     protected $signature = 'orderproducts:delete-old-pending';
     protected $description = 'Delete order products that are pending for more than 30 seconds';

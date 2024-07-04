@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Elements for confirmation modal
     const confirmModalOverlay = document.getElementById('confirmModalOverlay');
     const confirmModal = document.getElementById('confirmModal');
     const confirmModalTitle = document.querySelector('.confirm-modal-title');
@@ -15,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmTotalPrice = document.getElementById('confirm-total-price');
     const hlItem = document.querySelectorAll('.hlItem');
 
-    // Elements for order form
     const orderForm = document.querySelector('.orderForm');
     const orderName = document.getElementById('order-name');
     const orderPhone = document.getElementById('order-phone');
@@ -30,9 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const additionalNotesSection = document.querySelector('.additional-notes');
     const toggleIcon = document.querySelector('.toggle-icon');
 
-    const orderProducts = document.getElementById('order-items');
+    const orderItems = document.getElementById('order-items');
 
-    // Elements for alert modal
+    // AlertModal Attribute
     const alertModalOverlay = document.querySelector('.alert-modal-overlay');
     const alertModal = document.querySelector('.alertModal');
     const alertMessage = document.querySelector('.alertMessage');
@@ -43,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const iconError = document.querySelector('.icon-error');
     const closeAlertModal = document.querySelector('.closeModal');
 
-    // Generate and set UID
     const uid = getUID();
     document.getElementById('uid').value = uid;
 
@@ -84,17 +81,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Event to submit data on Ok button click
     confirmOrderFinalButton.addEventListener('click', () => {
-        orderProducts.value = JSON.stringify(cart);
+        // Set hidden fields
+        const orderItemsValue = JSON.stringify(cart);
         const uid = getUID();
+        localStorage.setItem('uid', uid);  // Save UID in LocalStorage
 
+        // Create FormData object
         const formData = new FormData(orderForm);
         formData.append('uid', uid);
+        formData.append('order-items', orderItemsValue); // Ensure order-items is appended correctly
 
-        const apiEndpoint = '/submit-order'; // Update the API endpoint to match web.php
-
-        fetch(apiEndpoint, {
+        // Send AJAX request
+        fetch(orderForm.action, {
             method: 'POST',
             body: formData,
             headers: {
@@ -102,59 +101,55 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         })
         .then(response => response.json())
-        .then(data => {
-            console.log('Response from server:', data);
-            if (data.success) {
-                if (data.uid) {
-                    setUID(data.uid); // Update UID in localStorage
-                }
-                if (orderPayment.value === 'non-tunai') {
-                    console.log('Snap Token:', data.snap_token);
-                    if (data.snap_token) {
-                        initiateMidtransPayment(data.snap_token);
-                    } else {
-                        console.error('Snap token not received');
-                        showErrorModal('Snap token tidak diterima.');
-                    }
+        .then(jsonData => {
+            console.log('JSON Data:', jsonData);
+
+            if (jsonData.success) {
+                // Clear the cart
+                localStorage.removeItem('cart');
+                cart = [];
+                addCartToHTML(cart);
+                updateCheckOutButton();
+                confirmModal.style.display = 'none';
+                confirmModalOverlay.style.display = 'none';
+
+                if (jsonData.snap_token) {
+                    window.snap.pay(jsonData.snap_token, {
+                        onSuccess: function(result) {
+                            showSuccessModal('Pembayaran berhasil!'); // Update as necessary
+                            console.log('Payment success:', result);
+                        },
+                        onPending: function(result) {
+                            showFailedModal('Pembayaran tertunda!'); // Update as necessary
+                            console.log('Payment pending:', result);
+                        },
+                        onError: function(result) {
+                            showErrorModal('Pembayaran gagal!'); // Update as necessary
+                            console.log('Payment error:', result);
+                        },
+                        onClose: function() {
+                            showErrorModal('Anda menutup popup tanpa menyelesaikan pembayaran.');
+                            console.log('Payment popup closed without finishing payment');
+                        }
+                    });
                 } else {
-                    showSuccessModal(data.message);
+                    showSuccessModal(jsonData.message);
                 }
             } else {
-                showFailedModal(data.message || 'Pesanan gagal, silahkan coba lagi.');
+                showFailedModal(jsonData.message || 'Pesanan gagal, silahkan coba lagi.');
+                confirmModal.style.display = 'none';
+                confirmModalOverlay.style.display = 'none';
             }
         })
         .catch(error => {
             console.error('Error:', error);
             showErrorModal('Terjadi kesalahan, silahkan coba lagi.');
+            confirmModal.style.display = 'none';
+            confirmModalOverlay.style.display = 'none';
         });
     });
 
-    // Function to initiate Midtrans payment
-    function initiateMidtransPayment(snapToken) {
-        snap.pay(snapToken, {
-            onSuccess: function (result) {
-                console.log(result);
-                alert('Pembayaran berhasil!');
-                showSuccessModal('Pembayaran berhasil!');
-            },
-            onPending: function (result) {
-                console.log(result);
-                alert('Pembayaran pending.');
-                showFailedModal('Pembayaran pending.');
-            },
-            onError: function (result) {
-                console.error(result);
-                alert('Pembayaran gagal.');
-                showErrorModal('Pembayaran gagal.');
-            },
-            onClose: function () {
-                alert('Anda menutup pop-up tanpa menyelesaikan pembayaran.');
-                showFailedModal('Anda menutup pop-up tanpa menyelesaikan pembayaran.');
-            }
-        });
-    }
-
-    // ====== Alert Modal Functions ======
+    // ====== Alert Modal ======
     closeAlertModal.addEventListener('click', closeModal);
 
     // Close the alert modal and redirect
@@ -167,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = `/cekPesanan/${uid}`;
     }
 
-    // Show Success Modal
+    // Show Alert Modal
     function showSuccessModal(message) {
         alertMessage.textContent = message;
         alertModal.style.display = 'block';
@@ -176,16 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
         successMessage.style.display = 'block';
         iconFailed.style.display = 'none';
         iconError.style.display = 'none';
-        confirmModal.style.display = 'none';
-        confirmModalOverlay.style.display = 'none';
-        // Clear the cart
-        localStorage.removeItem('cart');
-        cart = [];
-        addCartToHTML(cart);
-        updateCheckOutButton();
     }
-
-    // Show Failed Modal
     function showFailedModal(message) {
         alertMessage.textContent = message;
         alertModal.style.display = 'block';
@@ -195,8 +181,6 @@ document.addEventListener('DOMContentLoaded', () => {
         iconSuccess.style.display = 'none';
         iconError.style.display = 'none';
     }
-
-    // Show Error Modal
     function showErrorModal(message) {
         alertMessage.textContent = message;
         alertModal.style.display = 'block';
