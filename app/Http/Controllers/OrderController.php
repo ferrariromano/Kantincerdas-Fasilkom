@@ -59,7 +59,7 @@ class OrderController extends Controller
             $order->orderPhone = $validatedData['order-phone'];
             $order->orderNotes = $validatedData['additional'];
             $order->orderTotalAmounts = $validatedData['orderTotalAmounts'];
-            $order->orderStatus = 'Pending';
+            $order->orderStatus = 'Uncompleted';
             $order->orderPayment = $validatedData['order-payment'];
             $order->save();
 
@@ -92,7 +92,7 @@ class OrderController extends Controller
                 $orderItem->tenant_id = $item['tenant_id'];
                 $orderItem->quantity = $item['quantity'];
                 $orderItem->price = $item['price'];
-                $orderItem->orderStatus = 'Pending';
+                $orderItem->orderProductStatus = 'Pending';
                 $orderItem->save();
             }
 
@@ -148,9 +148,16 @@ class OrderController extends Controller
                     Log::info('Midtrans Response: ', $responseBody);
 
                     if ($response->successful() && isset($responseBody['token'])) {
+                        // Update order products status to "In Progress"
+                        $orderProducts = OrderProduct::where('order_id', $order->id)->get();
+                        foreach ($orderProducts as $orderProduct) {
+                            $orderProduct->orderProductStatus = 'In Progress';
+                            $orderProduct->save();
+                        }
+
                         return response()->json([
                             'success' => true,
-                            'message' => 'Pemesanan Berhasil',
+                            'message' => 'In Progress',
                             'uid' => $uid,
                             'snap_token' => $responseBody['token']
                         ]);

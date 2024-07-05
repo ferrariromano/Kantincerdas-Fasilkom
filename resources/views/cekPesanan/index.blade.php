@@ -91,5 +91,14 @@
 @push('js')
     <script src="{{ asset('js/cekPesanan.js') }}"></script>
     <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
-
+    <script>
+        // Initialize Laravel Echo and listen for events
+        window.Echo.channel('orders')
+            .listen('OrderUpdated', (e) => {
+                console.log('Pesanan diperbarui:', e.order);
+                // Update view sesuai kebutuhan
+                alert(`Pesanan dengan ID ${e.order.id} telah diperbarui`);
+                // Anda bisa menambahkan logika lebih lanjut di sini untuk memperbarui UI secara dinamis
+            });
+    </script>
 @endpush

@@ -21,9 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } else if (statuses.length === 2) {
             const [status1, status2] = statuses;
-            if (status1 === 'pending' && status2 === 'pending' ||
-                status1 === 'in progress' && status2 === 'pending' ||
-                status1 === 'pending' && status2 === 'in progress') {
+            if ((status1 === 'pending' && status2 === 'pending') ||
+                (status1 === 'in progress' && status2 === 'pending') ||
+                (status1 === 'pending' && status2 === 'in progress')) {
                 return "Segera lakukan pembayaran agar pesananmu bisa segera diproses";
             } else if (status1 === 'in progress' && status2 === 'in progress') {
                 return "Pesanan sedang diproses, silakan tunggu hingga status pesanan menjadi \"Completed\"";
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    //Cancel order functionality
+    // Cancel order functionality
     const cancelOrderButton = document.getElementById('cancelOrderButton');
     if (cancelOrderButton) {
         cancelOrderButton.addEventListener('click', function() {
@@ -123,4 +123,13 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     removeCountdownForInProgressOrders();
+
+    // Initialize Laravel Echo and listen for events
+    window.Echo.channel('orders')
+        .listen('OrderUpdated', (e) => {
+            console.log('Pesanan diperbarui:', e.order);
+            // Update view sesuai kebutuhan
+            alert(`Pesanan dengan ID ${e.order.id} telah diperbarui`);
+            // Anda bisa menambahkan logika lebih lanjut di sini untuk memperbarui UI secara dinamis
+        });
 });

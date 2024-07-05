@@ -1,9 +1,3 @@
-import './bootstrap';
-import './cekPesanan';
-// resources/js/app.js
-
-require('./bootstrap');
-require('./cekPesanan');
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 
@@ -15,4 +9,3 @@ window.Echo = new Echo({
     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
     forceTLS: true
 });
-

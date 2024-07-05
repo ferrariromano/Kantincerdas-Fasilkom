@@ -7,6 +7,8 @@ use App\Models\OrderProduct;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Events\OrderUpdated;
+
 
 class TenantOrderController extends Controller
 {
@@ -117,8 +119,11 @@ class TenantOrderController extends Controller
             $order->delete();
         }
 
+        // Trigger the OrderUpdated event
+        event(new OrderUpdated($order));
+
         return redirect()->route('tenantOrders.index')->with('success', 'Pesanan dan item berhasil diperbarui.');
-}
+    }
 
     public function destroy($id)
     {

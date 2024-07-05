@@ -57,18 +57,18 @@ class CekPesananController extends Controller
 
                 // Calculate order status
                 $allInProgress = $items->every(function ($item) {
-                    return $item->isInProgress();
+                    return $item->orderProductStatus == 'In Progress';
                 });
                 $allCompleted = $items->every(function ($item) {
-                    return $item->isCompleted();
+                    return $item->orderProductStatus == 'Completed';
                 });
 
                 if ($allInProgress) {
-                    $statuses[$tenantId] = strtolower(OrderProduct::STATUS_IN_PROGRESS);
+                    $statuses[$tenantId] = 'in progress';
                 } elseif ($allCompleted) {
-                    $statuses[$tenantId] = strtolower(OrderProduct::STATUS_COMPLETED);
+                    $statuses[$tenantId] = 'completed';
                 } else {
-                    $statuses[$tenantId] = strtolower(OrderProduct::STATUS_PENDING);
+                    $statuses[$tenantId] = 'pending';
                 }
 
                 // Collect pending product data for countdown
@@ -159,4 +159,3 @@ class CekPesananController extends Controller
     }
 
 }
-
