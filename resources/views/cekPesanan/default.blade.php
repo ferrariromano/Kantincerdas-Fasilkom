@@ -9,7 +9,7 @@
     <h1>Cek Pesanan</h1>
     <div class="outletGroupDefault">
         <div class="outletDefault">
-            <h2 class="outletTitle">Left Canteen</h2>
+            <h2 class="outletTitle">Kantin Soto Banyuwangi</h2>
             <img src="{{ asset('images/img/canteen.jpeg') }}" alt="fasilkom">
             <div class="waitingList__group">
                 <p class="waitingList__title">Waiting List :</p>
@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="outletDefault">
-            <h2 class="outletTitle">Right Canteen</h2>
+            <h2 class="outletTitle">Kantin Perpustakaan</h2>
             <img src="{{ asset('images/img/canteen2.jpeg') }}" alt="fasilkom">
             <div class="waitingList__group">
                 <p class="waitingList__title">Waiting List :</p>

@@ -37,8 +37,8 @@ class ProductController extends Controller
         $products = $productsQuery->get();
 
         $nama_tenant = [
-            1 => 'Left Canteen',
-            2 => 'Right Canteen'
+            1 => 'Kantin Soto Banyuwangi',
+            2 => 'Kantin Perpustakaan'
         ];
 
         if ($request->ajax()) {

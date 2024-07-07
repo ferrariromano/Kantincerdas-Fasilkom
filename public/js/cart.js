@@ -218,8 +218,8 @@ const updateConfirmationItems = () => {
     listConfirmationItem.innerHTML = '';
     let tenants = {};
     const tenantNames = {
-        1: "Left Canteen",
-        2: "Right Canteen"
+        1: "Kantin Soto Banyuwangi",
+        2: "Kantin Perpustakaan"
     };
 
     // Group items by tenant

@@ -13,8 +13,8 @@ class CekPesananController extends Controller
     public function showOrder($uid)
     {
         $tenantNames = [
-            1 => "Left Canteen",
-            2 => "Right Canteen"
+            1 => "Kantin Soto Banyuwangi",
+            2 => "Kantin Perpustakaan"
         ];
 
         $this->deletePendingOrderProducts(); // Call this method before retrieving order data
