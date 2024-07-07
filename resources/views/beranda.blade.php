@@ -49,19 +49,19 @@
                 <p>Smart Canteen Fasilkom</p>
                 <div class="bestseller__menu flex-group">
                     <div class="bestseller__item">
-                        <img src="{{ asset('images/products/food1.png') }}" alt="food1">
-                        <span class="bestseller__text">Soto Sate</span>
-                        <a href="/menu">Pesan ></a>
+                        <img src="{{ asset('images/products/food4.png') }}" alt="food1">
+                        <span class="bestseller__text">Nasi Pecel</span>
+                        <a href="/menu?category_id=&tenant_id=&search=nasi%20pecel">Pesan ></a>
                     </div>
                     <div class="bestseller__item">
-                        <img src="{{ asset('images/products/food2.png') }}" alt="food2">
-                        <span class="bestseller__text">Ayam Geprek</span>
-                        <a href="/menu">Pesan ></a>
+                        <img src="{{ asset('images/products/tahucrispy.png') }}" alt="food2">
+                        <span class="bestseller__text">Tahu Crispy</span>
+                        <a href="/menu?category_id=&tenant_id=&search=tahu%20crispy">Pesan ></a>
                     </div>
                     <div class="bestseller__item">
-                        <img src="{{ asset('images/products/food3.png') }}" alt="food3">
-                        <span class="bestseller__text">Tahu Tek</span>
-                        <a href="/menu?category_id=&tenant_id=&search=tahu%20tek">Pesan ></a>
+                        <img src="{{ asset('images/products/food2.png') }}" alt="food3">
+                        <span class="bestseller__text">Nasi Ayam Geprek</span>
+                        <a href="/menu?category_id=&tenant_id=&search=ayam%20geprek">Pesan ></a>
                     </div>
                 </div>
             </section>
