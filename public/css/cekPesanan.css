@@ -193,6 +193,8 @@ a {
     color: var(--clr-primary-500);
     font-weight: 700;
     font-size: 1rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .tenant-remaining-time .countdown {

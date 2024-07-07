@@ -21,9 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } else if (statuses.length === 2) {
             const [status1, status2] = statuses;
-            if ((status1 === 'pending' && status2 === 'pending') ||
-                (status1 === 'in progress' && status2 === 'pending') ||
-                (status1 === 'pending' && status2 === 'in progress')) {
+            if (status1 === 'pending' && status2 === 'pending' ||
+                status1 === 'in progress' && status2 === 'pending' ||
+                status1 === 'pending' && status2 === 'in progress') {
                 return "Segera lakukan pembayaran agar pesananmu bisa segera diproses";
             } else if (status1 === 'in progress' && status2 === 'in progress') {
                 return "Pesanan sedang diproses, silakan tunggu hingga status pesanan menjadi \"Completed\"";
@@ -42,6 +42,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Update the message
     const message = getMessage(statuses);
     messageElement.textContent = message;
+
+    // Function to format seconds to minutes and seconds
+    function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins} menit ${secs} detik`;
+    }
 
     // Countdown timer functionality
     const countdownElements = document.querySelectorAll('.countdown');
@@ -63,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (timeLeft > 0) {
             const intervalId = setInterval(() => {
                 timeLeft--;
-                element.textContent = timeLeft;
+                element.textContent = formatTime(timeLeft);
 
                 if (timeLeft <= 0) {
                     clearInterval(intervalId);
@@ -80,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Cancel order functionality
+    //Cancel order functionality
     const cancelOrderButton = document.getElementById('cancelOrderButton');
     if (cancelOrderButton) {
         cancelOrderButton.addEventListener('click', function() {
@@ -121,15 +128,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     };
-
     removeCountdownForInProgressOrders();
 
-    // Initialize Laravel Echo and listen for events
-    window.Echo.channel('orders')
-        .listen('OrderUpdated', (e) => {
-            console.log('Pesanan diperbarui:', e.order);
-            // Update view sesuai kebutuhan
-            alert(`Pesanan dengan ID ${e.order.id} telah diperbarui`);
-            // Anda bisa menambahkan logika lebih lanjut di sini untuk memperbarui UI secara dinamis
-        });
+    // Refresh the page every 10 minutes
+    function refreshPage() {
+        setTimeout(function() {
+            window.location.reload();
+        }, 600000); // 600000 milliseconds = 10 minutes
+    }
+
+    // Call the refreshPage function
+    refreshPage();
 });

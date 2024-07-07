@@ -42,7 +42,7 @@
             <div class="outlet" data-tenant-id="{{ $tenantId }}">
                 @if(isset($pendingProductsData[$tenantId]))
                 <div class="tenant-remaining-time">
-                    Waktu Tersisa: <span class="countdown" data-remaining-time="{{ $pendingProductsData[$tenantId]['remainingTime'] }}"></span> detik
+                    Waktu Tersisa: <span class="countdown" data-remaining-time="{{ $pendingProductsData[$tenantId]['remainingTime'] }}"></span>
                 </div>
                  @endif
                 <div class="outletHeader">

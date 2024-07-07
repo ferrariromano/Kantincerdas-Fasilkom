@@ -74,7 +74,7 @@ class CekPesananController extends Controller
                 // Collect pending product data for countdown
                 $pendingItem = $items->firstWhere('orderProductStatus', 'Pending');
                 if ($pendingItem) {
-                    $remainingTime = 5 * 60  - Carbon::now()->diffInSeconds($pendingItem->created_at);
+                    $remainingTime = 30 * 60  - Carbon::now()->diffInSeconds($pendingItem->created_at);
                     $pendingProductsData[$tenantId] = [
                         'id' => $pendingItem->id,
                         'remainingTime' => $remainingTime > 0 ? $remainingTime : 0
@@ -127,7 +127,7 @@ class CekPesananController extends Controller
     {
         // Get all order products with 'Pending' status older than 30 seconds
         $pendingProducts = OrderProduct::where('orderProductStatus', 'Pending')
-            ->where('created_at', '<', Carbon::now()->subMinutes(5))
+            ->where('created_at', '<', Carbon::now()->subMinutes(30))
             ->get();
 
         $orderIds = [];
