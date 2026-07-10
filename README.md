@@ -40,7 +40,7 @@ The application is divided into two main user roles, each with tailored function
 <img width="1920" height="2535" alt="menu" src="https://github.com/user-attachments/assets/856726d9-6443-4a52-8da4-ee193ebca45a" />
 <img width="1810" height="900" alt="Cart2" src="https://github.com/user-attachments/assets/8c4b9742-97c2-46da-805b-aab845126f3c" />
 <img width="1920" height="1263" alt="search" src="https://github.com/user-attachments/assets/b0c418b6-d6de-4c7b-b5a2-7bd57d398393" />
-<img width="314" height="468" alt="confirm2" src="https://github.com/user-attachments/assets/d9ee737a-0881-4045-980f-52eafac7700f" /> <img width="311" height="496" alt="confirm1" src="https://github.com/user-attachments/assets/bfcebaec-0953-4343-b6c4-52546b8296a7" />
+<img width="311" height="496" alt="confirm1" src="https://github.com/user-attachments/assets/bfcebaec-0953-4343-b6c4-52546b8296a7" /><img width="314" height="468" alt="confirm2" src="https://github.com/user-attachments/assets/d9ee737a-0881-4045-980f-52eafac7700f" /> 
 <img width="1920" height="1175" alt="cekPesanan" src="https://github.com/user-attachments/assets/8f8a2022-6a47-40a4-b7bb-676ea74c6217" />
 <img width="666" height="615" alt="tenant" src="https://github.com/user-attachments/assets/9d21d6e2-8c25-40b5-81e6-ced2902e34cb" />
 
